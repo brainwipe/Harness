@@ -1,0 +1,103 @@
+<html>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="../../scripts/lib/kinetic-v3.8.2.min.js"></script>
+		<link rel="stylesheet" href="../../style/reset.css"/>
+		<script>
+		
+		var stage;
+		var lineLayer;
+		var circleLayer;
+		var circles = new Array();
+		var lines = new Array();
+		
+		function BuildCircle(x, y)
+		{
+			circles.push(
+				new Kinetic.Circle({
+					x: x,
+					y: y,
+					radius: 20,
+					fill: "#777",
+					stroke: "#000",
+					strokeWidth: 2})
+				);
+		}
+		
+		function BuildLine(from, to)
+		{
+		
+			var points = [{
+                x: from.x,
+                y: from.y
+            }, {
+                x: to.x,
+                y: to.y
+            }];
+		
+			lines.push(
+				new Kinetic.Polygon({
+					points: points,
+					fill: "#00D2FF",
+					stroke: "black",
+					strokeWidth: 2})
+				);
+				
+		}
+		
+		function AddToLayer(layer, objects)
+		{
+			for (index in objects)
+			{
+				layer.add(objects[index]);
+			}
+		}
+		
+		function RandomJitter()
+		{
+		}
+		
+		$(function() {
+			stage = new Kinetic.Stage("psom_vis", 578, 500);
+			lineLayer = new Kinetic.Layer();
+            circleLayer = new Kinetic.Layer();
+ 
+			BuildCircle(100, 150);
+			BuildCircle(80, 200);
+			BuildCircle(150, 250);
+
+			BuildLine(circles[0], circles[1]);
+			BuildLine(circles[1], circles[2]);
+			BuildLine(circles[2], circles[0]);
+ 
+            // add the shape to the layer
+			AddToLayer(circleLayer, circles);
+			AddToLayer(lineLayer, lines);
+ 
+            // add the layer to the stage
+            stage.add(lineLayer);
+			stage.add(circleLayer);
+			
+			stage.onFrame(function(frame){
+                
+                layer.draw();
+            });
+
+
+			stage.start();
+		});
+			
+			
+		</script>
+	</head>
+<body>
+	<div id="psom_vis">
+    </div>
+
+</body>
+
+
+
+
+</html>

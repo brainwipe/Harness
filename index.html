@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rob's Artificial Intelligence Harness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="style/bootstrap.min.css"/>
+	<link href="style/bootstrap-responsive.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="style/harness.css" />
+	<link rel="stylesheet" type="text/css" href="style/blocks.css" />
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="icon" href="images/favicon.ico"/>
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Harness</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#blocksModal" data-toggle="modal">Blocks</a></li>
+              <li><a href="#validationModal" data-toggle="modal">Validation</a></li>
+            </ul>
+          </div>
+		  
+			<div id="harness-engine-controls" class="btn-group pull-right">
+				<a class="btn btn-primary">	
+					<i class="icon-play icon-white"></i>
+				</a>
+				<a class="btn btn-inverse" id="harness-engine-controls-tick">
+					<i class="icon-step-forward icon-white"></i>
+				</a>
+				<a class="btn btn-inverse">
+					<i class="icon-stop icon-white"></i>
+				</a>
+			</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="harness" class="container">
+		<canvas id="raih_bg" style=" z-index:0;" ></canvas>
+    </div>
+
+	<script type="text/javascript" src="scripts/require.js" data-main="scripts/main"></script>
+ 
+	</body>
+</html>

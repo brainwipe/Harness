@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PSOM Integration test</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script src="../../scripts/lib/math.js"></script>
+		<script src="../../scripts/lib/stringlib.js"></script>
+		<script src="../../scripts/algorithm/psom.js"></script>
+		<script src="../../scripts/visualisations/force_graph.js"></script>
+		<script type="text/javascript">
+			/**
+			* Stock test setup
+			*/
+			var context = null; // drawing context
+			var mypsom = null;
+			var fg = null;
+			var f=0;
+			
+			function SetUpPSOM()
+			{
+				var mypsom = psom.BuildStandard();
+						
+				psom.prototype.CreateNeuronWithRandomisedWeights_WeightLength = 3;
+				psom.prototype.CreateNeuronFromInput_Deviation = 0.2;
+				psom.prototype.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
+				psom.prototype.StandardPSOMAlgorithm_NodeBuilding = 0.29;
+				psom.prototype.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
+				psom.prototype.StandardPSOMAlgorithm_LearningRate = 0.9;
+				psom.prototype.AgeNetwork_AgeRate = 0.3;
+				psom.prototype.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
+				
+				mypsom.InitialiseNodeStructure();
+				return mypsom;
+			}
+
+			function RandomNeuron(thepsom)
+			{
+				var numNeurons = thepsom.neurons.length;
+				var randNeuron = MathTwo.Random(numNeurons);
+				return thepsom.neurons[randNeuron];
+			}
+
+			function CreateRandomNeuronAsTest(thepsom)
+			{
+				var randomNeuron1 = RandomNeuron(thepsom);
+				var randomNeuron2 = RandomNeuron(thepsom);
+				
+				var newneuron = thepsom.CreateNeuron();
+				thepsom.AddLink(randomNeuron1, newneuron, Math.random());
+				thepsom.AddLink(randomNeuron2, newneuron, Math.random());
+			}
+
+			$(document).ready(function() {
+			
+				$("#animatesingleframe").click(function() {
+					AnimationLoop();
+				});
+				
+				$("#addneuron").click(function() {
+					CreateRandomNeuronAsTest(mypsom);
+				});
+			
+				
+			
+				/*try
+				{*/
+					context = document.getElementById("psom_visualisation").getContext('2d');
+					context.strokeStyle = "#000000";
+					context.fillStyle = "#efefef";
+					
+					mypsom = SetUpPSOM();
+				
+					fg = new force_graph(context);
+					
+					fg.Extend(mypsom.neurons, mypsom.links);
+					fg.Draw(mypsom.neurons, mypsom.links);
+					
+					var i=0;
+					
+					setInterval(AnimationLoop, 100);
+
+					//////////////////////////////////////////////////////////////////////////////////
+
+					//for (var i=0; i<mypsom.neurons.length; i++)
+					//{
+					//	mypsom.neurons[i].vis_position = new Point(Math.random() * 250, Math.random() * 250);
+					//}
+					
+					//fg = new ForceGraph(mypsom);
+					//setInterval(Draw,20);
+					//var before = var_dump(mypsom.links);
+
+					//mypsom.Learn(new Array(0.5,0.5,0.5));
+					//mypsom.Learn(new Array(0.0,1,0));
+					
+					//var after = var_dump(mypsom.neurons);
+				
+					//$("#output").val(before + "\n\n" + after);
+					
+				/*}
+				catch (err)
+				{
+					console.error(err);
+				}*/
+				
+			});
+			
+			function AnimationLoop()
+			{
+				context.clearRect(0,0,context.canvas.width,context.canvas.height);
+				fg.Update(mypsom.neurons, mypsom.links);
+				fg.Draw(mypsom.neurons, mypsom.links);
+				f++;
+//				$("#output").text(f);
+			}
+
+		</script>
+		
+	</head>
+
+
+	<body>
+	
+		<canvas id="psom_visualisation" width="1000" height="500"></canvas>
+		<textarea id="output" cols="120" rows="5"></textarea>
+		<div id="notes">
+			Deviations from thesis:
+			<ul>
+				<li>Links values (v) are 0 &lt; v &lt; 1 and therefore, it is the euclidean distance between the two neurons</li>
+			</ul>
+			
+			<input type="button" id="animatesingleframe" value="Animate single frame"/>
+			<input type="button" id="addneuron" value="Add new neuron"/>
+			
+		</div>
+	
+	</body>
+
+</html>

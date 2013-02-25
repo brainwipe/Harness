@@ -1,0 +1,13 @@
+#model_frame
+{
+	height:100%;
+	width:100%;
+}
+
+.model
+{
+	border:1px solid #000;
+	background-color:#444;
+	height:200px;
+	width:200px;
+}

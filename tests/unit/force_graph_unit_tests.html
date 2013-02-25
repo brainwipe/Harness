@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Jasmine Test Runner</title>
+    <link href='../jasmine/jasmine.css' rel='stylesheet' type='text/css' />
+    <script src='../jasmine/jasmine.js' type='text/javascript'></script>
+    <script src='../jasmine/jasmine-html.js' type='text/javascript'></script>
+	<script src='../../scripts/lib/math.js' type='text/javascript'></script>
+	<script src='../../scripts/visualisations/force_graph.js' type='text/javascript'></script>
+    
+    
+	<script src='specs/force_graph.spec.js' type='text/javascript'></script>
+  </head>
+  <body>
+    <script type='text/javascript'>
+        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+        jasmine.getEnv().execute();
+    </script>
+  </body>
+</html>
