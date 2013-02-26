@@ -8,12 +8,6 @@ function(Block, Socket) {
 
 	function BruteForceEngine() {};
 
-	BruteForceEngine.prototype.Validate = function(blocks) {
-		for(var i in blocks) {
-			blocks[i].Validate();
-		}
-	}
-
 	BruteForceEngine.prototype.Tick = function(keys, blocks) {
 		var blocksComplete = false;
 		var index = 0;

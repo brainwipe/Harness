@@ -1,7 +1,7 @@
 define(
 [
-	"harness/views/BlockPainter",
-	"exception/ValidationException"
+	"harness/views/blockpainter",
+	"harness/validationexception"
 ],
 
 function(BlockPainter, ValidationException) {
@@ -49,8 +49,10 @@ function(BlockPainter, ValidationException) {
 			if (input.IsRequired == true &&
 				input.HasConnectors() == false) 
 				{
-					throw new ValidationException("Block requires an input", 
+					throw new ValidationException("Block " + this.Id + " requires an input", 
 						"The block called '" + 
+						this.Id + 
+						"' of type '" + 
 						this.Name + 
 						"' has an input called '" + 
 						input.Name + 

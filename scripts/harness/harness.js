@@ -2,9 +2,10 @@ define(
 [
 	"jquery",
 	"underscore",
-	"harness/model/BlockFactory"
+	"harness/model/blockfactory",
+	"harness/model/validationengine"
 ],
-function($, _, BlockFactory) {
+function($, _, BlockFactory, ValidationEngine) {
 
 	function Harness (containerElement)
 	{
@@ -13,9 +14,7 @@ function($, _, BlockFactory) {
 		this.Canvas = $("#raih_bg")[0];
 		this.Context = this.Canvas.getContext("2d");
 		this.BlockTypes = new Array();
-		this.BlockFactory = new BlockFactory();
 		this.NextBlockIdNumber = 0;
-
 		window.addEventListener('resize', function() {harness.ResizeCanvas();}, false);
 	}
 	Harness.prototype.Blocks = null;
@@ -25,6 +24,7 @@ function($, _, BlockFactory) {
 	Harness.prototype.Element = null;
 	Harness.prototype.Engine = null;
 	Harness.prototype.Painter = null;
+	Harness.prototype.ValidationEngine = null;
 	Harness.prototype.GetNextBlockId = function() {
 		return ++this.NextBlockIdNumber;
 	}
@@ -76,20 +76,7 @@ function($, _, BlockFactory) {
 		return ids;
 	}
 	Harness.prototype.Validate = function() {
-		try
-		{
-			validationbrowser.Clear();
-			this.Engine.Validate(this.Blocks);
-			this.Painter.SwitchOnEngineControls();	
-		}
-		catch(errorMessage)
-		{
-			this.Painter.SwitchOffEngineControls();
-			validationbrowser.AddMessage(errorMessage);
-			return false;
-		}
-		return true;
-		
+		this.ValidationEngine.Validate(this.Blocks);
 	}
 	Harness.prototype.Update = function () {	
 		this.Painter.Update(this.Blocks);

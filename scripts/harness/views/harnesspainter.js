@@ -242,11 +242,11 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 	HarnessPainter.prototype.BindControlEvents = function()
 	{
 		$("#harness-engine-controls-tick").on("click", function () { harness.Tick(); });
-		$("#harness-engine-controls").children().removeClass("disabled");
 	}
 
 	HarnessPainter.prototype.SwitchOnEngineControls = function()
 	{
+		$("#harness-engine-controls").children().removeClass("disabled");
 		this.BindControlEvents();
 	}
 
