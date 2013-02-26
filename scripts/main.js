@@ -1,6 +1,7 @@
 var harness;
 var blockbrowser;
 var validationbrowser;
+var notify;
 
 require.config({
 	paths: {
@@ -22,9 +23,10 @@ require(
 	"order!bootstrap",
 	"harness/HarnessFactory",
 	"harness/views/blockbrowser",
-	"harness/views/validationbrowser"
+	"harness/views/validationbrowser",
+	"harness/views/notify"
 ],
-function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser) {
+function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify) {
 	
 	$(function() {
 		var harnessFactory = new HarnessFactory();
@@ -35,6 +37,8 @@ function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, Valid
 
 		validationbrowser = new ValidationBrowser(harness);
 		validationbrowser.CreateMarkup();
+
+		notify = new Notify();
 
 		harness.ResizeCanvas();
 	});

@@ -18,7 +18,7 @@ function(Block, Socket, ValidationException, ScalarSinkProperties) {
 
 		block.Data = 'Empty';
 
-		block.AddInput(new Socket("Value"), true);
+		block.AddInput(new Socket("Value"), true, false);
 		
 		block.Execute = function() {
 			this.Data = this.Inputs["Value"].Data;

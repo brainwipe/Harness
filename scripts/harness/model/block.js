@@ -28,7 +28,7 @@ function(BlockPainter, ValidationException) {
 	Block.prototype.Reset = null;
 	Block.prototype.Validate = null;
 	Block.prototype.Painter = null;
-	Block.prototype.AddInput = function (inputSocket, isRequired) {
+	Block.prototype.AddInput = function (inputSocket, isRequired, isMultiple) {
 		inputSocket.Block = this;
 		inputSocket.IsInputSocket = true;
 		inputSocket.IsRequired = isRequired;

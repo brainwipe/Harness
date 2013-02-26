@@ -29,3 +29,4 @@
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 #validationMessages .message {margin-bottom: 15px;}
+.alert {margin: 0 15px;}

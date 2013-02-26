@@ -10,7 +10,7 @@ define(
 	{
 		this.Id = encodeURI(name);
 		this.Name = name;
-		this.Connectors = new Array();
+		this.Connectors = [];
 	}
 	Socket.prototype.Id = null;
 	Socket.prototype.QualifiedId = function() {
@@ -30,6 +30,9 @@ define(
 	
 		if (this == inputSocket) {
 			throw 'You may not connect a socket to itself.'; }
+
+		if (inputSocket.IsMultiple == false && inputSocket.HasConnectors() > 0) {
+			throw 'This input socket can only accept one connector, which it already has.'; }
 	
 		var connector = new Connector(this, inputSocket);
 		this.Connectors.push(connector);
@@ -49,6 +52,7 @@ define(
 		return false;
 	}
 	Socket.prototype.IsInputSocket = false;
+	Socket.prototype.IsMultiple = false;
 	Socket.prototype.IsRequired = false;
 	Socket.prototype.Block = null;
 	Socket.prototype.Element = null;

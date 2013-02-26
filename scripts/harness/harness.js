@@ -43,7 +43,15 @@ function($, _, BlockFactory, ValidationEngine) {
 	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
 		var outputInfo = outputSocketId.split('-'); 
 		var inputInfo = inputSocketId.split('-');
-		connector = this.ConnectSocketAndBlock(outputInfo[0], outputInfo[3], inputInfo[0], inputInfo[3]);
+		try
+		{
+			connector = this.ConnectSocketAndBlock(outputInfo[0], outputInfo[3], inputInfo[0], inputInfo[3]);
+		}
+		catch (message)
+		{
+			notify.Info("Could not connect blocks", message);
+		}
+		
 		this.Validate();
 		return connector;
 	}
