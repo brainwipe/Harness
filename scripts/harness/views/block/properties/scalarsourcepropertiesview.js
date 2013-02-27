@@ -3,25 +3,25 @@
 	"jquery",
 	"jquery-ui",
 	"underscore",
-	"harness/views/block/propertiespainter"
+	"harness/views/block/properties/propertiesviewbase"
 ],
 
-function($, jqueryui, _, PropertiesPainter) {
+function($, jqueryui, _, PropertiesViewBase) {
 
-	function ScalarSourceProperties(block) {
+	function ScalarSourcePropertiesView(block) {
 		this.Block = block;
 		this.Id = this.Block.Id + '-properties';
-		this.Painter = new PropertiesPainter();
+		this.Base = new PropertiesViewBase();
 	};
 		
-	ScalarSourceProperties.prototype.Block = null;
-	ScalarSourceProperties.prototype.Id = null;
-	ScalarSourceProperties.prototype.Painter = null;
-	ScalarSourceProperties.prototype.Create = function() {
-		this.Painter.Create(this.Id, this.Block, this.CreateTabs());
+	ScalarSourcePropertiesView.prototype.Block = null;
+	ScalarSourcePropertiesView.prototype.Id = null;
+	ScalarSourcePropertiesView.prototype.Base = null;
+	ScalarSourcePropertiesView.prototype.Create = function() {
+		this.Base.Create(this.Id, this.Block, this.CreateTabs());
 		this.BindEvents();
 	};
-	ScalarSourceProperties.prototype.CreateTabs = function() {
+	ScalarSourcePropertiesView.prototype.CreateTabs = function() {
 		var tabs = new Array()
 		tabs.push({
 			'Id' : this.Id + '-configuration',
@@ -31,7 +31,7 @@ function($, jqueryui, _, PropertiesPainter) {
 			
 		return tabs;
 	};
-	ScalarSourceProperties.prototype.CreateConfigurationContent = function() {
+	ScalarSourcePropertiesView.prototype.CreateConfigurationContent = function() {
 
 		var scalarSourceContent = '\
 			<form class="form-horizontal">\
@@ -54,20 +54,20 @@ function($, jqueryui, _, PropertiesPainter) {
 		return scalarSourceContent;
 	};
 
-	ScalarSourceProperties.prototype.BindEvents = function() {
+	ScalarSourcePropertiesView.prototype.BindEvents = function() {
 
 		var configValue = $("#{0}-configuration-value".format(this.Id));
 
 		configValue.blur(function () {
 			var block = harness.GetBlockFromAnyId($(this).attr("id"));
 			block.Data = $(this).val();
-			block.Painter.Draw();
+			harness.Views[block.Id].Draw();
 		});
 	}
 	
-	ScalarSourceProperties.prototype.Update = function() {
-		this.Painter.Update(this.Id, this.Block);
+	ScalarSourcePropertiesView.prototype.Update = function() {
+		this.Base.Update(this.Id, this.Block);
 	};
 	
-	return (ScalarSourceProperties);
+	return (ScalarSourcePropertiesView);
 });

@@ -1,20 +1,18 @@
 define(
 [
-	"harness/views/blockpainter",
 	"harness/validationexception"
 ],
 
-function(BlockPainter, ValidationException) {
+function(ValidationException) {
 
 	function Block (id, name) 
 	{	
 		this.Id = id.replace(/ /g,'');
 		this.Name = name;
-		this.Inputs = new Array();
-		this.Outputs = new Array();
+		this.Inputs = {};
+		this.Outputs = {};
 		this.Data = new Object();
 		this.Completed = false;
-		this.Painter = new BlockPainter(this, name);
 		this.InputsCount = 0;
 		this.OutputsCount = 0;
 	};
@@ -27,16 +25,13 @@ function(BlockPainter, ValidationException) {
 	Block.prototype.Execute = null;
 	Block.prototype.Reset = null;
 	Block.prototype.Validate = null;
-	Block.prototype.Painter = null;
 	Block.prototype.AddInput = function (inputSocket, isRequired, isMultiple) {
-		inputSocket.Block = this;
 		inputSocket.IsInputSocket = true;
 		inputSocket.IsRequired = isRequired;
 		this.InputsCount++;
 		this.Inputs[inputSocket.Name] = inputSocket;
 	};			
 	Block.prototype.AddOutput = function (outputSocket) {
-		outputSocket.Block = this;
 		outputSocket.IsInputSocket = false;
 		outputSocket.IsRequired = false; 
 		this.OutputsCount++;

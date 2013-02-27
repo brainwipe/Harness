@@ -1,24 +1,25 @@
 define(
 [
-	"harness/model/block",
 	"harness/model/connector"
 ],
 
-	function(Block, Connector) {
+	function(Connector) {
 
-	function Socket(name)
+	function Socket(blockId, name)
 	{
 		this.Id = encodeURI(name);
 		this.Name = name;
 		this.Connectors = [];
+		this.BlockId = blockId;
 	}
 	Socket.prototype.Id = null;
+	Socket.prototype.BlockId = null;
 	Socket.prototype.QualifiedId = function() {
 		if (this.IsInputSocket)
 		{
-			return this.Block.Id + '-socket-input-' + this.Id;
+			return this.BlockId + '-socket-input-' + this.Id;
 		}
-		return this.Block.Id + '-socket-output-' + this.Id;
+		return this.BlockId + '-socket-output-' + this.Id;
 	}
 	Socket.prototype.Name = null;
 	Socket.prototype.Connectors = null;
@@ -54,8 +55,6 @@ define(
 	Socket.prototype.IsInputSocket = false;
 	Socket.prototype.IsMultiple = false;
 	Socket.prototype.IsRequired = false;
-	Socket.prototype.Block = null;
-	Socket.prototype.Element = null;
 	Socket.prototype.IsReady = false;
 	Socket.prototype.HasConnectors = function() {
 		return this.Connectors.length > 0

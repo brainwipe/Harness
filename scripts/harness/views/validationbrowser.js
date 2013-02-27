@@ -7,11 +7,9 @@ define(
 ],
 function ($, jqueryui, Harness) {
 
-   function ValidationBrowser(harness) {
-      this.Harness = harness;
+   function ValidationBrowser() {
 	}
 
-   ValidationBrowser.prototype.Harness = null;
 	ValidationBrowser.prototype.MessagesElement = null;
 	ValidationBrowser.prototype.MenuItemElement = null;
 	ValidationBrowser.prototype.MessageCount = 0;

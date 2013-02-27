@@ -6,18 +6,16 @@ define(
 
 function(Block, ValidationException) {
 
-	function ValidationEngine(harness) {
-		this.Harness = harness;
+	function ValidationEngine() {
 		this.ValidationBrowser = validationbrowser;
 	};
-	ValidationEngine.prototype.Harness = null;
 	ValidationEngine.prototype.HarnessPainter = null;
 	ValidationEngine.prototype.ValidationBrowser = null;
 
 	ValidationEngine.prototype.Validate = function(blocks) {
 		
 		validationbrowser.Clear();
-		this.Harness.Painter.SwitchOnEngineControls();	
+		harness.Painter.SwitchOnEngineControls();	
 
 		var blockCount = 0;
 		var errorCount = 0;
@@ -30,7 +28,7 @@ function(Block, ValidationException) {
 				
 			catch(errorMessage)
 			{
-				this.Harness.Painter.SwitchOffEngineControls();
+				harness.Painter.SwitchOffEngineControls();
 				validationbrowser.AddMessage(errorMessage);
 				errorCount += 1;
 			}

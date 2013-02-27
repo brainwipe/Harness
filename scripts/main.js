@@ -11,7 +11,8 @@ require.config({
 		"underscore": "lib/underscore-min",
 		"bootstrap": "lib/bootstrap.min",
 		"exception": "harness",
-		"stringlib": "lib/stringlib"
+		"stringlib": "lib/stringlib",
+		"decycle": "lib/decycle.min"
 	}
 });
 
@@ -41,6 +42,12 @@ function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, Valid
 		notify = new Notify();
 
 		harness.ResizeCanvas();
+
+		// TEST! BURN! - brainwipe
+			$('#stringifytest').click(function() {
+				console.log(harness.Blocks);
+      			console.log(harness.Load());
+    		});
 	});
 });
  

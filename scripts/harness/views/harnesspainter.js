@@ -14,7 +14,6 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 
 	function HarnessPainter(harness)
 	{
-		this.Harness = harness;
 		this.Context = harness.Context;
 		this.Canvas = this.Context.canvas;
 		this.BindControlEvents();
@@ -27,7 +26,6 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 			harness.Painter.DroppableHandler(e,u);}
 		});
 	}
-	HarnessPainter.prototype.Harness = null;
 	HarnessPainter.prototype.Context = null;
 	HarnessPainter.prototype.Canvas = null;
 	HarnessPainter.prototype.ConnectorBoundingBoxes = new Array();
@@ -64,9 +62,11 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 		{
 			var mouseOverConnector = this.FindMouseOverConnector(mouseX, mouseY);
 			
-			var fromSocketLocation = socket.Element.offset();
-			fromSocketLocation.left += socket.Element.width() - 5;
-			fromSocketLocation.top += (socket.Element.height() / 2);
+			var fromElement = $('#' + socket.QualifiedId());
+
+			var fromSocketLocation = fromElement.offset();
+			fromSocketLocation.left += fromElement.width() - 5;
+			fromSocketLocation.top += (fromElement.height() / 2);
 			
 			for(i in socket.Connectors)
 			{
@@ -79,8 +79,10 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 					highlighted = true;
 				}
 				
-				var toSocketLocation = connector.To.Element.offset();
-				toSocketLocation.top += (socket.Element.height() / 2);
+				var toElement = $('#' + connector.To.QualifiedId());
+
+				var toSocketLocation = toElement.offset();
+				toSocketLocation.top += (fromElement.height() / 2);
 				toSocketLocation.left += 5;
 				
 				this.DrawConnector(fromSocketLocation, toSocketLocation, highlighted);
@@ -135,13 +137,16 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 		
 	}
 	HarnessPainter.prototype.BuildBoundingBox = function(connector)	{
-		var from = connector.From.Element.offset();
-		from.left += connector.From.Element.width() - 5;
-		from.top += (connector.From.Element.height() / 2);
+		var fromElement =$('#' + connector.From.QualifiedId());
+		var toElement =$('#' + connector.To.QualifiedId());
+
+		var from = fromElement.offset();
+		from.left += fromElement.width() - 5;
+		from.top += (fromElement.height() / 2);
 		
-		var to = connector.To.Element.offset();
+		var to = toElement.offset();
 		to.left += 5;
-		to.top += (connector.To.Element.height() / 2);
+		to.top += (toElement.height() / 2);
 		
 		var boxSize = this.BoundingBoxSize;
 		
@@ -205,28 +210,29 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 		if (_.isUndefined(eventElement) == false)
 		{
 			var blockBuilderId = event.srcElement.attributes["harness-block-id"].value;
-			var blockFactory = this.Harness.BlockFactory.Factories[blockBuilderId];
+			var blockFactory = harness.BlockFactory.Factories[blockBuilderId];
 			
-			var block = this.Harness.AddBlock(
-									blockFactory.Build(
-										this.Harness.GetNextBlockId()
-									));
+			var block = blockFactory.Build(harness.GetNextBlockId());
+			var view = blockFactory.GetView(block);
+			harness.AddBlock(block, view);
 			
-			block.Painter.Element.offset({
+			view.Base.Element.offset({
 				left: event.srcElement.offsetLeft, 
 				top: event.srcElement.offsetTop
 				});
 				
-			block.Painter.Draw();
+			view.Draw();
 		}
 	}
 	
-	HarnessPainter.prototype.Update = function (Blocks, mouseX, mouseY) {
+	HarnessPainter.prototype.Update = function (Views, Blocks, mouseX, mouseY) {
 		this.Context.clearRect(0,0,this.Canvas.width, this.Canvas.height);  
 
 		for(i in Blocks)
 		{
 			var block = Blocks[i];
+			Views[block.Id].Draw();
+
 			for (j in block.Outputs)
 			{
 				var socket = block.Outputs[j];

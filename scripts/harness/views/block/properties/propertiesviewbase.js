@@ -8,12 +8,10 @@
 
 function($, jqueryui, _) {
 
-	function PropertiesPainter() {
+	function PropertiesViewBase() {
 		
 	};
-	PropertiesPainter.prototype.Create = function(id, block, tabs) {
-		var painterPropertiesId = block.Painter.Properties.Id;
-
+	PropertiesViewBase.prototype.Create = function(id, block, tabs) {
 		harness.Element.append('\
 			<div class="modal fade" id="{0}">\
 				<div class="modal-header">\
@@ -30,12 +28,12 @@ function($, jqueryui, _) {
 			'.format(
 				id, 
 				block.Name,
-				this.CreateTabPane(id, tabs, block, painterPropertiesId)
+				this.CreateTabPane(id, tabs, block)
 			));
 		return $("#" + id);
 	};
 	
-	PropertiesPainter.prototype.CreateTabPane = function(id, tabs, block, painterPropertiesId) {
+	PropertiesViewBase.prototype.CreateTabPane = function(id, tabs, block) {
 		var tabPane = '<ul class="nav nav-tabs">';
 		var tabContent = '<div class="tab-content">';
 		var firstActive = 'active';
@@ -51,14 +49,14 @@ function($, jqueryui, _) {
 		
 		if (block.InputsCount > 0)
 		{
-			tabPane += '<li class="{0}"><a href="#{1}-inputs" data-toggle="tab">Inputs</a></li>'.format(firstActive, painterPropertiesId);
-			tabContent += '<div class="tab-pane {0}" id="{1}-inputs">{2}</div>'.format(firstActive, painterPropertiesId, this.CreateInputs(id, block));
+			tabPane += '<li class="{0}"><a href="#{1}-inputs" data-toggle="tab">Inputs</a></li>'.format(firstActive, id);
+			tabContent += '<div class="tab-pane {0}" id="{1}-inputs">{2}</div>'.format(firstActive, id, this.CreateInputs(id, block));
 		}
 		
 		if (block.OutputsCount > 0)
 		{
-			tabPane += '<li><a href="#{0}-outputs" data-toggle="tab">Outputs</a></li>'.format(painterPropertiesId);
-			tabContent += '<div class="tab-pane" id="{0}-outputs">{1}</div>'.format(painterPropertiesId, this.CreateOutputs(id, block));
+			tabPane += '<li><a href="#{0}-outputs" data-toggle="tab">Outputs</a></li>'.format(id);
+			tabContent += '<div class="tab-pane" id="{0}-outputs">{1}</div>'.format(id, this.CreateOutputs(id, block));
 		}
 		
 		tabPane += '</ul>';
@@ -67,7 +65,7 @@ function($, jqueryui, _) {
 		return tabPane + tabContent;
 	};
 
-	PropertiesPainter.prototype.CreateInputs = function(id, block) {
+	PropertiesViewBase.prototype.CreateInputs = function(id, block) {
 		
 		if (block.InputsCount == 0) {
 			return "There are no inputs";
@@ -96,7 +94,7 @@ function($, jqueryui, _) {
 		return out;
 	}; 
 
-	PropertiesPainter.prototype.CreateOutputs = function(id, block) {
+	PropertiesViewBase.prototype.CreateOutputs = function(id, block) {
 		
 		if (block.OutputsCount == 0) {
 			return "There are no outputs";
@@ -125,7 +123,7 @@ function($, jqueryui, _) {
 		return out;
 	}; 
 	
-	PropertiesPainter.prototype.Update = function(painterId, block) {
+	PropertiesViewBase.prototype.Update = function(painterId, block) {
 		for(var input in block.Inputs) {
 			$('#' + painterId + '-inputs-' + block.Inputs[input].Id).val(
 				block.Inputs[input].Data
@@ -138,11 +136,6 @@ function($, jqueryui, _) {
 			);
 		}
 	};
-	
-	PropertiesPainter.prototype.Set = function (id, value) {
-		
-	};
 
-
-	return (PropertiesPainter);
+	return (PropertiesViewBase);
 });
