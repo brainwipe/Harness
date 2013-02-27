@@ -80,7 +80,6 @@ function($, _, BlockFactory, ValidationEngine) {
 				ids.push(id);
 			}
 		}
-
 		return ids;
 	}
 	Harness.prototype.Validate = function() {
@@ -90,7 +89,6 @@ function($, _, BlockFactory, ValidationEngine) {
 		this.Painter.Update(this.Blocks);
 	}
 	Harness.prototype.Tick = function () {
-		if (!this.Validate()) { return false; } 
 		this.Engine.Tick(this.BlockIds(), this.Blocks);
 	}
 	Harness.prototype.MouseMove = function (event) {

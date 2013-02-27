@@ -22,16 +22,8 @@ function($, jqueryui, _, PropertiesPainter) {
 	}
 	ScalarSinkProperties.prototype.CreateTabs = function() {
 		var tabs = new Array()
-		tabs.push({
-			'Id' : this.Id + '-configuration',
-			'Name': 'Configuration',
-			'Content': this.CreateConfigurationContent()
-			});
 			
 		return tabs;
-	};
-	ScalarSinkProperties.prototype.CreateConfigurationContent = function() {
-		return "Sink content";
 	};
 	
 	ScalarSinkProperties.prototype.Update = function() {

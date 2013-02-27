@@ -20,7 +20,9 @@ function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
 		this.BindControlEvents();
 
 		$("#raih_bg").mousemove(function(e) {harness.MouseMove(e);});
+		
 		$(document).keydown(function(e) {harness.KeyDown(e);});
+		
 		$("#raih_bg").droppable({drop: function(e,u) {
 			harness.Painter.DroppableHandler(e,u);}
 		});

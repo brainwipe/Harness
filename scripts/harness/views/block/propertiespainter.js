@@ -47,28 +47,26 @@ function($, jqueryui, _) {
 			tabContent += '<div class="tab-pane {0}" id="{1}">{2}</div>'.format(firstActive, tab.Id, tab.Content);
 			firstActive = '';
 		}
-		
-		tabPane += '<li class="{0}"> \
-						<a href="#{1}-inputs" data-toggle="tab">Inputs</a> \
-					</li> \
-					<li> \
-						<a href="#{2}-outputs" data-toggle="tab">Outputs</a> \
-					</li>'.format(firstActive, painterPropertiesId, painterPropertiesId);
 
-		tabPane += '</ul>';
 		
-		tabContent += '<div class="tab-pane {0}" id="{1}-inputs">{2}</div> \
-					   <div class="tab-pane" id="{3}-outputs">{4}</div>'.format(
-						firstActive, 
-						painterPropertiesId, 
-						this.CreateInputs(id, block),
-						painterPropertiesId, 
-						this.CreateOutputs(id, block));
+		if (block.InputsCount > 0)
+		{
+			tabPane += '<li class="{0}"><a href="#{1}-inputs" data-toggle="tab">Inputs</a></li>'.format(firstActive, painterPropertiesId);
+			tabContent += '<div class="tab-pane {0}" id="{1}-inputs">{2}</div>'.format(firstActive, painterPropertiesId, this.CreateInputs(id, block));
+		}
+		
+		if (block.OutputsCount > 0)
+		{
+			tabPane += '<li><a href="#{0}-outputs" data-toggle="tab">Outputs</a></li>'.format(painterPropertiesId);
+			tabContent += '<div class="tab-pane" id="{0}-outputs">{1}</div>'.format(painterPropertiesId, this.CreateOutputs(id, block));
+		}
+		
+		tabPane += '</ul>';
 		tabContent += '</div>';
 		
 		return tabPane + tabContent;
 	};
-	
+
 	PropertiesPainter.prototype.CreateInputs = function(id, block) {
 		
 		if (block.InputsCount == 0) {
