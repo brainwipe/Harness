@@ -2,12 +2,18 @@ define(
 [
 	"jquery",
 	"../mock/HarnessMockFactory",
-	"harness/model/Socket",
-	"harness/model/blockfactories/ScalarSourceFactory",
-	"harness/model/blockfactories/ScalarSinkFactory",
-	"exception/ValidationException"
+	"harness/model/entities/socket",
+	"harness/model/blockfactories/scalarsourcefactory",
+	"harness/model/blockfactories/scalarsinkfactory",
+	"harness/views/block/scalarsinkview",
+	"harness/views/block/scalarsourceview",
+	"harness/validationexception",
+	"harness/views/validationbrowser",
+	"harness/views/notify",
+	"stringlib"
+
 ],
-function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, ValidationException) {
+function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, ScalarSinkView, ScalarSourceView, ValidationException, ValidationBrowser, Notify) {
 	describe("Harness", function () {
 
 		describe("Blocks, Sockets and Connections", function () {
@@ -41,7 +47,7 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can create an input socket that is not required', function() {
-				var newSocket = new Socket('TestSocket');
+				var newSocket = new Socket(scalarsink.Id,'TestSocket');
 				scalarsink.AddInput(newSocket, false);
 				newSocket = scalarsink.Inputs.TestSocket;
 
@@ -121,9 +127,10 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('will throw an exception on validation if a required input does not have a connection', function() {
-				var exception = new ValidationException("Block requires an input","The block called 'Scalar Sink' has an input called 'Value', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
+			 	var exception = new ValidationException("Block ScalarSink1 requires an input",
+			 		"The block called 'ScalarSink1' of type 'Scalar Sink' has an input called 'Value', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
 
-				expect(function() { scalarsink.ValidateRequiredInputs();} ).toThrow(exception);
+			 	expect(function() {scalarsink.ValidateRequiredInputs(); } ).toThrow(exception);
 			});
 
 			it('will validate correctly if a required input has a connection', function() {
@@ -134,9 +141,11 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 
 				expect(scalarsink.ValidateRequiredInputs()).toEqual(true);
 			});
+
 			it('will get a block given the long id of a sub control', function() {
-				harness.AddBlock(scalarsink);
-				var sinkBlock = harness.GetBlockFromAnyId(scalarsink.Painter.Properties.Id);
+				var scalarSinkView = new ScalarSinkView(scalarsink);
+				harness.AddBlock(scalarsink, scalarSinkView);
+				var sinkBlock = harness.GetBlockFromAnyId("ScalarSink1-properties-some-property");
 
 				expect(sinkBlock.Id).toEqual("ScalarSink1");
 			});
@@ -146,17 +155,21 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 
 			var harness = null;
 			var scalarsink = null;
+			var scalarsinkview = null;
 			var scalarsource = null;
+			var scalarsourceview = null;
 
 			beforeEach(function () {
 				var harnessFactory = new HarnessMockFactory();
-				harness = harnessFactory.Build($("#harness"));
+				harness = harnessFactory.Build($("#harnessContainer"));
 				var idnumber = 1;
 				var scalarSinkFactory = new ScalarSinkFactory();
 				scalarsink = scalarSinkFactory.Build(idnumber);
+				scalarsinkview = new ScalarSinkView(scalarsink);
 
 				var scalarSourceFactory = new ScalarSourceFactory();
 				scalarsource = scalarSourceFactory.Build(idnumber);
+				scalarsourceview = new ScalarSourceView(scalarsource);
 			});
 
 			it('can increment the block id number on each get', function() {
@@ -164,14 +177,14 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('adds a block into its array using the block\'s id as a key', function() {
-				harness.AddBlock(scalarsource);
+				harness.AddBlock(scalarsource, scalarsourceview);
 
 				expect(harness.Blocks.ScalarSource1).toBeDefined();
 			});
 
 			it('can connect two blocks together by names', function() {
-				harness.AddBlock(scalarsource);
-				harness.AddBlock(scalarsink);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
@@ -186,8 +199,8 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can connect two blocks together by name and then remove the connection', function() {
-				harness.AddBlock(scalarsource);
-				harness.AddBlock(scalarsink);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
@@ -216,13 +229,16 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 
 			beforeEach(function () {
 				var harnessFactory = new HarnessMockFactory();
-				harness = harnessFactory.Build($("#harness"));
+				harness = harnessFactory.Build($("#harnessContainer"));
 				var idnumber = 1;
+
 				scalarSinkFactory = new ScalarSinkFactory();
 				scalarsink = scalarSinkFactory.Build(idnumber);
+				scalarsinkview = new ScalarSinkView(scalarsink);
 
 				scalarSourceFactory = new ScalarSourceFactory();
 				scalarsource = scalarSourceFactory.Build(idnumber);
+				scalarsourceview = new ScalarSourceView(scalarsource);
 			});
 
 			it('can tell if inputs are ready on a scalar source block (they always are)', function() {
@@ -234,8 +250,8 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can validate a valid model', function() {
-				harness.AddBlock(scalarsource);
-				harness.AddBlock(scalarsink);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
@@ -247,8 +263,8 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('will return false if you validate and invalid model', function() {
-				harness.AddBlock(scalarsource);
-				harness.AddBlock(scalarsink);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
@@ -257,8 +273,8 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can propagate outputs to inputs of connected blocks', function () {
-				harness.AddBlock(scalarsource);
-				harness.AddBlock(scalarsink);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 				scalarsource.Outputs.Value.Data = 123456;
 
 				var outputSocket = scalarsource.Outputs.Value;
@@ -273,8 +289,8 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can propagate outputs on a single tick', function () {
-				harness.AddBlock(scalarsource);
-				harness.AddBlock(scalarsink);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 				scalarsource.Data = 123456;
 
 				var outputSocket = scalarsource.Outputs.Value;
@@ -289,8 +305,8 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can propagate outputs on a single tick, regardless of block order', function () {
-				harness.AddBlock(scalarsink);
-				harness.AddBlock(scalarsource);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 				scalarsource.Data = 123456;
 
 				var outputSocket = scalarsource.Outputs.Value;
@@ -308,12 +324,14 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 
 				var scalarsink2 = scalarSinkFactory.Build(3);
 				var scalarsource2 = scalarSourceFactory.Build(4);
+				var scalarsinkview2 = new ScalarSinkView(scalarsink2);
+				var scalarsourceview2 = new ScalarSourceView(scalarsource2);
 
-				harness.AddBlock(scalarsink);
-				harness.AddBlock(scalarsource);
+				harness.AddBlock(scalarsource, scalarsourceview);
+				harness.AddBlock(scalarsink, scalarsinkview);
 
-				harness.AddBlock(scalarsource2);
-				harness.AddBlock(scalarsink2);
+				harness.AddBlock(scalarsource2, scalarsourceview2);
+				harness.AddBlock(scalarsink2, scalarsinkview2);
 
 				scalarsource.Data = 123456;
 				scalarsource2.Data = 7890;

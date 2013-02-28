@@ -1,13 +1,12 @@
 define(
 [
 	"jquery",
-	"harness/model/block",
 	"harness/views/block/blockviewbase",
 	"harness/views/block/properties/ScalarSourcePropertiesView"
 
 ],
 
-function($, Block, BlockViewBase, ScalarSourcePropertiesView) {
+function($, BlockViewBase, ScalarSourcePropertiesView) {
 
 	function ScalarSourceView(block)	{
 		this.Block = block;

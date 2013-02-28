@@ -17,7 +17,7 @@ function($, Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockFa
 		harness.BlockFactory = new BlockFactory();
 		harness.Painter = new HarnessPainter(harness);
 		harness.Engine = new BruteForceEngine(harness);
-		harness.ValidationEngine = new ValidationEngine(harness);
+		harness.ValidationEngine = new ValidationEngine();
 		return harness;
 	}
 	

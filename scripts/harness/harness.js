@@ -46,10 +46,10 @@ function($, _, BlockFactory, ValidationEngine) {
 	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
 		var outputInfo = outputSocketId.split('-'); 
 		var inputInfo = inputSocketId.split('-');
-		
+		var connector = null;
 		try
 		{
-			this.ConnectSocketAndBlock(outputInfo[0], outputInfo[3], inputInfo[0], inputInfo[3]);
+			connector = this.ConnectSocketAndBlock(outputInfo[0], outputInfo[3], inputInfo[0], inputInfo[3]);
 		}
 		catch (message)
 		{
@@ -57,6 +57,7 @@ function($, _, BlockFactory, ValidationEngine) {
 		}
 		
 		this.Validate();
+		return connector;
 	};
 	Harness.prototype.ConnectSocketAndBlock = function (outputBlockName, outputSocketName, inputBlockName, inputSocketName) {
 		var outputSocket = this.Blocks[outputBlockName].Outputs[outputSocketName];
@@ -64,6 +65,7 @@ function($, _, BlockFactory, ValidationEngine) {
 		
 		var connector = outputSocket.Connect(inputSocket);
 		this.Painter.BuildBoundingBox(connector);
+		return connector;
 	};
 	Harness.prototype.RemoveConnector = function(connectorToRemove) {
 		connectorToRemove.From.Disconnect(connectorToRemove);
@@ -84,7 +86,7 @@ function($, _, BlockFactory, ValidationEngine) {
 		return ids;
 	};
 	Harness.prototype.Validate = function() {
-		this.ValidationEngine.Validate(this.Blocks);
+		return this.ValidationEngine.Validate(this.Blocks);
 	};
 	Harness.prototype.Update = function () {	
 		this.Painter.Update(this.Views, this.Blocks);

@@ -3,14 +3,12 @@ define(
 	"jquery",
 	"jquery-ui",
 	"underscore",
-	"harness/model/block",
-	"harness/model/socket",
-	"harness/model/connector",
 	"harness/model/blockfactory",
-	"harness/model/boundingbox"
+	"harness/model/entities/connector",
+	"harness/model/entities/boundingbox"
 ],
 
-function($, jqueryui, _, Block, Socket, Connector, BlockFactory, BoundingBox) {
+function($, jqueryui, _, Connector, BlockFactory, BoundingBox) {
 
 	function HarnessPainter(harness)
 	{

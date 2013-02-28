@@ -1,7 +1,7 @@
 define(
 [
-	"harness/model/block",
-	"harness/model/socket"
+	"harness/model/entities/block",
+	"harness/model/entities/socket"
 ],
 
 function(Block, Socket) {

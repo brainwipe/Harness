@@ -1,13 +1,12 @@
 define(
 [
 	"jquery",
-	"harness/model/block",
 	"harness/views/block/blockviewbase",
 	"harness/views/block/properties/ScalarSinkPropertiesView"
 
 ],
 
-function($, Block, BlockViewBase, ScalarSinkPropertiesView) {
+function($, BlockViewBase, ScalarSinkPropertiesView) {
 
 	function ScalarSinkView(block)	{
 		this.Block = block;

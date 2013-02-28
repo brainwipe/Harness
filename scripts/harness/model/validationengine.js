@@ -1,17 +1,12 @@
 define(
 [
-	"harness/model/block",
 	"harness/validationexception"
 ],
 
-function(Block, ValidationException) {
+function(ValidationException) {
 
 	function ValidationEngine() {
-		this.ValidationBrowser = validationbrowser;
 	};
-	ValidationEngine.prototype.HarnessPainter = null;
-	ValidationEngine.prototype.ValidationBrowser = null;
-
 	ValidationEngine.prototype.Validate = function(blocks) {
 		
 		validationbrowser.Clear();
@@ -44,8 +39,9 @@ function(Block, ValidationException) {
 		if (errorCount == 0)
 		{
 			validationbrowser.NoErrorsFound();
+			return true;
 		}
-			
+		return false;
 	};
 
 	return(ValidationEngine);
