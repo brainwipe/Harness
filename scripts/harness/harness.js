@@ -16,7 +16,7 @@ function($, _) {
 		this.NextBlockIdNumber = 0;
 		window.addEventListener('resize', function() {harness.ResizeCanvas();}, false);
 
-	};
+	}
 	Harness.prototype.Name = null;
 	Harness.prototype.Blocks = null;
 	Harness.prototype.View = null;
@@ -31,42 +31,48 @@ function($, _) {
 		return ++this.NextBlockIdNumber;
 	};
 	Harness.prototype.GetBlockFromAnyId = function(elementId) {
-		if (elementId == undefined || elementId.length == 0) { return null; }
+		if (elementId === undefined || elementId.length === 0) { return null; }
 		var parts = elementId.split('-');
 		return this.Blocks[parts[0]];
 	};
 	Harness.prototype.AddBlock = function (block, view) {
 		this.Views[block.Id] = view;
 		view.CreateMarkup(this.Element);
-		this.Blocks[block.Id] = block; 
+		this.Blocks[block.Id] = block;
 		this.Update();
 		this.Validate();
 		return block;
 	};
 	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
-		var outputInfo = outputSocketId.split('-'); 
-		var inputInfo = inputSocketId.split('-');
+		var outputInfo = this.GetBlockAndSocketFromId(outputSocketId);
+		var inputInfo = this.GetBlockAndSocketFromId(inputSocketId);
 		var connector = null;
 		try
 		{
-			connector = this.ConnectSocketAndBlock(outputInfo[0], outputInfo[3], inputInfo[0], inputInfo[3]);
+			connector = this.ConnectSocketAndBlock(outputInfo.Block, outputInfo.Socket, inputInfo.Block, inputInfo.Socket);
 		}
 		catch (message)
 		{
 			notify.Info("Could not connect blocks", message);
 		}
-		
+
 		this.Validate();
 		return connector;
 	};
 	Harness.prototype.ConnectSocketAndBlock = function (outputBlockName, outputSocketName, inputBlockName, inputSocketName) {
 		var outputSocket = this.Blocks[outputBlockName].Outputs[outputSocketName];
 		var inputSocket = this.Blocks[inputBlockName].Inputs[inputSocketName];
-		
+
 		var connector = outputSocket.Connect(inputSocket);
 		this.Painter.BuildBoundingBox(connector);
 		return connector;
 	};
+
+	Harness.prototype.GetBlockAndSocketFromId = function(socketId) {
+		var parts = socketId.split('-');
+		return { "Block" : parts[0], "Socket" : parts[3] };
+	};
+
 	Harness.prototype.RemoveConnector = function(connectorToRemove) {
 		connectorToRemove.From.Disconnect(connectorToRemove);
 		connectorToRemove.To.Disconnect(connectorToRemove);
@@ -75,11 +81,11 @@ function($, _) {
 		this.Validate();
 	};
 	Harness.prototype.BlockIds = function() {
-		var ids = Array();
+		var ids = [];
 		var blocks = this.Blocks;
 		for(var id in blocks)
 		{
-			if(blocks.hasOwnProperty(id)) {    
+			if(blocks.hasOwnProperty(id)) {
 				ids.push(id);
 			}
 		}
@@ -88,7 +94,7 @@ function($, _) {
 	Harness.prototype.Validate = function() {
 		return this.ValidationEngine.Validate(this.Blocks);
 	};
-	Harness.prototype.Update = function () {	
+	Harness.prototype.Update = function () {
 		this.Painter.Update(this.Views, this.Blocks);
 	};
 	Harness.prototype.Tick = function () {
@@ -107,7 +113,7 @@ function($, _) {
 		this.Update();
 	};
 	Harness.prototype.KeyDown = function(event) {
-		if (event.which == 46 && 
+		if (event.which === 46 &&
 			this.Painter.HighlightedConnector != null)
 		{
 			this.RemoveConnector(this.Painter.HighlightedConnector);

@@ -29,7 +29,7 @@ require(
 	"harness/engines/HarnessSerializer"
 ],
 function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer) {
-	
+
 	$(function() {
 		var harnessFactory = new HarnessFactory();
 		harness = harnessFactory.Build($("#harness"));
@@ -47,14 +47,13 @@ function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, Valid
 		// TEST! BURN! - brainwipe
 			$('#stringifytest').click(function() {
 
-				var h = new HarnessSerializer();
-      			console.log(h.HarnessToJSON(harness));
-    		});
+			var h = new HarnessSerializer();
+				console.log(h.HarnessToJSON(harness));
+			});
 
-    		$('#loadtest').click(function() {
-				var json = '{"Name": "Test Harness 1362072564892","Blocks": [{"Id" : "ScalarSource1","Name" : "Scalar Source","Factory" : "ScalarSourceFactory","View" : {"Left" : "358","Top" : "78","Width" : "574","Height" : "215"}},{"Id" : "ScalarSink2","Name" : "Scalar Sink","Factory" : "ScalarSinkFactory","View" : {"Left" : "1302","Top" : "87","Width" : "138","Height" : "95"}}]}';
-				harness = harnessFactory.BuildFromJSON($("#harness"), json);
-    		});
+			$('#loadtest').click(function() {
+				var json = '{"Name": "Test Harness 1362089857292","Blocks": [{"Id" : "ScalarSource1","Name" : "Scalar Source","Factory" : "ScalarSourceFactory","View" : {"Left" : "571","Top" : "108","Width" : "145","Height" : "230"}},{"Id" : "ScalarSink2","Name" : "Scalar Sink","Factory" : "ScalarSinkFactory","View" : {"Left" : "908","Top" : "83","Width" : "204","Height" : "204"}}], "Connectors": [{ "id" : "ScalarSource1-socket-output-Value:ScalarSink2-socket-input-Value", "from" : "ScalarSource1-socket-output-Value", "to" : "ScalarSink2-socket-input-Value" }]}';
+				harnessFactory.BuildFromJSON(harness, json);
+			});
 	});
 });
- 

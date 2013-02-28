@@ -20,16 +20,7 @@ function($, Block, Socket) {
 	BlockViewBase.prototype.CreateContentMarkup  = null;
 	BlockViewBase.prototype.Properties = null;
 	BlockViewBase.prototype.CreateMarkup = function (containerElement) {
-		var blockMarkup = '\
-			<div class="block {0}" id="{1}">\
-				<div class="block_resizable" style="width:200px; height:200px;">\
-					{2}\
-				</div>\
-				<div class="options">\
-					{3}\
-				</div>\
-			</div>\
-			'.format(
+		var blockMarkup = '<div class="block {0}" id="{1}"><div class="block_resizable" style="width:200px; height:200px;">{2}</div><div class="options">{3}</div></div>'.format(
 				this.CssClass,
 				this.Block.Id,
 				this.CreateContentMarkup(this.Block),
@@ -38,18 +29,18 @@ function($, Block, Socket) {
 		containerElement.append(blockMarkup);
 
 		this.Element = $("#" + this.Block.Id);
-		
-		for(i in this.Block.Inputs)	{
+
+		for(var i in this.Block.Inputs)	{
 			this.CreateSocketMarkup(this.Element, this.Block.Inputs[i]);
 		}
-		
-		for(i in this.Block.Outputs) {
-			this.CreateSocketMarkup(this.Element, this.Block.Outputs[i]);
+
+		for(var j in this.Block.Outputs) {
+			this.CreateSocketMarkup(this.Element, this.Block.Outputs[j]);
 		}
-		
+
 		$("#" + this.Block.Id).draggable();
 		$("#harness .block_resizable").resizable({
-				stop: function(event, ui) { 
+				stop: function(event, ui) {
 					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr("id"));
 					harness.Views[block.Id].Draw(block);
 				}
@@ -64,7 +55,7 @@ function($, Block, Socket) {
 			harness.Views[blockId].UpdateProperties();
 			$("#" + blockId + '-properties').modal();
 		});
-		
+
 		$("#" + this.Block.Id).bind( "drag", function(event, ui) {
 			harness.Update();
 		});
@@ -72,24 +63,24 @@ function($, Block, Socket) {
 			harness.BlocksMoved();
 			harness.Update();
 		});
-		
+
 		this.ElementProperties = this.Properties.Create();
-	}
+	};
 
 	BlockViewBase.prototype.CreateSocketMarkup = function (blockElement, socket)	{
 		var qualifiedSocketId =  socket.QualifiedId();
-		
+
 		var socketClass = "input";
-		
-		if (socket.IsInputSocket == false) {
+
+		if (socket.IsInputSocket === false) {
 			socketClass = "output";
 		}
-		
+
 		var socketMarkup = '<div class="socket ' + socketClass + '" id="' + qualifiedSocketId + '"></div>';
 		blockElement.prepend(socketMarkup);
 		element = $("#" + qualifiedSocketId);
-		
-		if (socket.IsInputSocket == true) {
+
+		if (socket.IsInputSocket === true) {
 			element.droppable({
 				tolerance: "touch",
 				accept: ".socket",
@@ -99,28 +90,30 @@ function($, Block, Socket) {
 				}
 			});
 		}
-		else {	
+		else {
 			element.draggable({
 				helper:'clone',
 				appendTo: 'body',
 				containment: 'document',
 				zIndex: 1500,
-				drag: function(event, ui) { 
-					function pos() {}; pos.prototype.left = 0; pos.prototype.top = 0;
-					
+				drag: function(event, ui) {
+					function Pos() {}
+					Pos.prototype.left = 0;
+					Pos.prototype.top = 0;
+
 					harness.Update();
-					
-					var original = new pos();
+
+					var original = new Pos();
 					original.left = ui.originalPosition.left + ui.helper.width() - 5;
 					original.top = ui.originalPosition.top + (ui.helper.height() / 2);
-					var dragged = new pos();
+					var dragged = new Pos();
 					dragged.top = ui.position.top + (ui.helper.height() / 2);
 					dragged.left = ui.position.left + 5;
 					harness.Painter.DrawConnector(original, dragged);
 				}
 			});
 		}
-	}
+	};
 
 	return (BlockViewBase);
 });

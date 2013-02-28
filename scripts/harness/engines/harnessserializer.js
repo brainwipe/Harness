@@ -1,17 +1,19 @@
 define(
 [
+	'stringlib'
 ],
 
 function() {
 
-	function HarnessSerializer() { };
+	function HarnessSerializer() { }
 
 	HarnessSerializer.prototype.HarnessToJSON = function(harness) {
 		var idKeys = harness.BlockIds();
 
-		var serialized = 
+		var serialized =
 			'{"Name": "' + harness.Name + '",' +
-			'"Blocks": ' + this.BlocksToJSON(idKeys, harness.Blocks, harness.Views) +
+			'"Blocks": ' + this.BlocksToJSON(idKeys, harness.Blocks, harness.Views) + ', ' +
+			'"Connectors": ' + this.ConnectorsToJSON(harness.Blocks) +
 			'}';
 
 		return serialized;
@@ -25,7 +27,7 @@ function() {
 		for (var i in blocks)
 		{
 			serialized += this.BlockToJSON(blocks[i], views[i]);
-			
+
 			if (count < length - 1)
 			{
 				serialized += ',';
@@ -39,7 +41,7 @@ function() {
 	};
 
 	HarnessSerializer.prototype.BlockToJSON = function(block, view) {
-		var serialized = 
+		var serialized =
 			'{' +
 				'"Id" : "' + block.Id + '",' +
 				'"Name" : "' + block.Name + '",' +
@@ -56,9 +58,32 @@ function() {
 			'"Top" : "' +  location.top + '",' +
 			'"Width" : "' + view.Base.Element.width() + '",' +
 			'"Height" : "' + view.Base.Element.height() + '"' +
-		'}'
+		'}';
 		return serialized;
 	};
 
-	return (HarnessSerializer)
+	HarnessSerializer.prototype.ConnectorsToJSON = function(blocks) {
+		var serialized = '[';
+
+		for (var i in blocks)
+		{
+			var block = blocks[i];
+			for (var j in block.Outputs)
+			{
+				var output = block.Outputs[j];
+
+				for (var k in output.Connectors)
+				{
+					var connector = output.Connectors[k];
+					serialized += '{ "id" : "{0}", "from" : "{1}", "to" : "{2}" },'.format(connector.Id, connector.From.QualifiedId(), connector.To.QualifiedId());
+				}
+			}
+		}
+
+		serialized = serialized.slice(0, -1);
+		serialized += ']';
+		return serialized;
+	};
+
+	return (HarnessSerializer);
 });
