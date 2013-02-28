@@ -2,8 +2,8 @@ define(
 [
 	"jquery",
 	"harness/Harness",
-	"harness/model/BruteForceEngine",
-	"harness/model/validationengine",
+	"harness/engines/BruteForceEngine",
+	"harness/engines/validationengine",
 	"harness/model/blockfactory",
 	"../mock/HarnessPainterMock"
 

@@ -13,7 +13,8 @@ function(Block, Socket, ScalarSinkView) {
 		var block = new Block(
 							this.FriendlyName +
 							idNumber,
-							this.FriendlyName);
+							this.FriendlyName,
+							this.FactoryName);
 
 		block.Data = 'Empty';
 
@@ -35,6 +36,7 @@ function(Block, Socket, ScalarSinkView) {
 	
 		return block;
 	}
+	ScalarSinkFactory.prototype.FactoryName = 'ScalarSinkFactory';
 	ScalarSinkFactory.prototype.FriendlyName = 'Scalar Sink';
 	ScalarSinkFactory.prototype.CssClass = 'blockscalarsink';
 	ScalarSinkFactory.prototype.Type = 'Sink';

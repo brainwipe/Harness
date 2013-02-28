@@ -8,12 +8,14 @@ define(
 function(ScalarSourceFactory, ScalarSinkFactory) {
 
 	function BlockFactory() {
-		this.Factories = new Array();
+		this.Factories = {};
 
-		this.Factories.push(new ScalarSourceFactory);
-		this.Factories.push(new ScalarSinkFactory);
+		this.Factories["ScalarSourceFactory"] = new ScalarSourceFactory();
+		this.Factories["ScalarSinkFactory"] = new ScalarSinkFactory();
 	}
 	BlockFactory.prototype.Factories = null;
+
+
 
 	return(BlockFactory)
 

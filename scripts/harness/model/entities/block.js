@@ -5,19 +5,21 @@ define(
 
 function(ValidationException) {
 
-	function Block (id, name) 
+	function Block (id, name, factory) 
 	{	
 		this.Id = id.replace(/ /g,'');
 		this.Name = name;
+		this.FactoryName = factory;
 		this.Inputs = {};
 		this.Outputs = {};
-		this.Data = new Object();
+		this.Data = {};
 		this.Completed = false;
 		this.InputsCount = 0;
 		this.OutputsCount = 0;
 	};
 	Block.prototype.Id = null;
-	Block.prototype.Name = null; 
+	Block.prototype.Name = null;
+	Block.prototype.FactoryName = null; 
 	Block.prototype.Inputs = null;
 	Block.prototype.Outputs = null;
 	Block.prototype.Data = null;

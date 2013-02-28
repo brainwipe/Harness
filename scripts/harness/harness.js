@@ -1,15 +1,13 @@
 define(
 [
 	"jquery",
-	"underscore",
-	"harness/model/blockfactory",
-	"harness/model/validationengine",
-	"decycle"
+	"underscore"
 ],
-function($, _, BlockFactory, ValidationEngine) {
+function($, _) {
 
 	function Harness (containerElement)
 	{
+		this.Name = "Test Harness " + new Date().getTime();
 		this.Blocks = {};
 		this.Views = {};
 		this.Element = containerElement;
@@ -17,7 +15,9 @@ function($, _, BlockFactory, ValidationEngine) {
 		this.Context = this.Canvas.getContext("2d");
 		this.NextBlockIdNumber = 0;
 		window.addEventListener('resize', function() {harness.ResizeCanvas();}, false);
+
 	};
+	Harness.prototype.Name = null;
 	Harness.prototype.Blocks = null;
 	Harness.prototype.View = null;
 	Harness.prototype.BlockFactory = null;
@@ -115,19 +115,7 @@ function($, _, BlockFactory, ValidationEngine) {
 		}
 	};
 
-	Harness.prototype.ToJSON = function()
-	{
-		return JSON.stringify(JSON.decycle(this.Blocks));
-	};
-
-	Harness.prototype.Load = function(jsonBlocks)
-	{
-		this.Blocks = JSON.parse(JSON.retrocycle('{"ScalarSource1":{"Id":"ScalarSource1","Name":"Scalar Source","Inputs":{},"Outputs":{"Value":{"Id":"Value","Name":"Value","Connectors":[{"From":{"$ref":"$[\"ScalarSource1\"][\"Outputs\"][\"Value\"]"},"To":{"Id":"Value","Name":"Value","Connectors":[{"$ref":"$[\"ScalarSource1\"][\"Outputs\"][\"Value\"][\"Connectors\"][0]"}],"BlockId":"ScalarSink2","IsInputSocket":true,"IsRequired":true},"Id":"Value:Value"}],"BlockId":"ScalarSource1","IsInputSocket":false,"IsRequired":false}},"Data":10,"Completed":false,"InputsCount":0,"OutputsCount":1},"ScalarSink2":{"Id":"ScalarSink2","Name":"Scalar Sink","Inputs":{"Value":{"$ref":"$[\"ScalarSource1\"][\"Outputs\"][\"Value\"][\"Connectors\"][0][\"To\"]"}},"Outputs":{},"Data":"Empty","Completed":false,"InputsCount":1,"OutputsCount":0}}' ));
-		this.Painter.RebuildBoundingBoxes(harness.Blocks);
-		this.Update();
-	}
-	
-	return( Harness );
+	return (Harness);
 
 });
 

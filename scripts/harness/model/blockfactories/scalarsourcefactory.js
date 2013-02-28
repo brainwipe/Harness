@@ -13,7 +13,8 @@ function(Block, Socket, ScalarSourceView) {
 		var block = new Block(
 							this.FriendlyName +
 							idNumber,
-							this.FriendlyName);
+							this.FriendlyName,
+							this.FactoryName);
 		block.AddOutput(new Socket(block.Id, "Value"));
 		block.Data = 10;
 		block.Execute = function() {
@@ -32,11 +33,12 @@ function(Block, Socket, ScalarSourceView) {
 		
 		return block;
 	}
+	ScalarSourceFactory.prototype.FactoryName = 'ScalarSourceFactory';
 	ScalarSourceFactory.prototype.FriendlyName = 'Scalar Source';
 	ScalarSourceFactory.prototype.CssClass = 'blockscalarsource';
 	ScalarSourceFactory.prototype.Type = 'Source';
 	ScalarSourceFactory.prototype.Description = 'This source provides a single real number, such as 123.4. This useful for biases, offsets, providing paramters for functions or simple mathematics.';
-	
+
 	ScalarSourceFactory.prototype.GetView = function(block)
 	{
 		return new ScalarSourceView(block);

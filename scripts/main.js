@@ -25,9 +25,10 @@ require(
 	"harness/HarnessFactory",
 	"harness/views/blockbrowser",
 	"harness/views/validationbrowser",
-	"harness/views/notify"
+	"harness/views/notify",
+	"harness/engines/HarnessSerializer"
 ],
-function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify) {
+function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer) {
 	
 	$(function() {
 		var harnessFactory = new HarnessFactory();
@@ -45,8 +46,14 @@ function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, Valid
 
 		// TEST! BURN! - brainwipe
 			$('#stringifytest').click(function() {
-				console.log(harness.Blocks);
-      			console.log(harness.Load());
+
+				var h = new HarnessSerializer();
+      			console.log(h.HarnessToJSON(harness));
+    		});
+
+    		$('#loadtest').click(function() {
+				var json = '{"Name": "Test Harness 1362072564892","Blocks": [{"Id" : "ScalarSource1","Name" : "Scalar Source","Factory" : "ScalarSourceFactory","View" : {"Left" : "358","Top" : "78","Width" : "574","Height" : "215"}},{"Id" : "ScalarSink2","Name" : "Scalar Sink","Factory" : "ScalarSinkFactory","View" : {"Left" : "1302","Top" : "87","Width" : "138","Height" : "95"}}]}';
+				harness = harnessFactory.BuildFromJSON($("#harness"), json);
     		});
 	});
 });
