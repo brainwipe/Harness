@@ -57,6 +57,7 @@ function($, _) {
 		}
 
 		this.Validate();
+		this.Update();
 		return connector;
 	};
 	Harness.prototype.ConnectSocketAndBlock = function (outputBlockName, outputSocketName, inputBlockName, inputSocketName) {

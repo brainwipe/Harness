@@ -80,7 +80,8 @@ function() {
 			}
 		}
 
-		serialized = serialized.slice(0, -1);
+
+		serialized.replace(/, $/, "");
 		serialized += ']';
 		return serialized;
 	};

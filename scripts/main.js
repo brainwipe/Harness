@@ -2,6 +2,8 @@ var harness;
 var blockbrowser;
 var validationbrowser;
 var notify;
+var savedialog;
+var loaddialog;
 
 require.config({
 	paths: {
@@ -26,9 +28,11 @@ require(
 	"harness/views/blockbrowser",
 	"harness/views/validationbrowser",
 	"harness/views/notify",
-	"harness/engines/HarnessSerializer"
+	"harness/engines/HarnessSerializer",
+	"harness/views/savedialog",
+	"harness/views/loaddialog"
 ],
-function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer) {
+function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer, SaveDialog, LoadDialog) {
 
 	$(function() {
 		var harnessFactory = new HarnessFactory();
@@ -41,6 +45,12 @@ function($, jqueryui, underscore, bootstrap, HarnessFactory, BlockBrowser, Valid
 		validationbrowser.CreateMarkup();
 
 		notify = new Notify();
+
+		savedialog = new SaveDialog();
+		savedialog.CreateMarkup();
+
+		loaddialog = new LoadDialog();
+		loaddialog.CreateMarkup();
 
 		harness.ResizeCanvas();
 

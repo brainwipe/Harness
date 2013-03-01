@@ -37,10 +37,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Harness</a>
+
+          
+
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" style="font-size:20px; cursor:pointer;">&Delta;</a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  <li><a href="#loadDialog" data-toggle="modal">Load</a></li>
+                  <li><a href="#saveDialog" data-toggle="modal">Save</a></li>
+                </ul>
+              </li>
               <li><a href="#blocksModal" data-toggle="modal">Blocks</a></li>
               <li><a id="validationMenuItem" href="#validationModal" data-toggle="modal">Validation</a></li>
               <li><a id="stringifytest">Test JSON Output</a></li>
