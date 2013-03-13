@@ -1,7 +1,7 @@
 define(
-["jquery"],
+['jquery'],
 
-function($) {
+function() {
 
 	function BoundingBox(top, right, bottom, left, connector)
 	{
@@ -16,6 +16,6 @@ function($) {
 	BoundingBox.prototype.bottom = 0;
 	BoundingBox.prototype.left = 0;
 	BoundingBox.prototype.Connector = null;
-	
+
 	return (BoundingBox);
 });

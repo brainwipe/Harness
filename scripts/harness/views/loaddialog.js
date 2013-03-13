@@ -1,33 +1,30 @@
 define(
 [
-	"jquery",
-	"jquery-ui",
-	"harness/harnessfactory",
-	"stringlib"
+	'harness/harnessfactory',
+	'stringlib'
 ],
 
-function($, jqueryui, HarnessFactory) {
+function(HarnessFactory) {
 
 	function LoadDialog() {	}
 
 	LoadDialog.prototype.CreateMarkup = function()
 	{
-		harness.Element.append(
-		'<div class="modal fade" id="loadDialog">\
-				<div class="modal-header">\
-				<button class="close" data-dismiss="modal">×</button>\
-				<h3>Load Model</h3>\
-			</div>\
-			<div class="modal-body">\
-				<form class="form-horizontal">\
-					<div id="loadModelsPlaceholder"></div>\
-				</form>\
-			</div>\
-			<div class="modal-footer">\
-				<button type="button" class="btn btn-primary" data-dismiss="modal" id="loadModel">Load</button>\
-  				<button type="button" class="btn" data-dismiss="modal">Cancel</button>\
-			</div>\
-		</div>');
+		harness.Element.append('<div class="modal fade" id="loadDialog">'+
+				'<div class="modal-header">'+
+				'<button class="close" data-dismiss="modal">×</button>'+
+				'<h3>Load Model</h3>'+
+			'</div>'+
+			'<div class="modal-body">'+
+				'<form class="form-horizontal">'+
+					'<div id="loadModelsPlaceholder"></div>'+
+				'</form>'+
+			'</div>'+
+			'<div class="modal-footer">'+
+				'<button type="button" class="btn btn-primary" data-dismiss="modal" id="loadModel">Load</button>'+
+				'<button type="button" class="btn" data-dismiss="modal">Cancel</button>'+
+			'</div>'+
+		'</div>');
 
 		this.ApplySavedModelsToDialog();
 
@@ -38,12 +35,12 @@ function($, jqueryui, HarnessFactory) {
 
 	LoadDialog.prototype.LoadModel = function ()
 	{
-		var chosenModelToLoad = $('#loadDialog input:radio[name=savedModelsChoice]:checked').val();
+		var chosenModelToLoad = $('#loadDialog #savedModelsChoice').val();
 		if (chosenModelToLoad.length > 0)
 		{
 			var models = this.GetSavedModels();
 			modelJSON = models[chosenModelToLoad];
-			
+
 			var harnessFactory = new HarnessFactory();
 			harnessFactory.BuildFromJSON(harness, modelJSON);
 		}
@@ -51,7 +48,7 @@ function($, jqueryui, HarnessFactory) {
 
 	LoadDialog.prototype.GetSavedModels = function() {
 		var localModels = {};
-		for(i in localStorage) 
+		for(var i in localStorage)
 		{
 			var keyparts = i.split("-");
 			if (keyparts[0] === 'model')
@@ -65,17 +62,24 @@ function($, jqueryui, HarnessFactory) {
 	LoadDialog.prototype.GetSavedModelsInList = function() {
 		var models = this.GetSavedModels();
 
-		var list = '<div class="control-group savedModelChooser"><h4>Choose a saved model to load<h4><div class="controls">';
+		var list = '<legend>Choose a saved model to overwrite...</legend>'+
+						'<div class="control-group savedModelChooser">'+
+							'<div class="controls"><select id="savedModelsChoice">';
 		var modelCount = 0;
 
 		for (var i in models)
 		{
 			modelCount++;
 			var id = i.replace(/ /g,'');
-			list += '<label class="radio"><input type="radio" name="savedModelsChoice" id="{0}" value="{1}"/>{2}</label>'.format(id, i, i);
+			list += '<option value="{0}">{1}</option>'.format(id, i);
 		}
 
-		list += '</div></div>';
+		list += '</select></div></div>';
+		list += '<div class="control-group"><label class="control-label" for="newModelName">or choose a new name:</label>'+
+						'<div class="controls">'+
+							'<input type="text" id="newModelName" placeholder="' + harness.Name + '">'+
+						'</div>'+
+					'</div>';
 
 		if (modelCount === 0)
 		{
@@ -85,7 +89,7 @@ function($, jqueryui, HarnessFactory) {
 		return list;
 	};
 
-	LoadDialog.prototype.ApplySavedModelsToDialog = function() {		
+	LoadDialog.prototype.ApplySavedModelsToDialog = function() {
 		$('#loadDialog #loadModelsPlaceholder').html("");
 		$('#loadDialog #loadModelsPlaceholder').append(
 			this.GetSavedModelsInList()

@@ -43,7 +43,7 @@ function(BlockFactory) {
 	};
 
 	HarnessDeSerializer.prototype.SetupView = function(view, viewJSON) {
-		view.Base.Element.offset({ top: viewJSON.Lop, left: viewJSON.Left});
+		view.Base.Element.offset({ top: viewJSON.Top, left: viewJSON.Left});
 		view.Base.Element.children(".ui-resizable").width(viewJSON.Width);
 		view.Base.Element.children(".ui-resizable").height(viewJSON.Height);
 

@@ -71,11 +71,19 @@ function() {
 			for (var j in block.Outputs)
 			{
 				var output = block.Outputs[j];
-
+				var count = 0;
+				var length = output.Connectors.length;
 				for (var k in output.Connectors)
 				{
 					var connector = output.Connectors[k];
-					serialized += '{ "id" : "{0}", "from" : "{1}", "to" : "{2}" },'.format(connector.Id, connector.From.QualifiedId(), connector.To.QualifiedId());
+					serialized += '{ "id" : "{0}", "from" : "{1}", "to" : "{2}" }'.format(connector.Id, connector.From.QualifiedId(), connector.To.QualifiedId());
+
+					if (count < length - 1)
+					{
+						serialized += ',';
+					}
+
+					count++;
 				}
 			}
 		}

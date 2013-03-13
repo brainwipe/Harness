@@ -1,6 +1,5 @@
 define(
 [
-	"jquery",
 	"harness/Harness",
 	"harness/views/harnesspainter",
 	"harness/engines/bruteforceengine",
@@ -8,7 +7,7 @@ define(
 	"harness/model/blockfactory",
 	"harness/engines/harnessdeserializer"
 ],
-function($, Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockFactory, HarnessDeserializer) {
+function(Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockFactory, HarnessDeserializer) {
 
 	function HarnessFactory() { }
 

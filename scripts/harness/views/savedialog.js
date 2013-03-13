@@ -1,38 +1,36 @@
 define(
 [
-	"jquery",
-	"jquery-ui",
 	"harness/engines/harnessserializer",
 	"stringlib"
 ],
 
-function($, jqueryui, HarnessSerializer) {
+function(HarnessSerializer) {
 
 	function SaveDialog() {	}
 
 	SaveDialog.prototype.CreateMarkup = function() {
 		harness.Element.append(
-		'<div class="modal fade" id="saveDialog">\
-				<div class="modal-header">\
-				<button class="close" data-dismiss="modal">×</button>\
-				<h3>Save Model</h3>\
-			</div>\
-			<div class="modal-body">\
-				<form class="form-horizontal"><div id="savedModelsPlaceholder"></div>\
-  					<div class="control-group">\
-  						<h4>Save a new model by typing a new name</h4>\
-    					<label class="control-label" for="newModelName">New name:</label>\
-    					<div class="controls">\
-      						<input type="text" id="newModelName" placeholder="' + harness.Name + '">\
-    					</div>\
-  					</div>\
-				</form>\
-			</div>\
-			<div class="modal-footer">\
-				<button type="button" class="btn btn-primary" data-dismiss="modal" id="saveModel">Save</button>\
-  				<button type="button" class="btn" data-dismiss="modal">Cancel</button>\
-			</div>\
-		</div>');
+		'<div class="modal fade" id="saveDialog">' +
+				'<div class="modal-header">' +
+				'<button class="close" data-dismiss="modal">×</button>' +
+				'<h3>Save Model</h3>' +
+			'</div>' +
+			'<div class="modal-body">' +
+				'<form class="form-horizontal" id="savedModelsPlaceholder">'+
+					'<legend>Save a new model by typing a new name</legend>'+
+					'<div class="control-group">'+
+						'<label class="control-label" for="newModelName">New name:</label>'+
+						'<div class="controls">'+
+							'<input type="text" id="newModelName" placeholder="' + harness.Name + '">'+
+						'</div>'+
+					'</div>'+
+				'</form>'+
+			'</div>'+
+			'<div class="modal-footer">'+
+				'<button type="button" class="btn btn-primary" data-dismiss="modal" id="saveModel">Save</button>'+
+				'<button type="button" class="btn" data-dismiss="modal">Cancel</button>'+
+			'</div>'+
+		'</div>');
 
 		this.ApplySavedModelsToDialog();
 
@@ -47,7 +45,7 @@ function($, jqueryui, HarnessSerializer) {
 		var saveKey = "";
 
 		if ($(".savedModelChooser").length > 0)	{
-			var chosenModelToOverwrite = $('#saveDialog input:radio[name=savedModelsChoice]:checked').val();
+			var chosenModelToOverwrite = $('#saveDialog #savedModelsChoice').val();
 			saveKey = chosenModelToOverwrite;
 		}
 
@@ -66,7 +64,7 @@ function($, jqueryui, HarnessSerializer) {
 
 	SaveDialog.prototype.GetSavedModels = function() {
 		var localModels = {};
-		for(i in localStorage) 
+		for(var i in localStorage)
 		{
 			var keyparts = i.split("-");
 			if (keyparts[0] === 'model')
@@ -80,17 +78,24 @@ function($, jqueryui, HarnessSerializer) {
 	SaveDialog.prototype.GetSavedModelsInList = function() {
 		var models = this.GetSavedModels();
 
-		var list = '<div class="control-group savedModelChooser"><h4>Choose a saved model to overwrite...</h4><div class="controls">';
+		var list = '<legend>Choose a saved model to overwrite...</legend>'+
+						'<div class="control-group savedModelChooser">'+
+							'<div class="controls"><select id="savedModelsChoice">';
 		var modelCount = 0;
 
 		for (var i in models)
 		{
 			modelCount++;
 			var id = i.replace(/ /g,'');
-			list += '<label class="radio"><input type="radio" name="savedModelsChoice" id="{0}" value="{1}"/>{2}</label>'.format(id, i, i);
+			list += '<option value="{0}">{1}</option>'.format(id, i);
 		}
 
-		list += '</div></div>';
+		list += '</select></div></div>';
+		list += '<div class="control-group"><label class="control-label" for="newModelName">or choose a new name:</label>'+
+						'<div class="controls">'+
+							'<input type="text" id="newModelName" placeholder="' + harness.Name + '">'+
+						'</div>'+
+					'</div>';
 
 		if (modelCount === 0)
 		{
@@ -100,11 +105,27 @@ function($, jqueryui, HarnessSerializer) {
 		return list;
 	};
 
-	SaveDialog.prototype.ApplySavedModelsToDialog = function() {		
+	SaveDialog.prototype.ApplySavedModelsToDialog = function() {
 		$('#savedModelsPlaceholder').html("");
 		$('#savedModelsPlaceholder').append(
 			this.GetSavedModelsInList()
 		);
+
+		$('#newModelName').on('change', function() {
+			if ($(this).val())
+			{
+				$('#savedModelsChoice').attr('disabled', 'disabled');
+			}
+			else
+			{
+				$('#savedModelsChoice').removeAttr('disabled');
+			}
+		});
+
+		$('#newModelName').on('focus', function() {
+			$(this).val($(this).attr('placeholder'));
+			$('#savedModelsChoice').attr('disabled', 'disabled');
+		});
 	};
 
 	return (SaveDialog);

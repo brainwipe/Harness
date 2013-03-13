@@ -1,9 +1,6 @@
 define(
-[
-	"jquery",
-	"underscore"
-],
-function($, _) {
+[],
+function() {
 
 	function Harness (containerElement)
 	{

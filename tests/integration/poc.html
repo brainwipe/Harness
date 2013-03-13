@@ -1,12 +1,10 @@
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-		
+
 		<script type="text/javascript">
 			var harness;
-		
+
 		window.addEventListener('resize', resizeCanvas, false);
 
 			function resizeCanvas() {
@@ -14,7 +12,7 @@
 				harness.Canvas.height = window.innerHeight;
 				harness.Update();
 			}
-		
+
 			function Point (newx,newy)
 			{
 				this.x = newx;
@@ -22,7 +20,7 @@
 			}
 			Point.prototype.x = null;
 			Point.prototype.y = null;
-		
+
 			function Harness (container)
 			{
 				this.Blocks = new Array();
@@ -33,12 +31,12 @@
 			}
 			Harness.prototype.Blocks = null;
 			Harness.prototype.Container = null;
-			Harness.prototype.AddBlock = function (block) { 
+			Harness.prototype.AddBlock = function (block) {
 				block.Painter.CreateMarkup(this.Container, block.Id);
-				this.Blocks[block.Id] = block; 
+				this.Blocks[block.Id] = block;
 			};
 			Harness.prototype.Update = function () {
-				this.Context.clearRect(0,0,this.Canvas.width, this.Canvas.height);  
+				this.Context.clearRect(0,0,this.Canvas.width, this.Canvas.height);
 				for(i in this.Blocks)
 				{
 					var block = this.Blocks[i];
@@ -47,7 +45,7 @@
 						var socket = block.Outputs[j];
 						this.Painter.DrawSocket(socket);
 					}
-					
+
 					for (j in block.Inputs)
 					{
 						var socket = block.Inputs[j];
@@ -59,35 +57,35 @@
 			Harness.prototype.Context = null;
 			Harness.prototype.Painter = null;
 			Harness.prototype.Connect = function (outputBlockName, outputSocketName, inputBlockName, inputSocketName) {
-				
+
 				var outputSocket = this.Blocks[outputBlockName].Outputs[outputSocketName];
 				var inputSocket = this.Blocks[inputBlockName].Inputs[inputSocketName];
-				
+
 				outputSocket.Connect(inputSocket);
 			}
-			
+
 			function HarnessPainter(context)
 			{
 				this.Context = context;
 			}
-			
+
 			HarnessPainter.prototype.DrawSocket = function(socket)
 			{
 				if (socket.IsInputSocket == false)
 				{
 					var fromSocketLocation = socket.Element.offset();
-					
+
 					fromSocketLocation.left += socket.Element.width() - 5;
 					fromSocketLocation.top += (socket.Element.height() / 2);
-					
+
 					for(i in socket.Connectors)
 					{
 						var connector = socket.Connectors[i];
-						
+
 						var toSocketLocation = connector.To.Element.offset();
 						toSocketLocation.top += (socket.Element.height() / 2);
 						toSocketLocation.left += 5;
-						
+
 						this.DrawConnector(fromSocketLocation, toSocketLocation);
 					}
 				}
@@ -95,7 +93,7 @@
 			HarnessPainter.prototype.DrawConnector = function(from, to)
 			{
 				this.Context.beginPath();
-				
+
 				if (to.left > from.left + 40)
 				{
 					this.Context.moveTo(from.left, from.top);
@@ -107,17 +105,17 @@
 				{
 					this.Context.moveTo(from.left, from.top);
 					this.Context.lineTo( from.left + 20 , from.top);
-					
+
 					this.Context.lineTo( from.left + 20 , from.top - ((from.top - to.top) / 2));
 					this.Context.lineTo( to.left - 20 , from.top - ((from.top - to.top) / 2));
 					this.Context.lineTo( to.left - 20 , to.top);
 					this.Context.lineTo( to.left, to.top);
 				}
-				
-				this.Context.stroke(); 
+
+				this.Context.stroke();
 			}
 			HarnessPainter.prototype.Context = null;
-			
+
 			function Socket(name, parentBlock, isInputSocket)
 			{
 				this.Id = encodeURI(name);
@@ -130,7 +128,7 @@
 			Socket.prototype.Name = null;
 			Socket.prototype.Connectors = null;
 			Socket.prototype.Data = null;
-			Socket.prototype.AddConnector = 
+			Socket.prototype.AddConnector =
 			Socket.prototype.Connect = function(otherSocket)
 			{
 				var connector = new Connector(this, otherSocket);
@@ -140,7 +138,7 @@
 			Socket.prototype.IsInputSocket = null;
 			Socket.prototype.Block = null;
 			Socket.prototype.Element = null;
-		
+
 			function Connector(from, to) {
 				this.From = from;
 				this.To = to;
@@ -149,13 +147,13 @@
 			Connector.prototype.To = null;
 			Connector.prototype.Description = function ()
 			{
-				return "Connects " + this.From.Block.Id + 
-								  " (" + this.From.Name + 
-								  ") to " + this.To.Block.Id + 
+				return "Connects " + this.From.Block.Id +
+								  " (" + this.From.Name +
+								  ") to " + this.To.Block.Id +
 								  " (" + this.To.Name + ")";
 			}
-		
-			function Block (id) 
+
+			function Block (id)
 			{
 				this.Id = id;
 				this.Inputs = new Object();
@@ -169,22 +167,22 @@
 			Block.prototype.Outputs = null;
 			Block.prototype.Data = null;
 			Block.prototype.Completed = null;
-			
+
 			Block.prototype.Execute = null;
 			Block.prototype.IsReady = null;
 			Block.prototype.Reset = null;
-			
+
 			Block.prototype.AddInput = function (inputSocket) {
 				inputSocket.Block = this;
 				inputSocket.IsInputSocket = true;
 				this.Inputs[inputSocket.Name] = inputSocket;
-			};			
+			};
 			Block.prototype.AddOutput = function (outputSocket) {
 				outputSocket.Block = this;
 				outputSocket.IsInputSocket = false;
-				this.Outputs[outputSocket.Name] = outputSocket; 
+				this.Outputs[outputSocket.Name] = outputSocket;
 			};
-						
+
 			function BlockPainter(ownerBlock)	{
 				this.Block = ownerBlock;
 			}
@@ -196,17 +194,17 @@
 				container.append(blockMarkup);
 
 				this.Element = $("#" + this.Block.Id);
-				
+
 				for(i in this.Block.Inputs)
 				{
 					this.CreateSocketMarkup(this.Element, this.Block.Inputs[i]);
 				}
-				
+
 				for(i in this.Block.Outputs)
 				{
 					this.CreateSocketMarkup(this.Element, this.Block.Outputs[i]);
 				}
-				
+
 				$("#" + this.Block.Id).draggable();
 				$("#raih .block_resizable").resizable();
 				$("#raih .block").hover(function() {
@@ -221,23 +219,23 @@
 					harness.Update();
 				});
 			}
-			
+
 			BlockPainter.prototype.CreateSocketMarkup = function (blockElement, socket)
 			{
 				var socketId =  this.Block.Id + '_' + socket.Id;
-				
+
 				var socketClass = "input";
-				
+
 				if (socket.IsInputSocket == false)
 				{
 					socketClass = "output";
 				}
-				
+
 				var socketMarkup = '<div class="socket ' + socketClass + '" id="' + socketId + '"></div>';
 				blockElement.prepend(socketMarkup);
 				socket.Element = $("#" + socketId);
 			}
-			
+
 			function CreateScalarSource(id)
 			{
 				var block = new Block(id);
@@ -255,7 +253,7 @@
 				};
 				return block;
 			}
-			
+
 			function CreateScalarSink(id)
 			{
 				var block = new Block(id);
@@ -276,32 +274,32 @@
 				};
 				return block;
 			}
-			
+
 		</script>
 
 		<script type="text/javascript">
-			
+
 			$(document).ready(function() {
-			
+
 				harness = new Harness($("#raih"));
 				resizeCanvas();
-			
+
 				var b1 = CreateScalarSource("scalarsource1");
 				harness.AddBlock(b1);
 				var b2 = CreateScalarSink("scalarsink1");
 				harness.AddBlock(b2);
-				
+
 				harness.Connect("scalarsource1","Value", "scalarsink1", "Value");
-				
+
 				harness.Update();
-				
+
 				console.log(harness);
-				
-				
+
+
 			});
-		
+
 		</script>
-		
+
 		<style type="text/css">a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,dialog,div,dl,dt,em,embed,fieldset,figcaption,figure,font,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,meter,nav,object,ol,output,p,pre,progress,q,rp,rt,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video,xmp{border:0;margin:0;padding:0;font-size:100%}html,body{height:100%}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}b,strong{font-weight:bold}img{color:transparent;font-size:0;vertical-align:middle;-ms-interpolation-mode:bicubic}ol,ul{list-style:none}li{display:list-item}table{border-collapse:collapse;border-spacing:0}th,td,caption{font-weight:normal;vertical-align:top;text-align:left}q{quotes:none}q:before,q:after{content:'';content:none}sub,sup,small{font-size:75%}sub,sup{line-height:0;position:relative;vertical-align:baseline}sub{bottom:-0.25em}sup{top:-0.5em}svg{overflow:hidden}</style>
 		<style type="text/css">
 			body {font-family:tahoma;}
@@ -316,16 +314,16 @@
 			.options:hover {background:#aaa;}
 			.hidden {display:none;}
 		</style>
-		
+
 	</head>
 	<body>
-	
+
 		<div id="raih">
 			<canvas id="raih_bg" style=" z-index:0;" ></canvas>
-			
+
 		</div>
-		
-	
+
+
 	</body>
 
 </html>

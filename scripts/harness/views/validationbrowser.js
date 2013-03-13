@@ -1,11 +1,9 @@
 define(
 [
-    "jquery",
-    "jquery-ui",
     "harness/Harness",
     "stringlib"
 ],
-function ($, jqueryui, Harness) {
+function (Harness) {
 
    function ValidationBrowser() {
 	}

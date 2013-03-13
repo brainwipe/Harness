@@ -1,12 +1,11 @@
 define(
 [
-	"jquery",
 	"harness/model/entities/block",
 	"harness/model/entities/socket",
 	"stringlib"
 ],
 
-function($, Block, Socket) {
+function(Block, Socket) {
 
 	function BlockViewBase(block)	{
 		this.Block = block;
