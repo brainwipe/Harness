@@ -7,7 +7,7 @@ define(
 	'harness/model/entities/boundingbox'
 ],
 
-function(Connector, BlockFactory, BoundingBox) {
+function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 
 	function HarnessPainter(harness)
 	{
