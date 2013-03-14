@@ -13,6 +13,7 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	{
 		this.Context = harness.Context;
 		this.Canvas = this.Context.canvas;
+		this.HarnessElement = harness.Element;
 		this.BindControlEvents();
 
 		$("#raih_bg").mousemove(function(e) {harness.MouseMove(e);});
@@ -22,7 +23,13 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 		$("#raih_bg").droppable({drop: function(e,u) {
 			harness.Painter.DroppableHandler(e,u);}
 		});
+
+		window.addEventListener('resize',
+			function() {harness.ResizeCanvas();}, false);
+
+		this.PaintBlockBin();
 	}
+	HarnessPainter.prototype.HarnessElement = null;
 	HarnessPainter.prototype.Context = null;
 	HarnessPainter.prototype.Canvas = null;
 	HarnessPainter.prototype.ConnectorBoundingBoxes = [];
@@ -250,19 +257,31 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 
 	HarnessPainter.prototype.BindControlEvents = function()
 	{
-		$("#harness-engine-controls-tick").on("click", function () { harness.Tick(); });
+		$('#harness-engine-controls-tick').on('click', function () { harness.Tick(); });
 	};
 
 	HarnessPainter.prototype.SwitchOnEngineControls = function()
 	{
-		$("#harness-engine-controls").children().removeClass("disabled");
+		$('#harness-engine-controls').children().removeClass('disabled');
 		this.BindControlEvents();
 	};
 
 	HarnessPainter.prototype.SwitchOffEngineControls = function()
 	{
-		$("#harness-engine-controls").children().addClass("disabled");
-		$("#harness-engine-controls").children().off("click");
+		$('#harness-engine-controls').children().addClass('disabled');
+		$('#harness-engine-controls').children().off('click');
+	};
+
+	HarnessPainter.prototype.PaintBlockBin = function()
+	{
+		var element = this.HarnessElement.append('<div class="well block-bin"><img src="images/block-bin.png" alt="Drop block here to delete it." title="Drop block here to delete it."/></div>');
+		$('.block-bin').hide();
+		$('.block-bin').droppable({
+			drop: function(event ,ui) {
+				var blockId = ui.draggable.attr('id');
+				harness.DeleteBlock(blockId);
+				$('.block-bin').hide('slide');
+		}});
 	};
 
 	return(HarnessPainter);

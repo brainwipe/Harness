@@ -8,9 +8,9 @@ function(ValidationException) {
 	function ValidationEngine() {
 	};
 	ValidationEngine.prototype.Validate = function(blocks) {
-		
+
 		validationbrowser.Clear();
-		harness.Painter.SwitchOnEngineControls();	
+		harness.Painter.SwitchOnEngineControls();
 
 		var blockCount = 0;
 		var errorCount = 0;
@@ -20,7 +20,7 @@ function(ValidationException) {
 			{
 				blocks[i].Validate();
 			}
-				
+
 			catch(errorMessage)
 			{
 				harness.Painter.SwitchOffEngineControls();
@@ -29,11 +29,6 @@ function(ValidationException) {
 			}
 
 			blockCount += 1;
-		}
-
-		if (blockCount == 0)
-		{
-			validationbrowser.AddMessage(new ValidationException("No blocks", "There are no blocks in the model. The simulation needs blocks to run. Use the Blocks menu item to start adding blocks."));
 		}
 
 		if (errorCount == 0)

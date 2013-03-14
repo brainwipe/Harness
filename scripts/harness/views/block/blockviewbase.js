@@ -37,18 +37,30 @@ function(Block, Socket) {
 			this.CreateSocketMarkup(this.Element, this.Block.Outputs[j]);
 		}
 
-		$("#" + this.Block.Id).draggable();
+		$("#" + this.Block.Id).draggable({
+			start: function() {
+					$(this).fadeTo(200,0.5);
+					$('.block-bin').show('slide');
+				},
+			stop: function() {
+					$(this).fadeTo(200,1);
+					$('.block-bin').hide('slide');
+				}
+			});
+
 		$("#harness .block_resizable").resizable({
 				stop: function(event, ui) {
 					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr("id"));
 					harness.Views[block.Id].Draw(block);
 				}
 			});
+
 		$("#harness .block").hover(function() {
 			$(this).children(".options").show( "slide", {direction: "up"}, 300);
 		},function() {
 			$(this).children(".options").hide( "slide", {direction: "up"}, 300);
 		});
+
 		$("#harness .block .options").click(function() {
 			var blockId = $(this).parent().attr("id");
 			harness.Views[blockId].UpdateProperties();

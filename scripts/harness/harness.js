@@ -11,9 +11,8 @@ function() {
 		this.Canvas = $("#raih_bg")[0];
 		this.Context = this.Canvas.getContext("2d");
 		this.NextBlockIdNumber = 0;
-		window.addEventListener('resize', function() {harness.ResizeCanvas();}, false);
-
 	}
+
 	Harness.prototype.Name = null;
 	Harness.prototype.Blocks = null;
 	Harness.prototype.View = null;
@@ -39,6 +38,13 @@ function() {
 		this.Update();
 		this.Validate();
 		return block;
+	};
+	Harness.prototype.DeleteBlock = function(blockId) {
+		this.Views[blockId].Base.Element.remove();
+		delete this.Views[blockId];
+		delete this.Blocks[blockId];
+		this.Update();
+		this.Validate();
 	};
 	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
 		var outputInfo = this.GetBlockAndSocketFromId(outputSocketId);
@@ -109,6 +115,9 @@ function() {
 		this.Canvas.width = window.innerWidth;
 		this.Canvas.height = window.innerHeight;
 		this.Update();
+	};
+	Harness.prototype.ShowBlockBin = function() {
+
 	};
 	Harness.prototype.KeyDown = function(event) {
 		if (event.which === 46 &&
