@@ -19,7 +19,7 @@ function(Block, Socket) {
 	BlockViewBase.prototype.CreateContentMarkup  = null;
 	BlockViewBase.prototype.Properties = null;
 	BlockViewBase.prototype.CreateMarkup = function (containerElement) {
-		var blockMarkup = '<div class="block {0}" id="{1}"><div class="block_resizable" style="width:200px; height:200px;">{2}</div><div class="options">{3}</div></div>'.format(
+		var blockMarkup = '<div class="block noselect {0}" id="{1}"><div class="block_resizable" style="width:200px; height:200px;">{2}</div><div class="options">{3}</div></div>'.format(
 				this.CssClass,
 				this.Block.Id,
 				this.CreateContentMarkup(this.Block),
@@ -38,6 +38,7 @@ function(Block, Socket) {
 		}
 
 		$("#" + this.Block.Id).draggable({
+			cursor: 'move',
 			start: function() {
 					$(this).fadeTo(200,0.5);
 					$('.block-bin').show('slide');
@@ -48,29 +49,29 @@ function(Block, Socket) {
 				}
 			});
 
-		$("#harness .block_resizable").resizable({
+		$('#harness .block_resizable').resizable({
 				stop: function(event, ui) {
-					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr("id"));
+					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr('id'));
 					harness.Views[block.Id].Draw(block);
 				}
 			});
 
-		$("#harness .block").hover(function() {
-			$(this).children(".options").show( "slide", {direction: "up"}, 300);
+		$('#harness .block').hover(function() {
+			$(this).children('.options').show( 'slide', {direction: 'up'}, 300);
 		},function() {
-			$(this).children(".options").hide( "slide", {direction: "up"}, 300);
+			$(this).children('.options').hide( 'slide', {direction: 'up'}, 300);
 		});
 
-		$("#harness .block .options").click(function() {
-			var blockId = $(this).parent().attr("id");
+		$('#harness .block .options').click(function() {
+			var blockId = $(this).parent().attr('id');
 			harness.Views[blockId].UpdateProperties();
-			$("#" + blockId + '-properties').modal();
+			$('#' + blockId + '-properties').modal();
 		});
 
-		$("#" + this.Block.Id).bind( "drag", function(event, ui) {
+		$('#' + this.Block.Id).bind( 'drag', function(event, ui) {
 			harness.Update();
 		});
-		$("#" + this.Block.Id).bind( "dragstop", function(event, ui) {
+		$('#' + this.Block.Id).bind( 'dragstop', function(event, ui) {
 			harness.BlocksMoved();
 			harness.Update();
 		});
@@ -81,10 +82,10 @@ function(Block, Socket) {
 	BlockViewBase.prototype.CreateSocketMarkup = function (blockElement, socket)	{
 		var qualifiedSocketId =  socket.QualifiedId();
 
-		var socketClass = "input";
+		var socketClass = 'input';
 
 		if (socket.IsInputSocket === false) {
-			socketClass = "output";
+			socketClass = 'output';
 		}
 
 		var socketMarkup = '<div class="socket ' + socketClass + '" id="' + qualifiedSocketId + '"></div>';
@@ -93,10 +94,10 @@ function(Block, Socket) {
 
 		if (socket.IsInputSocket === true) {
 			element.droppable({
-				tolerance: "touch",
-				accept: ".socket",
+				tolerance: 'touch',
+				accept: '.socket',
 				drop: function( event, ui ) {
-					harness.ConnectSockets(ui.draggable.attr("id"), $(this).attr("id"));
+					harness.ConnectSockets(ui.draggable.attr('id'), $(this).attr('id'));
 					harness.Update();
 				}
 			});
