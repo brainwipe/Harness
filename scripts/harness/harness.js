@@ -42,7 +42,9 @@ function() {
 	Harness.prototype.DeleteBlock = function(blockId) {
 		this.Views[blockId].Base.Element.remove();
 		delete this.Views[blockId];
+		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];
+		this.Painter.RebuildBoundingBoxes(harness.Blocks);
 		this.Update();
 		this.Validate();
 	};
@@ -71,7 +73,6 @@ function() {
 		this.Painter.BuildBoundingBox(connector);
 		return connector;
 	};
-
 	Harness.prototype.GetBlockAndSocketFromId = function(socketId) {
 		var parts = socketId.split('-');
 		return { "Block" : parts[0], "Socket" : parts[3] };

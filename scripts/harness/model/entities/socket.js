@@ -41,14 +41,8 @@ define(
 		return connector;
 	};
 	Socket.prototype.Disconnect = function(connectorToRemove) {
-		for (var i in this.Connectors) {
-			var connector = this.Connectors[i];
-			if (connector === connectorToRemove) {
-				this.Connectors.splice(i, 1);
-				return true;
-			}
-		}
-		return false;
+		this.Connectors.splice(this.Connectors.indexOf(connectorToRemove),1);
+		return true;
 	};
 	Socket.prototype.IsInputSocket = false;
 	Socket.prototype.IsMultiple = false;
@@ -57,7 +51,20 @@ define(
 	Socket.prototype.HasConnectors = function() {
 		return this.Connectors.length > 0;
 	};
+	Socket.prototype.DeleteConnections = function() {
+		for(var i in this.Connectors)
+		{
+			var connector = this.Connectors[i];
+			if (this.IsInputSocket === true) {
+				connector.From.Disconnect(connector);
 
+			}
+			else
+			{
+				connector.To.Disconnect(connector);
+			}
+		}
+	};
 
 	return (Socket);
 });

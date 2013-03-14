@@ -5,8 +5,8 @@ define(
 
 function(ValidationException) {
 
-	function Block (id, name, factory) 
-	{	
+	function Block (id, name, factory)
+	{
 		this.Id = id.replace(/ /g,'');
 		this.Name = name;
 		this.FactoryName = factory;
@@ -16,10 +16,10 @@ function(ValidationException) {
 		this.Completed = false;
 		this.InputsCount = 0;
 		this.OutputsCount = 0;
-	};
+	}
 	Block.prototype.Id = null;
 	Block.prototype.Name = null;
-	Block.prototype.FactoryName = null; 
+	Block.prototype.FactoryName = null;
 	Block.prototype.Inputs = null;
 	Block.prototype.Outputs = null;
 	Block.prototype.Data = null;
@@ -32,32 +32,51 @@ function(ValidationException) {
 		inputSocket.IsRequired = isRequired;
 		this.InputsCount++;
 		this.Inputs[inputSocket.Name] = inputSocket;
-	};			
+	};
 	Block.prototype.AddOutput = function (outputSocket) {
 		outputSocket.IsInputSocket = false;
-		outputSocket.IsRequired = false; 
+		outputSocket.IsRequired = false;
 		this.OutputsCount++;
-		this.Outputs[outputSocket.Name] = outputSocket; 
+		this.Outputs[outputSocket.Name] = outputSocket;
 	};
 	Block.prototype.ValidateRequiredInputs = function() {
-		for(i in this.Inputs) {
+		for(var i in this.Inputs) {
 			var input = this.Inputs[i];
-			
-			if (input.IsRequired == true &&
-				input.HasConnectors() == false) 
+
+			if (input.IsRequired === true &&
+				input.HasConnectors() === false)
 				{
-					throw new ValidationException("Block " + this.Id + " requires an input", 
-						"The block called '" + 
-						this.Id + 
-						"' of type '" + 
-						this.Name + 
-						"' has an input called '" + 
-						input.Name + 
+					throw new ValidationException("Block " + this.Id + " requires an input",
+						"The block called '" +
+						this.Id +
+						"' of type '" +
+						this.Name +
+						"' has an input called '" +
+						input.Name +
 						"', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
 			}
 		}
 		return true;
 	};
+	Block.prototype.DeleteConnections = function () {
+		for (var i in this.Inputs)
+		{
+			var input = this.Inputs[i];
+			if (input.HasConnectors() === true)
+			{
+				input.DeleteConnections();
+			}
+		}
+
+		for (var j in this.Outputs)
+		{
+			var output = this.Outputs[j];
+			if (output.HasConnectors() === true)
+			{
+				output.DeleteConnections();
+			}
+		}
+	};
 
 	return (Block);
-});	
+});
