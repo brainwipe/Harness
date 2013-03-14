@@ -4,6 +4,7 @@ var validationbrowser;
 var notify;
 var savedialog;
 var loaddialog;
+var importexportmodeldialog;
 
 require.config({
 	paths: {
@@ -47,9 +48,10 @@ require(
 	'harness/views/notify',
 	'harness/engines/HarnessSerializer',
 	'harness/views/savedialog',
-	'harness/views/loaddialog'
+	'harness/views/loaddialog',
+	'harness/views/importexportmodeldialog'
 ],
-function($, jqueryui, domReady, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer, SaveDialog, LoadDialog) {
+function($, jqueryui, domReady, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer, SaveDialog, LoadDialog, ImportExportModelDialog) {
 
 	domReady(function() {
 		var harnessFactory = new HarnessFactory();
@@ -68,6 +70,9 @@ function($, jqueryui, domReady, bootstrap, HarnessFactory, BlockBrowser, Validat
 
 		loaddialog = new LoadDialog();
 		loaddialog.CreateMarkup();
+
+		importexportmodeldialog = new ImportExportModelDialog();
+		importexportmodeldialog.CreateMarkup();
 
 		harness.ResizeCanvas();
 	});
