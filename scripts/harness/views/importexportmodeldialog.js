@@ -1,10 +1,11 @@
 define(
 [
    "harness/engines/harnessserializer",
+   'harness/harnessfactory',
    "stringlib"
 ],
 
-function(HarnessSerializer) {
+function(HarnessSerializer, HarnessFactory) {
 
    function ImportExportModelDialog() { }
 
@@ -42,8 +43,14 @@ function(HarnessSerializer) {
          });
       });
 
-      $("#importModel").click(function() {
+      $('#jsonImportExport').on('change', function() {
+         $('#importModel').removeAttr('disabled');
+      });
 
+      $('#importModel').click(function() {
+         var harnessFactory = new HarnessFactory();
+         harnessFactory.BuildFromJSON(harness, $('#jsonImportExport').val());
+         $(this).attr('disabled','disabled');
       });
    };
 
