@@ -32,3 +32,4 @@
 .alert {margin: 0 15px;}
 .block-bin {position:absolute; top:60px; left:5px;}
 .noselect { -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; user-select: none;}
+#importError {display:none; margin-bottom:14px;}

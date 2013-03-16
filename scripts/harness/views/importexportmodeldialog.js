@@ -18,8 +18,12 @@ function(HarnessSerializer, HarnessFactory) {
             '<h3>Import / Export Model</h3>' +
          '</div>' +
          '<div class="modal-body">' +
+            '<div class="alert alert-error alert-block" id="importError">' +
+               '<h4>Import Error</h4><span id="error-reason"></span>' +
+            '</div>' +
             '<p>Below is the Model in JSON format. Copy the contents into your favourite text editor to export.</p><p>To import some blocks, click empty below and paste in a JSON model. The new blocks will be imported on top of your existing model, so you might want to clear that first.</p>'+
-            '<form><fieldset><textarea rows="8" class="input-block-level" id="jsonImportExport">' +
+            '<form><fieldset>'+
+            '<textarea rows="8" class="input-block-level" id="jsonImportExport">' +
              '</textarea></fieldset></form>' +
          '</div>'+
          '<div class="modal-footer">'+
@@ -49,8 +53,15 @@ function(HarnessSerializer, HarnessFactory) {
 
       $('#importModel').click(function() {
          var harnessFactory = new HarnessFactory();
-         harnessFactory.BuildFromJSON(harness, $('#jsonImportExport').val());
          $(this).attr('disabled','disabled');
+         try {
+            harnessFactory.BuildFromJSON(harness, $('#jsonImportExport').val());
+         }
+         catch (error) {
+            $('#error-reason').html('There was an error with the JSON model you tried to import: <br/>' + error);
+            $('#importError').show();
+
+         }
       });
    };
 
