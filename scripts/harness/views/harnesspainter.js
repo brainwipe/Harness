@@ -255,6 +255,20 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	HarnessPainter.prototype.BindControlEvents = function()
 	{
 		$('#harness-engine-controls-tick').on('click', function () { harness.Tick(); });
+
+		$('#harness-engine-controls-start').on('click', function () {
+			$(this).addClass('disabled');
+			$("#harness-engine-controls-tick").addClass('disabled');
+			$("#harness-engine-controls-stop").removeClass('disabled');
+			harness.Start();
+		});
+
+		$('#harness-engine-controls-stop').on('click', function () {
+			$(this).addClass('disabled');
+			$("#harness-engine-controls-tick").removeClass('disabled');
+			$("#harness-engine-controls-start").removeClass('disabled');
+			harness.Stop();
+		});
 	};
 
 	HarnessPainter.prototype.SwitchOnEngineControls = function()

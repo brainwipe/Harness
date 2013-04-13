@@ -11,6 +11,7 @@ function() {
 		this.Canvas = $("#raih_bg")[0];
 		this.Context = this.Canvas.getContext("2d");
 		this.NextBlockIdNumber = 0;
+		this.TickRunWait = 10;
 	}
 
 	Harness.prototype.Name = null;
@@ -23,6 +24,8 @@ function() {
 	Harness.prototype.Engine = null;
 	Harness.prototype.Painter = null;
 	Harness.prototype.ValidationEngine = null;
+	Harness.prototype.IsRunning = false;
+	Harness.prototype.TickRunWait = 0;
 	Harness.prototype.GetNextBlockId = function() {
 		return ++this.NextBlockIdNumber;
 	};
@@ -113,6 +116,19 @@ function() {
 	Harness.prototype.Tick = function () {
 		this.Engine.Tick(this.BlockIds(), this.Blocks);
 		this.Painter.RedrawBlocks(this.Blocks, this.Views);
+	};
+	Harness.prototype.TickAndContinue = function ()	{
+		harness.Tick();
+		if (harness.IsRunning) {
+			setTimeout(harness.TickAndContinue,	harness.TickRunWait);
+		}
+	};
+	Harness.prototype.Start = function() {
+		this.IsRunning = true;
+		this.TickAndContinue();
+	};
+	Harness.prototype.Stop = function() {
+		this.IsRunning = false;
 	};
 	Harness.prototype.MouseMove = function (event) {
 		this.Painter.Update(harness.Views, harness.Blocks, event.pageX, event.pageY);
