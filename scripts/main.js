@@ -12,6 +12,7 @@ require.config({
 		'jqueryui' : '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min',
 		'underscore': 'lib/underscore-min',
 		'bootstrap': 'lib/bootstrap.min',
+		'bootbox' : 'lib/bootbox.min',
 		'exception': 'harness',
 		'stringlib': 'lib/stringlib',
 		'domReady': 'lib/requirejs/domReady'
@@ -30,6 +31,10 @@ require.config({
 			deps: ['jquery']
 		},
 
+		'bootbox': {
+			deps: ['bootstrap']
+		},
+
 		'underscore': {
 			exports: '_'
 		}
@@ -42,6 +47,7 @@ require(
 	'jqueryui',
 	'domReady',
 	'bootstrap',
+	'bootbox',
 	'harness/HarnessFactory',
 	'harness/views/blockbrowser',
 	'harness/views/validationbrowser',
@@ -51,7 +57,19 @@ require(
 	'harness/views/loaddialog',
 	'harness/views/importexportmodeldialog'
 ],
-function($, jqueryui, domReady, bootstrap, HarnessFactory, BlockBrowser, ValidationBrowser, Notify, HarnessSerializer, SaveDialog, LoadDialog, ImportExportModelDialog) {
+function($,
+	jqueryui,
+	domReady,
+	bootstrap,
+	bootbox,
+	HarnessFactory,
+	BlockBrowser,
+	ValidationBrowser,
+	Notify,
+	HarnessSerializer,
+	SaveDialog,
+	LoadDialog,
+	ImportExportModelDialog) {
 
 	domReady(function() {
 		var harnessFactory = new HarnessFactory();

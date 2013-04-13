@@ -15,18 +15,7 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 		this.Canvas = this.Context.canvas;
 		this.HarnessElement = harness.Element;
 		this.BindControlEvents();
-
-		$("#raih_bg").mousemove(function(e) {harness.MouseMove(e);});
-
-		$(document).keydown(function(e) {harness.KeyDown(e);});
-
-		$("#raih_bg").droppable({drop: function(e,u) {
-			harness.Painter.DroppableHandler(e,u);}
-		});
-
-		window.addEventListener('resize',
-			function() {harness.ResizeCanvas();}, false);
-
+		this.BindManualEvents();
 		this.PaintBlockBin();
 	}
 	HarnessPainter.prototype.HarnessElement = null;
@@ -270,6 +259,34 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	{
 		$('#harness-engine-controls').children().addClass('disabled');
 		$('#harness-engine-controls').children().off('click');
+	};
+
+	HarnessPainter.prototype.BindManualEvents = function ()
+	{
+		$('#clearModel').on('click', function() {
+			window.bootbox.dialog(
+				"Are you sure you want to clear the model? This cannot be undone",
+				[{
+					"label" : "Cancel"
+				}, {
+					"label" : "Yes, Clear it",
+					"class" : "btn-danger",
+					"callback": function() {
+						harness.Reset();
+					}
+			}]);
+		});
+
+		$("#raih_bg").mousemove(function(e) {harness.MouseMove(e);});
+
+		$(document).keydown(function(e) {harness.KeyDown(e);});
+
+		$("#raih_bg").droppable({drop: function(e,u) {
+			harness.Painter.DroppableHandler(e,u);}
+		});
+
+		window.addEventListener('resize',
+			function() {harness.ResizeCanvas();}, false);
 	};
 
 	HarnessPainter.prototype.PaintBlockBin = function()

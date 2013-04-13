@@ -31,6 +31,14 @@ function() {
 		var parts = elementId.split('-');
 		return this.Blocks[parts[0]];
 	};
+	Harness.prototype.Reset = function() {
+		for (var block in this.Blocks)
+		{
+			this.DeleteBlock(block);
+		}
+		this.NextBlockIdNumber = 0;
+		this.Name = "Test Harness " + new Date().getTime();
+	};
 	Harness.prototype.AddBlock = function (block, view) {
 		this.Views[block.Id] = view;
 		view.CreateMarkup(this.Element);
@@ -44,7 +52,7 @@ function() {
 		delete this.Views[blockId];
 		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];
-		this.Painter.RebuildBoundingBoxes(harness.Blocks);
+		this.Painter.RebuildBoundingBoxes(this.Blocks);
 		this.Update();
 		this.Validate();
 	};
@@ -116,9 +124,6 @@ function() {
 		this.Canvas.width = window.innerWidth;
 		this.Canvas.height = window.innerHeight;
 		this.Update();
-	};
-	Harness.prototype.ShowBlockBin = function() {
-
 	};
 	Harness.prototype.KeyDown = function(event) {
 		if (event.which === 46 &&
