@@ -46,6 +46,7 @@ function() {
 				'"Id" : "' + block.Id + '",' +
 				'"Name" : "' + block.Name + '",' +
 				'"Factory" : "' + block.FactoryName + '",' +
+				'"Data" : ' + block.DataToJSON() + ',' +
 				'"View" : ' + this.ViewToJSON(view) +
 			'}';
 		return serialized;

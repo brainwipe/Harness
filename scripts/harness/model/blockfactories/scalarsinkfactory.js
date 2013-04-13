@@ -19,23 +19,27 @@ function(Block, Socket, ScalarSinkView) {
 		block.Data = 'Empty';
 
 		block.AddInput(new Socket(block.Id, "Value"), true, false);
-		
+
 		block.Execute = function() {
-			this.Data = this.Inputs["Value"].Data;
+			this.Data = this.Inputs.Value.Data;
 			this.Completed = true;
 		};
-		
+
 		block.Reset = function() {
-			this.Inputs["Value"].Data = null;
+			this.Inputs.Value.Data = null;
 			this.Completed = false;
 		};
-		
+
 		block.Validate = function() {
 			return this.ValidateRequiredInputs();
 		};
-	
+
+		block.DataToJSON = function() {
+			return '"' + this.Data + '"';
+		};
+
 		return block;
-	}
+	};
 	ScalarSinkFactory.prototype.FactoryName = 'ScalarSinkFactory';
 	ScalarSinkFactory.prototype.FriendlyName = 'Scalar Sink';
 	ScalarSinkFactory.prototype.CssClass = 'blockscalarsink';
@@ -45,7 +49,7 @@ function(Block, Socket, ScalarSinkView) {
 	ScalarSinkFactory.prototype.GetView = function(block)
 	{
 		return new ScalarSinkView(block);
-	}
+	};
 
 	return (ScalarSinkFactory);
 });

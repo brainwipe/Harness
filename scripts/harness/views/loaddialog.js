@@ -42,6 +42,7 @@ function(HarnessFactory) {
 			modelJSON = models[chosenModelToLoad];
 
 			var harnessFactory = new HarnessFactory();
+			console.log(modelJSON);
 			harnessFactory.BuildFromJSON(harness, modelJSON);
 		}
 	};
@@ -62,7 +63,7 @@ function(HarnessFactory) {
 	LoadDialog.prototype.GetSavedModelsInList = function() {
 		var models = this.GetSavedModels();
 
-		var list = '<legend>Choose a saved model to overwrite...</legend>'+
+		var list = '<legend>Choose a model to load...</legend>'+
 						'<div class="control-group savedModelChooser">'+
 							'<div class="controls"><select id="savedModelsChoice">';
 		var modelCount = 0;
@@ -70,8 +71,7 @@ function(HarnessFactory) {
 		for (var i in models)
 		{
 			modelCount++;
-			var id = i.replace(/ /g,'');
-			list += '<option value="{0}">{1}</option>'.format(id, i);
+			list += '<option>{0}</option>'.format(i);
 		}
 
 		list += '</select></div></div>';

@@ -78,5 +78,9 @@ function(ValidationException) {
 		}
 	};
 
+	Block.prototype.DataToJSON = function () {
+		return "{}";
+	};
+
 	return (Block);
 });

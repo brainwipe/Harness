@@ -18,21 +18,26 @@ function(Block, Socket, ScalarSourceView) {
 		block.AddOutput(new Socket(block.Id, "Value"));
 		block.Data = 10;
 		block.Execute = function() {
-			this.Outputs["Value"].Data = this.Data;
+			this.Outputs.Value.Data = this.Data;
 			this.Completed = true;
 		};
-		
+
 		block.Reset = function() {
-			this.Outputs["Value"].Data = this.Data;
+			this.Outputs.Value.Data = this.Data;
 			this.Completed = false;
 		};
-		
+
 		block.Validate = function() {
 			return true;
 		};
-		
+
+		block.DataToJSON = function() {
+			return '"' + this.Data + '"';
+		};
+
 		return block;
-	}
+	};
+
 	ScalarSourceFactory.prototype.FactoryName = 'ScalarSourceFactory';
 	ScalarSourceFactory.prototype.FriendlyName = 'Scalar Source';
 	ScalarSourceFactory.prototype.CssClass = 'blockscalarsource';
@@ -44,5 +49,5 @@ function(Block, Socket, ScalarSourceView) {
 		return new ScalarSourceView(block);
 	}
 	return (ScalarSourceFactory);
-	
+
 });

@@ -34,6 +34,7 @@ function(BlockFactory) {
 			var blockFactory = this.BlockFactory.Factories[blockJSON.Factory];
 			var block = blockFactory.Build(harness.GetNextBlockId());
 			var view = blockFactory.GetView(block);
+			block.Data = blockJSON.Data;
 
 			var newblock = harness.AddBlock(block, view);
 			this.MapBlockIds(blockJSON.Id, newblock.Id);
