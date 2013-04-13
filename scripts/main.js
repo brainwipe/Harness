@@ -74,6 +74,7 @@ function($,
 	domReady(function() {
 		var harnessFactory = new HarnessFactory();
 		harness = harnessFactory.Build($("#harness"));
+
 		blockbrowser = new BlockBrowser(harness);
 		blockbrowser.CreateMarkup();
 		blockbrowser.GetBlocks();

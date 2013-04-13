@@ -1,3 +1,8 @@
+.ScalarSink .block-content {
+   line-height:normal;
+   text-align:center;
+}
+
 .blockscalarsink {
 	background:url('../images/scalarsink.png');
 }
@@ -11,7 +16,11 @@
 	background:url('../images/scalarsource.png');
 }
 
-.ScalarSink .block-content {
-	line-height:normal;
-	text-align:center;
+.IncrementalSource .block-content {
+   line-height:normal;
+   text-align:center;
+}
+
+.blockincrementalsource {
+   background:url('../images/incrementalsource.png');
 }

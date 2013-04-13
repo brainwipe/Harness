@@ -112,6 +112,7 @@ function() {
 	};
 	Harness.prototype.Tick = function () {
 		this.Engine.Tick(this.BlockIds(), this.Blocks);
+		this.Painter.RedrawBlocks(this.Blocks, this.Views);
 	};
 	Harness.prototype.MouseMove = function (event) {
 		this.Painter.Update(harness.Views, harness.Blocks, event.pageX, event.pageY);

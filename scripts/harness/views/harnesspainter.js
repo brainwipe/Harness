@@ -222,6 +222,14 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 		}
 	};
 
+	HarnessPainter.prototype.RedrawBlocks = function (Blocks, Views) {
+		for(var i in Blocks)
+		{
+			var block = Blocks[i];
+			Views[block.Id].Draw();
+		}
+	};
+
 	HarnessPainter.prototype.Update = function (Views, Blocks, mouseX, mouseY) {
 		this.Context.clearRect(0,0,this.Canvas.width, this.Canvas.height);
 
@@ -252,7 +260,6 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	HarnessPainter.prototype.SwitchOnEngineControls = function()
 	{
 		$('#harness-engine-controls').children().removeClass('disabled');
-		this.BindControlEvents();
 	};
 
 	HarnessPainter.prototype.SwitchOffEngineControls = function()
