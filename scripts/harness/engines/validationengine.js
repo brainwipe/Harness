@@ -6,7 +6,8 @@ define(
 function(ValidationException) {
 
 	function ValidationEngine() {
-	};
+	}
+
 	ValidationEngine.prototype.Validate = function(blocks) {
 
 		validationbrowser.Clear();
@@ -31,11 +32,18 @@ function(ValidationException) {
 			blockCount += 1;
 		}
 
-		if (errorCount == 0)
+		if (blockCount === 0)
+		{
+			validationbrowser.NoBlocksFound();
+			harness.Painter.SwitchOffEngineControls();
+			return true;
+		}
+		else if (errorCount === 0)
 		{
 			validationbrowser.NoErrorsFound();
 			return true;
 		}
+
 		return false;
 	};
 

@@ -42,7 +42,7 @@ function (Harness) {
 		var template = '<div class="message">' +
 							'<h3>{0}</h3>' +
 							'{1}' +
-            			'</div>';
+                     '</div>';
 		this.MessagesElement.append(
 			template.format(
 					ex.Name,
@@ -57,7 +57,12 @@ function (Harness) {
 	ValidationBrowser.prototype.NoErrorsFound = function()
 	{
 		this.MessagesElement.html("<h3>Validated OK!</h3>The model is valid, you can now run the simulation.");
-	}
+	};
+
+   ValidationBrowser.prototype.NoBlocksFound = function()
+   {
+      this.MessagesElement.html("<h3>No blocks</h3> There are no blocks in the model. The simulation needs blocks to run. Use the Blocks menu item to start adding blocks.");
+   };
 
 	return(ValidationBrowser);
   });
