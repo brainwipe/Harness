@@ -254,20 +254,31 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 
 	HarnessPainter.prototype.BindControlEvents = function()
 	{
-		$('#harness-engine-controls-tick').on('click', function () { harness.Tick(); });
+		$('#harness-engine-controls-tick').on('click', function () {
+			if (!$(this).hasClass("disabled"))
+			{
+				harness.Tick();
+			}
+		});
 
 		$('#harness-engine-controls-start').on('click', function () {
-			$(this).addClass('disabled');
-			$("#harness-engine-controls-tick").addClass('disabled');
-			$("#harness-engine-controls-stop").removeClass('disabled');
-			harness.Start();
+			if (!$(this).hasClass("disabled"))
+			{
+				$(this).addClass('disabled');
+				$("#harness-engine-controls-tick").addClass('disabled');
+				$("#harness-engine-controls-stop").removeClass('disabled');
+				harness.Start();
+			}
 		});
 
 		$('#harness-engine-controls-stop').on('click', function () {
-			$(this).addClass('disabled');
-			$("#harness-engine-controls-tick").removeClass('disabled');
-			$("#harness-engine-controls-start").removeClass('disabled');
-			harness.Stop();
+			if (!$(this).hasClass("disabled"))
+			{
+				$(this).addClass('disabled');
+				$("#harness-engine-controls-tick").removeClass('disabled');
+				$("#harness-engine-controls-start").removeClass('disabled');
+				harness.Stop();
+			}
 		});
 	};
 
@@ -279,7 +290,6 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	HarnessPainter.prototype.SwitchOffEngineControls = function()
 	{
 		$('#harness-engine-controls').children().addClass('disabled');
-		$('#harness-engine-controls').children().off('click');
 	};
 
 	HarnessPainter.prototype.BindManualEvents = function ()

@@ -5,12 +5,13 @@ define(
 
 	function(Connector) {
 
-	function Socket(blockId, name)
+	function Socket(blockId, name, type)
 	{
 		this.Id = encodeURI(name);
 		this.Name = name;
 		this.Connectors = [];
 		this.BlockId = blockId;
+		this.Type = type;
 	}
 
 	Socket.prototype.Id = null;
@@ -21,11 +22,20 @@ define(
 		}
 		return this.BlockId + '-socket-output-' + this.Id;
 	};
-
 	Socket.prototype.Name = null;
 	Socket.prototype.Connectors = null;
 	Socket.prototype.Data = null;
+	Socket.prototype.IsInputSocket = false;
+	Socket.prototype.IsMultiple = false;
+	Socket.prototype.IsRequired = false;
+	Socket.prototype.IsReady = false;
+	Socket.prototype.Type = {};
 	Socket.prototype.Connect = function(inputSocket) {
+		if (inputSocket.Type.Key !== this.Type.Key && this.Type.Key !== "Harness.Socket.Type.Any")
+		{
+			throw 'You are trying to connect a socket of type {0} to a socket of type {1}. Socket types must be compatible.'.format(inputSocket.Type.Key, this.Type.Key);
+		}
+
 		if (this.IsInputSocket === true) {
 			throw 'You can only connect an output socket to an input socket, not the other way around'; }
 
@@ -44,10 +54,6 @@ define(
 		this.Connectors.splice(this.Connectors.indexOf(connectorToRemove),1);
 		return true;
 	};
-	Socket.prototype.IsInputSocket = false;
-	Socket.prototype.IsMultiple = false;
-	Socket.prototype.IsRequired = false;
-	Socket.prototype.IsReady = false;
 	Socket.prototype.HasConnectors = function() {
 		return this.Connectors.length > 0;
 	};

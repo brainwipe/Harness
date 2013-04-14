@@ -19,11 +19,12 @@ function(Block, Socket) {
 	BlockViewBase.prototype.CreateContentMarkup  = null;
 	BlockViewBase.prototype.Properties = null;
 	BlockViewBase.prototype.CreateMarkup = function (containerElement) {
-		var blockMarkup = '<div class="block noselect {0}" id="{1}"><div class="block_resizable" style="width:200px; height:200px;">{2}</div><div class="options">{3}</div></div>'.format(
+		var blockMarkup = '<div title="{0}" class="block noselect {1}" id="{2}"><div class="block_resizable" style="width:200px; height:200px;">{3}</div><div class="options">{4}</div></div>'.format(
+				this.Block.Name,
 				this.CssClass,
 				this.Block.Id,
 				this.CreateContentMarkup(this.Block),
-				this.Block.Name
+				this.Block.Id
 				);
 		containerElement.append(blockMarkup);
 
@@ -88,7 +89,10 @@ function(Block, Socket) {
 			socketClass = 'output';
 		}
 
-		var socketMarkup = '<div class="socket ' + socketClass + '" id="' + qualifiedSocketId + '"></div>';
+		var socketMarkup = '<div class="socket ' + socketClass +
+			'" id="' + qualifiedSocketId +
+			'" title="' + socket.Name +
+			' (' + socket.Type.Key + ')"></div>';
 		blockElement.prepend(socketMarkup);
 		element = $("#" + qualifiedSocketId);
 
