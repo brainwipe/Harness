@@ -58,6 +58,7 @@ function(PropertiesViewBase) {
 
    IncrementalSourcePropertiesView.prototype.Update = function() {
       this.Base.Update(this.Id, this.Block);
+      $("#" + this.Id + "-configuration-value").val(this.Block.Data);
    };
 
    return (IncrementalSourcePropertiesView);
