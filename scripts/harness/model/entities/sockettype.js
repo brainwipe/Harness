@@ -20,5 +20,12 @@ function() {
       return new SocketType("Harness.Socket.Type.Scalar","A single value");
    };
 
+   SocketType.prototype.BuildVector = function()
+   {
+      return new SocketType("Harness.Socket.Type.Vector","A 1 dimensional array of values");
+   };
+
+
+
    return (SocketType);
 });

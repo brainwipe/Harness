@@ -24,3 +24,12 @@
 .blockincrementalsource {
    background:url('../images/incrementalsource.png');
 }
+
+.PSOM .block-content {
+   line-height:normal;
+   text-align:center;
+}
+
+.blockpsomfunc {
+   background:url('../images/psomfunc.png');
+}
