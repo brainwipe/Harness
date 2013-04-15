@@ -35,7 +35,7 @@ function(Block, Socket, SocketType, PSOMFuncView) {
       };
 
       block.Validate = function() {
-         return true;
+         return this.ValidateRequiredInputs();
       };
 
       block.DataToJSON = function() {
