@@ -12,7 +12,7 @@ function(HarnessSerializer, HarnessFactory) {
    ImportExportModelDialog.prototype.CreateMarkup = function() {
 
       harness.Element.append(
-      '<div class="modal fade" id="importExportModelDialog">' +
+      '<div class="modal hide fade" id="importExportModelDialog">' +
             '<div class="modal-header">' +
             '<button class="close" data-dismiss="modal">×</button>' +
             '<h3>Import / Export Model</h3>' +

@@ -17,14 +17,26 @@ function(Block, Socket, SocketType, ArraySourceView) {
 							this.FriendlyName,
 							this.FactoryName);
 		block.AddOutput(new Socket(block.Id, "Vector", new SocketType().BuildVector()));
-		block.Data = 10;
+		block.Data = {
+			"CurrentIndex" : 0,
+			"Values" : [
+							[0,0,1],
+							[0,1,0],
+							[1,0,0]
+						]
+		};
 		block.Execute = function() {
-			this.Outputs.Value.Data = this.Data;
+			this.Outputs.Vector.Data = this.CurrentData();
+			this.Data.CurrentIndex++;
+			if (this.Data.CurrentIndex > this.VectorSize() - 1)
+			{
+				this.Data.CurrentIndex = 0;
+			}
 			this.Completed = true;
 		};
 
 		block.Reset = function() {
-			this.Outputs.Value.Data = this.Data;
+			this.Outputs.Vector.Data = this.Data;
 			this.Completed = false;
 		};
 
@@ -33,7 +45,15 @@ function(Block, Socket, SocketType, ArraySourceView) {
 		};
 
 		block.DataToJSON = function() {
-			return '"' + this.Data + '"';
+			return JSON.stringify(this.Data);
+		};
+
+		block.CurrentData = function() {
+			return this.Data.Values[this.Data.CurrentIndex];
+		};
+
+		block.VectorSize = function() {
+			return this.Data.Values.length;
 		};
 
 		return block;
@@ -48,7 +68,7 @@ function(Block, Socket, SocketType, ArraySourceView) {
 	ArraySourceFactory.prototype.GetView = function(block)
 	{
 		return new ArraySourceView(block);
-	}
+	};
 	return (ArraySourceFactory);
 
 });

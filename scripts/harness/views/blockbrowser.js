@@ -58,7 +58,7 @@ function(Harness, BlockFactory) {
 
 	BlockBrowser.prototype.CreateMarkup = function() {
 		harness.Element.append(
-			'<div class="modal fade noselect" id="blocksModal">'+
+			'<div class="modal hide fade noselect" id="blocksModal">'+
 				'<div class="modal-header">'+
 				'<button class="close" data-dismiss="modal">×</button>'+
 				'<h3>Block Browser</h3>'+

@@ -10,7 +10,7 @@ function(HarnessFactory) {
 
 	LoadDialog.prototype.CreateMarkup = function()
 	{
-		harness.Element.append('<div class="modal fade" id="loadDialog">'+
+		harness.Element.append('<div class="modal hide fade" id="loadDialog">'+
 				'<div class="modal-header">'+
 				'<button class="close" data-dismiss="modal">×</button>'+
 				'<h3>Load Model</h3>'+

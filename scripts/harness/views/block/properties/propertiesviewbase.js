@@ -8,9 +8,9 @@ function() {
 	function PropertiesViewBase() {}
 
 	PropertiesViewBase.prototype.Create = function(id, block, tabs) {
-		harness.Element.append('<div class="modal fade" id="' + id + '">' +
+		harness.Element.append('<div class="modal hide fade" id="' + id + '">' +
 				'<div class="modal-header">'+
-					'<button class="close" data-dismiss="modal">×</button>'+
+					'<button type="button" class="close" data-dismiss="modal">×</button>'+
 					'<h3>' + block.Name + ' Properties</h3>'+
 				'</div>'+
 				'<div class="modal-body">' + this.CreateTabPane(id, tabs, block) + '</div>' +

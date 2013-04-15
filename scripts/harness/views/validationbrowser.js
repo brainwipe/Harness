@@ -12,7 +12,7 @@ function (Harness) {
 	ValidationBrowser.prototype.MenuItemElement = null;
 	ValidationBrowser.prototype.MessageCount = 0;
 	ValidationBrowser.prototype.CreateMarkup = function() {
-		harness.Element.append('<div class="modal fade" id="validationModal">' +
+		harness.Element.append('<div class="modal hide fade" id="validationModal">' +
             '<div class="modal-header">' +
                 '<button class="close" data-dismiss="modal">×</button>' +
                 '<h3>Validation Messages</h3>' +

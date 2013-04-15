@@ -25,12 +25,12 @@ function(Block, Socket, SocketType, PSOMFuncView) {
 
       block.Data = 1;
       block.Execute = function() {
-         this.Outputs.Value.Data = this.Data;
+         this.Outputs.LastError.Data = this.Data;
          this.Completed = true;
       };
 
       block.Reset = function() {
-         this.Outputs.Value.Data = this.Data;
+         this.Outputs.LastError.Data = this.Data;
          this.Completed = false;
       };
 

@@ -10,7 +10,7 @@ function(HarnessSerializer) {
 
 	SaveDialog.prototype.CreateMarkup = function() {
 		harness.Element.append(
-		'<div class="modal fade" id="saveDialog">' +
+		'<div class="modal hide fade" id="saveDialog">' +
 				'<div class="modal-header">' +
 				'<button class="close" data-dismiss="modal">×</button>' +
 				'<h3>Save Model</h3>' +
