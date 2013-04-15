@@ -1,29 +1,29 @@
 define(
 [
 	'harness/views/block/blockviewbase',
-	'harness/views/block/properties/ScalarSourcePropertiesView'
+	'harness/views/block/properties/ArraySourcePropertiesView'
 ],
 
-function(BlockViewBase, ScalarSourcePropertiesView) {
+function(BlockViewBase, ArraySourcePropertiesView) {
 
-	function ScalarSourceView(block)	{
+	function ArraySourceView(block)	{
 		this.Block = block;
 		this.Base = new BlockViewBase(block);
-		this.Base.Properties = new ScalarSourcePropertiesView(block);
+		this.Base.Properties = new ArraySourcePropertiesView(block);
 		this.Base.CreateContentMarkup = this.CreateContentMarkup;
 	}
 
-	ScalarSourceView.prototype.Base = null;
-	ScalarSourceView.prototype.Block = null;
+	ArraySourceView.prototype.Base = null;
+	ArraySourceView.prototype.Block = null;
 
-	ScalarSourceView.prototype.CreateContentMarkup = function ()
+	ArraySourceView.prototype.CreateContentMarkup = function ()
 	{
 		return '<div class="block-content">' +
 					this.Block.Data +
 					'</div>';
 	};
 
-	ScalarSourceView.prototype.Draw = function() {
+	ArraySourceView.prototype.Draw = function() {
 		var elementContent = $("#" + this.Block.Id + "  .block-content");
 		elementContent.html(this.Block.Data);
 		var width = elementContent.width(),
@@ -41,15 +41,15 @@ function(BlockViewBase, ScalarSourcePropertiesView) {
 		elementContent.text( $(line).text() );
 	};
 
-	ScalarSourceView.prototype.CreateMarkup = function(element)
+	ArraySourceView.prototype.CreateMarkup = function(element)
 	{
 		this.Base.CreateMarkup(element);
 	};
 
-	ScalarSourceView.prototype.UpdateProperties = function()
+	ArraySourceView.prototype.UpdateProperties = function()
 	{
 		this.Base.Properties.Update();
 	};
 
-	return (ScalarSourceView);
+	return (ArraySourceView);
 });

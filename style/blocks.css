@@ -33,3 +33,12 @@
 .blockpsomfunc {
    background:url('../images/psomfunc.png');
 }
+
+.ArraySource .block-content {
+   line-height:normal;
+   text-align:center;
+}
+
+.blockarraysource {
+   background:url('../images/scalarsource.png'); // TODO change to custom icon!
+}
