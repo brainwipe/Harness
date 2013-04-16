@@ -35,7 +35,21 @@ function(PropertiesViewBase) {
 	};
 	ArraySourcePropertiesView.prototype.CreateDataTableTab = function() {
 
-		var arraySourceTableContent = '<table id="' + this.Id + '-datatable" class="table table-bordered table-striped"><thead><tr><th>Index</th>';
+
+		var arraySourceTableContent = '<form class="form-horizontal">'+
+            '<fieldset>'+
+               '<div class="control-group">'+
+                  '<label class="control-label">'+
+                     'Current Index'+
+                  '</label>'+
+                  '<div class="controls">'+
+                     '<input class="input-medium" id="{0}-datatable-currentindex" type="text" value="{1}"/>'.format(this.Id, this.Block.Data.CurrentIndex) +
+                  '<div>'+
+               '</div>'+
+            '</fieldset>'+
+        '</form>';
+
+		arraySourceTableContent += '<table id="' + this.Id + '-datatable" class="table table-bordered table-striped"><thead><tr><th>Index</th>';
 
 		var vectorsize = this.Block.VectorSize();
 
@@ -101,6 +115,14 @@ function(PropertiesViewBase) {
 			var block = harness.GetBlockFromAnyId($(this).attr("id"));
 			block.Data = JSON.parse($(this).val());
 			harness.Views[block.Id].Draw();
+		});
+
+		var currentIndexOnDataTable = $('#{0}-datatable-currentindex'.format(this.Id));
+		currentIndexOnDataTable.blur(function () {
+			var block = harness.GetBlockFromAnyId($(this).attr("id"));
+			block.Data.CurrentIndex = parseInt($(this).val());
+			harness.Views[block.Id].Draw(); 
+			harness.Views[block.Id].Base.Properties.UpdateDatatableCurrentIndex();
 		});
 	};
 
