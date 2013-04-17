@@ -56,6 +56,13 @@ function(Block, Socket, SocketType, ArraySourceView) {
 			return this.Data.Values.length;
 		};
 
+		block.ValidateData = function() {
+			if (this.Data.CurrentIndex > this.Data.Values.length - 1)
+			{
+				this.Data.CurrentIndex = this.Data.Values.length - 1;
+			}
+		};
+
 		return block;
 	};
 

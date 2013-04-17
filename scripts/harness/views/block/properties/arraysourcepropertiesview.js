@@ -85,10 +85,23 @@ function(PropertiesViewBase) {
 		return arraySourceTableContent;
 	};
 
+	ArraySourcePropertiesView.prototype.Update = function() {
+		this.Base.Update(this.Id, this.Block);
+		this.UpdateRawData();
+		this.UpdateDatatableCurrentIndex();
+	};
+
 	ArraySourcePropertiesView.prototype.UpdateDatatableCurrentIndex = function() {
 		var tableSelector = '#' + this.Id + '-datatable tbody';
 		$(tableSelector).children().removeClass("info");
 		$(tableSelector + ' tr:nth-child(' + (this.Block.Data.CurrentIndex + 1) + ')').addClass("info");
+
+		$('#{0}-datatable-currentindex'.format(this.Id)).val(this.Block.Data.CurrentIndex);
+	};
+
+	ArraySourcePropertiesView.prototype.UpdateRawData = function() {
+		var rawDataSelector = '#' + this.Id + '-rawdata-array';
+		$(rawDataSelector).val(JSON.stringify(this.Block.Data));
 	};
 
 	ArraySourcePropertiesView.prototype.CreateRawDataTab = function() {
@@ -114,21 +127,25 @@ function(PropertiesViewBase) {
 		configValue.blur(function () {
 			var block = harness.GetBlockFromAnyId($(this).attr("id"));
 			block.Data = JSON.parse($(this).val());
-			harness.Views[block.Id].Draw();
+			block.ValidateData();
+
+			var view = harness.Views[block.Id];
+			view.Draw();
+			view.Base.Properties.Update();
 		});
 
 		var currentIndexOnDataTable = $('#{0}-datatable-currentindex'.format(this.Id));
 		currentIndexOnDataTable.blur(function () {
 			var block = harness.GetBlockFromAnyId($(this).attr("id"));
-			block.Data.CurrentIndex = parseInt($(this).val());
-			harness.Views[block.Id].Draw(); 
-			harness.Views[block.Id].Base.Properties.UpdateDatatableCurrentIndex();
-		});
-	};
 
-	ArraySourcePropertiesView.prototype.Update = function() {
-		this.Base.Update(this.Id, this.Block);
-		this.UpdateDatatableCurrentIndex();
+			var value = parseInt($(this).val());
+			block.Data.CurrentIndex = value;
+			block.ValidateData();
+			
+			var view = harness.Views[block.Id];
+			view.Draw();
+			view.Base.Properties.Update();
+		});
 	};
 
 	return (ArraySourcePropertiesView);
