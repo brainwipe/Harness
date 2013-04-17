@@ -15,7 +15,10 @@ require.config({
 		'bootbox' : 'lib/bootbox.min',
 		'exception': 'harness',
 		'stringlib': 'lib/stringlib',
-		'domReady': 'lib/requirejs/domReady'
+		'domReady': 'lib/requirejs/domReady',
+
+		'psom' : 'algorithm/psom',
+		'force_graph' : 'visualisations/force_graph'
 	},
 	shim: {
 		'jquery': {
@@ -37,6 +40,10 @@ require.config({
 
 		'underscore': {
 			exports: '_'
+		},
+
+		'psom' : {
+			exports: 'psom'
 		}
 	}
 });

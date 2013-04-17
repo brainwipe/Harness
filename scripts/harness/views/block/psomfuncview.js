@@ -1,8 +1,8 @@
 define(
 [
    'harness/views/block/blockviewbase',
-   'harness/views/block/properties/PSOMFuncPropertiesView'
-
+   'harness/views/block/properties/PSOMFuncPropertiesView',
+   'visualisations/force_graph'
 ],
 
 function(BlockViewBase, PSOMFuncPropertiesView) {
@@ -16,40 +16,39 @@ function(BlockViewBase, PSOMFuncPropertiesView) {
 
    PSOMFuncView.prototype.Base = null;
    PSOMFuncView.prototype.Block = null;
+   PSOMFuncView.prototype.ForceGraph = null;
+   PSOMFuncView.prototype.VisualisationContext = null;
 
    PSOMFuncView.prototype.CreateContentMarkup = function ()
    {
-      return '<div class="block-content">' +
-               this.Block.Data +
-               '</div>';
+      return '<canvas class="block-content" id="{0}-psom-visualisation" width="100%" height="100%"/>'.format(this.Block.Id);
    };
 
    PSOMFuncView.prototype.Draw = function() {
-      var elementContent = $("#" + this.Block.Id + "  .block-content");
-      elementContent.html(this.Block.Data);
-      var width = elementContent.width(),
-      height = elementContent.height(),
-      html = '<span style="white-space:nowrap; border: 1px solid blue;"></span>',
-      line = elementContent.wrapInner( html ).children()[ 0 ],
-      n = 100;
-
-      elementContent.css( 'font-size', n );
-
-      while ( $(line).width() > width || $(line).height() > height) {
-         elementContent.css( 'font-size', --n );
-      }
-
-      elementContent.text( $(line).text() );
-   };
+     // redraw still needed?
+   }
 
    PSOMFuncView.prototype.CreateMarkup = function(element)
    {
       this.Base.CreateMarkup(element);
+      var elementContent = $("#{0}-psom-visualisation".format(this.Block.Id));
+      this.VisualisationContext = elementContent[0].getContext('2d');
+      this.ForceGraph = new force_graph(this.VisualisationContext);
+      this.ForceGraph.Extend(this.Block.PSOM.neurons, this.Block.PSOM.links);
+      this.AnimationLoop(this.Block.Id);
    };
 
    PSOMFuncView.prototype.UpdateProperties = function()
    {
       this.Base.Properties.Update();
+   };
+
+   PSOMFuncView.prototype.AnimationLoop = function(blockId)
+   {
+      this.VisualisationContext.clearRect(0, 0, this.VisualisationContext.canvas.width, this.VisualisationContext.canvas.height);
+      this.ForceGraph.Update(this.Block.PSOM.neurons, this.Block.PSOM.links);
+      this.ForceGraph.Draw(this.Block.PSOM.neurons, this.Block.PSOM.links);
+      setInterval(function() { harness.Views[blockId].AnimationLoop(blockId) }, 1000);
    };
 
    return (PSOMFuncView);

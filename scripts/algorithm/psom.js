@@ -43,7 +43,7 @@ psom.prototype.links = null;
 psom.prototype.neuronId = 0;	
 psom.prototype.distanceFromInput = 0;
 
-psom.BuildStandard = function () {
+psom.prototype.BuildStandard = function () {
 	return new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
 						CreateThreeNodeNeuronNetwork, AddFlatDistributionNoiseToWeights, FindFocus, UpdateNeuron, UpdateNeighbourhood,
 						AgeNetwork, RemoveLinksAboveThreshold, RemoveUnlinkedNeurons, CreateThreeNodeGroup);
