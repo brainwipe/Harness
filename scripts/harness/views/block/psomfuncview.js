@@ -21,11 +21,15 @@ function(BlockViewBase, PSOMFuncPropertiesView) {
 
    PSOMFuncView.prototype.CreateContentMarkup = function ()
    {
-      return '<canvas class="block-content" id="{0}-psom-visualisation" width="100%" height="100%"/>'.format(this.Block.Id);
+      return '<div id="{0}-contentcontainer" class="block-content"><canvas id="{1}-psom-visualisation" width="200px" height="200px"/></div>'.format(this.Block.Id, this.Block.Id);
    };
 
    PSOMFuncView.prototype.Draw = function() {
-     // redraw still needed?
+      var contentContainer = $("#{0}-contentcontainer".format(this.Block.Id));
+      var vis = $("#{0}-psom-visualisation".format(this.Block.Id));
+      vis[0].width = contentContainer.width(); 
+      vis[0].height = contentContainer.height(); 
+      
    }
 
    PSOMFuncView.prototype.CreateMarkup = function(element)
@@ -48,7 +52,7 @@ function(BlockViewBase, PSOMFuncPropertiesView) {
       this.VisualisationContext.clearRect(0, 0, this.VisualisationContext.canvas.width, this.VisualisationContext.canvas.height);
       this.ForceGraph.Update(this.Block.PSOM.neurons, this.Block.PSOM.links);
       this.ForceGraph.Draw(this.Block.PSOM.neurons, this.Block.PSOM.links);
-      setInterval(function() { harness.Views[blockId].AnimationLoop(blockId) }, 1000);
+      setTimeout(function() { harness.Views[blockId].AnimationLoop(blockId) }, 10);
    };
 
    return (PSOMFuncView);
