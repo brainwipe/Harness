@@ -2,44 +2,56 @@ define(
 [
    'harness/views/block/blockviewbase',
    'harness/views/block/properties/PSOMFuncPropertiesView',
-   'visualisations/force_graph'
+   'd3'
 ],
 
-function(BlockViewBase, PSOMFuncPropertiesView) {
+function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    function PSOMFuncView(block) {
       this.Block = block;
       this.Base = new BlockViewBase(block);
       this.Base.Properties = new PSOMFuncPropertiesView(block);
       this.Base.CreateContentMarkup = this.CreateContentMarkup;
+      
    }
 
    PSOMFuncView.prototype.Base = null;
    PSOMFuncView.prototype.Block = null;
    PSOMFuncView.prototype.ForceGraph = null;
-   PSOMFuncView.prototype.VisualisationContext = null;
+   PSOMFuncView.prototype.Force = null;
 
    PSOMFuncView.prototype.CreateContentMarkup = function ()
    {
-      return '<div id="{0}-contentcontainer" class="block-content"><canvas id="{1}-psom-visualisation" width="200px" height="200px"/></div>'.format(this.Block.Id, this.Block.Id);
+      return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
    };
 
    PSOMFuncView.prototype.Draw = function() {
-      var contentContainer = $("#{0}-contentcontainer".format(this.Block.Id));
-      var vis = $("#{0}-psom-visualisation".format(this.Block.Id));
-      vis[0].width = contentContainer.width(); 
-      vis[0].height = contentContainer.height(); 
       
    }
 
    PSOMFuncView.prototype.CreateMarkup = function(element)
    {
       this.Base.CreateMarkup(element);
-      var elementContent = $("#{0}-psom-visualisation".format(this.Block.Id));
-      this.VisualisationContext = elementContent[0].getContext('2d');
-      this.ForceGraph = new force_graph(this.VisualisationContext);
-      this.ForceGraph.Extend(this.Block.PSOM.neurons, this.Block.PSOM.links);
-      this.AnimationLoop(this.Block.Id);
+      var elementContainer = $("#{0}-contentcontainer".format(this.Block.Id));
+      
+      
+
+      d3.select("#{0}-contentcontainer".format(this.Block.Id))
+         .append("svg")
+         .attr("width",elementContainer.width())
+         .attr("height",elementContainer.height());
+   
+      this.Force = d3.layout.force()
+         .size([elementContainer.width(), elementContainer.height()])
+         .nodes([{}])
+         .linkDistance(30)
+         .charge(-60)
+         .on("tick", this.Tick());
+
+
+      this.Force.start();
+      // this.ForceGraph.Extend(this.Block.PSOM.neurons, this.Block.PSOM.links);
+
    };
 
    PSOMFuncView.prototype.UpdateProperties = function()
@@ -47,12 +59,9 @@ function(BlockViewBase, PSOMFuncPropertiesView) {
       this.Base.Properties.Update();
    };
 
-   PSOMFuncView.prototype.AnimationLoop = function(blockId)
+   PSOMFuncView.prototype.Tick = function()
    {
-      this.VisualisationContext.clearRect(0, 0, this.VisualisationContext.canvas.width, this.VisualisationContext.canvas.height);
-      this.ForceGraph.Update(this.Block.PSOM.neurons, this.Block.PSOM.links);
-      this.ForceGraph.Draw(this.Block.PSOM.neurons, this.Block.PSOM.links);
-      setTimeout(function() { harness.Views[blockId].AnimationLoop(blockId) }, 10);
+
    };
 
    return (PSOMFuncView);

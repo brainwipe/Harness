@@ -364,6 +364,8 @@ function StandardPSOMAlgorithm(input)
 	console.info("Prune network");
 	this.RemoveDeadLinks();
 	this.RemoveDeadNeurons();
+
+	return focus.distanceFromInput; // This is essentially the last error
 }
 
 /**

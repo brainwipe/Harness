@@ -46,6 +46,7 @@ function(Block, Socket, SocketType, PSOMFuncView) {
 
       block.Data = 1;
       block.Execute = function() {
+         this.Data = this.PSOM.Learn(this.Inputs.InputPattern.Data);
          this.Outputs.LastError.Data = this.Data;
          this.Completed = true;
       };
