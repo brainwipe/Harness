@@ -42,7 +42,39 @@ psom.prototype.neurons = null;
 psom.prototype.links = null;
 psom.prototype.neuronId = 0;
 psom.prototype.distanceFromInput = 0;
+psom.prototype.events = {};
 
+<<<<<<< HEAD
+=======
+psom.prototype.on = function(event, caller, func) {
+	if (this.events[event] == null)
+	{
+		this.events[event] = [];
+	}
+	if (this.events[event][caller] == null)
+	{
+		this.events[event][caller] = 
+			{
+				"caller": caller,
+				"func": func
+			};
+	}
+	
+}
+
+psom.prototype.processEvent = function(event, args) {
+	if (this.events[event] == null)
+	{
+		return;
+	}
+	for(var eventId in this.events[event])
+	{
+		var theevent = this.events[event][eventId];
+		theevent.func(theevent.caller, args);
+	}
+}
+
+>>>>>>> Working on PSOM integration with D3
 psom.BuildStandard = function () {
 	return new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
 						CreateThreeNodeNeuronNetwork, AddFlatDistributionNoiseToWeights, FindFocus, UpdateNeuron, UpdateNeighbourhood,
@@ -91,6 +123,8 @@ function AddLink(neuronFrom, neuronTo, value)
 	var link = new Link(neuronFrom, neuronTo, value);
 	this.links.push(link);
 	console.info("Created Link between n" + neuronFrom.id + " and n" + neuronTo.id);
+	
+	this.processEvent("AddLink", link);
 	return link;
 }
 
@@ -107,6 +141,8 @@ function AddNeuron(weights)
 	this.neurons.push(newNeuron);
 
 	console.info("Created Neuron");
+
+	this.processEvent("AddNeuron", newNeuron);
 	return newNeuron;
 }
 
@@ -128,10 +164,12 @@ function RemoveNeuron(neuronToRemove)
 	{
 		if (this.links[j].from == neuronToRemove)
 		{
+			this.processEvent("RemoveLink", this.links[j].from);
 			this.links.splice(j, 1);
 		}
 		else if (this.links[j].to == neuronToRemove)
 		{
+			this.processEvent("RemoveLink", this.links[j].to);
 			this.links.splice(j, 1);
 		}
 		else
@@ -145,6 +183,7 @@ function RemoveNeuron(neuronToRemove)
 	{
 		if (this.neurons[i] == neuronToRemove)
 		{
+			this.processEvent("RemoveNeuron", neuronToRemove);
 			this.neurons.splice(i, 1);
 			break;
 		}
