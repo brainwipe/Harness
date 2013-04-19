@@ -18,7 +18,7 @@ function psom(learn, distanceMetric, createNeuronWithRandomisedWeights, createNe
 	this.RemoveDeadNeurons = removeDeadNeurons;
 	this.CreateNodeGroup = createNodeGroup;
 	this.RemoveNeuron = RemoveNeuron;
-	
+
 	this.neurons = new Array();
 	this.links = new Array();
 	this.distanceFromInput = 0;
@@ -40,16 +40,16 @@ psom.prototype.CreateNodeGroup = null;
 
 psom.prototype.neurons = null;
 psom.prototype.links = null;
-psom.prototype.neuronId = 0;	
+psom.prototype.neuronId = 0;
 psom.prototype.distanceFromInput = 0;
 
-psom.prototype.BuildStandard = function () {
+psom.BuildStandard = function () {
 	return new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
 						CreateThreeNodeNeuronNetwork, AddFlatDistributionNoiseToWeights, FindFocus, UpdateNeuron, UpdateNeighbourhood,
 						AgeNetwork, RemoveLinksAboveThreshold, RemoveUnlinkedNeurons, CreateThreeNodeGroup);
 };
 
-function Neuron(w) 
+function Neuron(w)
 {
 	this.weights = w;
 };
@@ -61,7 +61,7 @@ function Link(f, t, v) {
 	this.from = f;
 	this.to = t;
 	this.value = v;
-	
+
 	this.from.linkCount++;
 	this.to.linkCount++;
 }
@@ -69,10 +69,10 @@ Link.prototype.from = null;
 Link.prototype.to = null;
 Link.prototype.value = null;
 
-/* 
+/*
 
 
-Network functions 
+Network functions
 
 
 */
@@ -87,7 +87,7 @@ function AddLink(neuronFrom, neuronTo, value)
 	{
 		throw "Link not created: NeuronTo was null.";
 	}
-	
+
 	var link = new Link(neuronFrom, neuronTo, value);
 	this.links.push(link);
 	console.info("Created Link between n" + neuronFrom.id + " and n" + neuronTo.id);
@@ -105,13 +105,13 @@ function AddNeuron(weights)
 	newNeuron.id= this.neuronId;
 	this.neuronId++;
 	this.neurons.push(newNeuron);
-	
+
 	console.info("Created Neuron");
 	return newNeuron;
 }
 
 function RemoveNeuron(neuronToRemove)
-{	
+{
 	if (neuronToRemove == null)
 	{
 		throw "Neuron is null and cannot be not removed.";
@@ -122,11 +122,11 @@ function RemoveNeuron(neuronToRemove)
 	}
 
 	var j = 0;
-	
+
 	// Remove all the links to the neuron
-	while (j < this.links.length) 
+	while (j < this.links.length)
 	{
-		if (this.links[j].from == neuronToRemove) 
+		if (this.links[j].from == neuronToRemove)
 		{
 			this.links.splice(j, 1);
 		}
@@ -134,12 +134,12 @@ function RemoveNeuron(neuronToRemove)
 		{
 			this.links.splice(j, 1);
 		}
-		else 
+		else
 		{
 			j++;
 		}
 	}
-	
+
 	// Remove the neuron from the array
 	for (var i=0; i<this.neurons.length; i++)
 	{
@@ -149,14 +149,14 @@ function RemoveNeuron(neuronToRemove)
 			break;
 		}
 	}
-	
+
 	console.info("Removed Neuron: " + neuronToRemove.id);
 }
 
-/* 
+/*
 
 
-Mathematic functions (swappable) 
+Mathematic functions (swappable)
 
 
 */
@@ -176,19 +176,19 @@ function EuclideanDistance(neuron, input)
 	}
 	if (neuron.weights.length != input.length)
 	{
-		throw "Neuron weights are of differing length, the weights must be of the same length to calculate the euclidean distance. Neuron length: " + 
-				neuron.weights.length + " of neuron " + neuron.id + 
+		throw "Neuron weights are of differing length, the weights must be of the same length to calculate the euclidean distance. Neuron length: " +
+				neuron.weights.length + " of neuron " + neuron.id +
 				" and input length: " + input.length;
 	}
-	
+
 	var sum = 0;
-	
+
 	for (i=0; i<neuron.weights.length; i++)
 	{
 		// Square of the difference
 		sum = sum + ((neuron.weights[i] - input[i]) * (neuron.weights[i] - input[i]));
 	}
-	
+
 	return Math.sqrt(sum);
 }
 
@@ -210,14 +210,14 @@ function FindFocus(input)
 	{
 		this.neurons[i].distanceFromInput = this.DistanceMetric(this.neurons[i], input);
 	}
-	
+
 	// Order ascending
 	this.neurons.sort(
 		function (a,b) {
 			return a.distanceFromInput - b.distanceFromInput;
 		}
 	);
-	
+
 	return this.neurons[0];
 }
 
@@ -231,13 +231,13 @@ function CreateNeuronWithRandomisedWeights()
 	{
 		throw "To use CreateNeuronWithRandomisedWeights, ensure you set the CreateNeuronWithRandomisedWeights_WeightLength  on the PSOM class when you create it. Example: psom.CreateNeuronWithRandomisedWeights_WeightLength = 0.2;";
 	}
-	
+
 	var weights = new Array();
 	for(i=0; i<this.CreateNeuronWithRandomisedWeights_WeightLength; i++)
 	{
 		weights[i] = Math.random();
 	}
-	
+
 	return this.AddNeuron(weights);
 }
 
@@ -254,9 +254,9 @@ function CreateNeuronFromInput(input)
 	{
 		throw "CreateNeuronFromInput was passed a null input";
 	}
-	
+
 	var weights = null;
-	
+
 	if (typeof input.weights == 'undefined')
 	{
 		// It's an array
@@ -267,10 +267,10 @@ function CreateNeuronFromInput(input)
 		// It's a neuron
 		weights = input.weights;
 	}
-	
+
 	weights = this.AddNoiseToWeights(weights);
 	return this.AddNeuron(weights);
-	
+
 }
 
 
@@ -285,9 +285,9 @@ function AddFlatDistributionNoiseToWeights(inputWeights)
 	{
 		throw "To use AddFlatDistributionNoiseToWeights, ensure you set the AddFlatDistributionNoiseToWeights_Deviation on the PSOM class when you create it. Example: psom.AddFlatDistributionNoiseToWeights_Deviation = 0.2;";
 	}
-	
+
 	var deviation = this.AddFlatDistributionNoiseToWeights_Deviation;
-	
+
 	for (i=0; i<inputWeights.length; i++)
 	{
 		// random number between -(deviation) and +(deviation)
@@ -314,10 +314,10 @@ function CreateThreeNodeNeuronNetwork()
 	var n1 = this.CreateNeuron();
 	var n2 = this.CreateNeuron();
 	var n3 = this.CreateNeuron();
-			
+
 	this.AddLink(n1, n2, Math.random());
 	this.AddLink(n2, n3, Math.random());
-	
+
 }
 
 /**
@@ -344,7 +344,7 @@ function StandardPSOMAlgorithm(input)
 
 	var focus = this.FindFocus(input);
 	console.info("Focus was " + focus.id + " with a distance of: " + focus.distanceFromInput);
-	
+
 	if (focus.distanceFromInput > this.StandardPSOMAlgorithm_NodeBuilding)
 	{
 		console.info("Creating new neuron group");
@@ -354,13 +354,13 @@ function StandardPSOMAlgorithm(input)
 	{
 		console.info("Updating focus and neighbourhood");
 		this.UpdateNeuron(focus, input, this.StandardPSOMAlgorithm_LearningRate);
-		
+
 		this.UpdateNeighbourhood(focus, this.StandardPSOMAlgorithm_LearningRate);
 	}
-	
+
 	console.info("Network aging");
 	this.Age();
-	
+
 	console.info("Prune network");
 	this.RemoveDeadLinks();
 	this.RemoveDeadNeurons();
@@ -381,7 +381,7 @@ function UpdateNeuron(neuronToUpdate, target, learningRate)
 
 	for(var i=0; i<neuronToUpdate.weights.length; i++)
 	{
-		neuronToUpdate.weights[i] = neuronToUpdate.weights[i] 
+		neuronToUpdate.weights[i] = neuronToUpdate.weights[i]
 			+ (learningRate * (target[i] - neuronToUpdate.weights[i]));
 	}
 }
@@ -403,13 +403,13 @@ function UpdateNeighbourhood(focus, learningRate)
 		{
 			target = this.links[i].from;
 		}
-		
+
 		if (target != null)
 		{
 			// Update link length
 			this.links[i].value = this.DistanceMetric(focus, target.weights);
-			
-			
+
+
 			// Update neuron weights
 			var pushOrPull = 0;
 			if (this.links[i].value > this.StandardPSOMAlgorithm_ClusterThreshold)
@@ -424,14 +424,14 @@ function UpdateNeighbourhood(focus, learningRate)
 				pushOrPull = 1;
 				console.info("Pulling neuron '" + target.id + "' toward '" + focus.id + "'");
 			}
-			
+
 			console.info("distance before: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
-			
+
 			this.UpdateNeuron(this.links[i].to, this.links[i].from, (pushOrPull * learningRate * this.links[i].value))
-			
+
 			console.info("distance after: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
 
-			
+
 		}
 	}
 }
@@ -469,9 +469,9 @@ function RemoveLinksAboveThreshold()
 			this.links[i].from.linkCount--;
 			this.links.splice(i,1);
 		}
-		
+
 	}
-	
+
 }
 
 /**
@@ -497,11 +497,11 @@ function CreateThreeNodeGroup(focus)
 	var n1 = this.CreateNeuronFromInput(focus);
 	var n2 = this.CreateNeuronFromInput(focus);
 	var n3 = this.CreateNeuronFromInput(focus);
-	
+
 	this.AddLink(n1, n2, this.DistanceMetric(n1, n2));
 	this.AddLink(n2, n3, this.DistanceMetric(n2, n3));
 	this.AddLink(n3, n1, this.DistanceMetric(n3, n1));
-	
+
 	// Rely on the fact that the neurons are sorted in order
 	this.AddLink(n1, this.neurons[0], this.DistanceMetric(n1, this.neurons[0].weights));
 	this.AddLink(n1, this.neurons[1], this.DistanceMetric(n1, this.neurons[1].weights));

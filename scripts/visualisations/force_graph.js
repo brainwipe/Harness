@@ -18,7 +18,7 @@ function force_graph(ctx)
 				}
 			}
 		}
-		
+
 		if (links != null)
 		{
 			for(index in links)
@@ -37,7 +37,7 @@ function force_graph(ctx)
 		{
 			links[index].Visualisation.Draw();
 		}
-	
+
 		for(index in nodes)
 		{
 			if (typeof nodes[index].Visualisation === 'undefined' || nodes[index].Visualisation == null)
@@ -47,11 +47,11 @@ function force_graph(ctx)
 			nodes[index].Visualisation.Draw();
 		}
 	}
-	
+
 	this.CoulombForce = function(node1, node2)
 	{
 		var distanceBetweenPoints = node1.Visualisation.Position.Subtract(node2.Visualisation.Position);
-		
+
 		var force;
 
 		if (distanceBetweenPoints.x == 0 && distanceBetweenPoints.y == 0)
@@ -65,34 +65,34 @@ function force_graph(ctx)
 		}
 
 		return force;
-		
+
 	}
-	
+
 	this.HookeAttraction = function(node1, node2, length)
 	{
 		var distance = node1.Visualisation.Position.Subtract(node2.Visualisation.Position);
-		
+
 		var changeScalar = (((length - distance.Length()) * this.hooke_constant) / length);
-		
+
 		return distance.Multiply(changeScalar);
 	}
-	
+
 	this.RemainWithinBounds = function(node)
 	{
 		var circleSize = node.CircleSize;
 		var lowerBound = circleSize;
 		var upperBoundWidth = this.context.canvas.width - (2 * circleSize);
 		var upperBoundHeight = this.context.canvas.height - (2 * circleSize);
-		
+
 		if (node.Position.x < lowerBound) { node.Position.x = lowerBound; }
 		if (node.Position.y < lowerBound) { node.Position.y = lowerBound; }
 		if (node.Position.x > upperBoundWidth) { node.Position.x = upperBoundWidth; }
 		if (node.Position.y > upperBoundHeight) { node.Position.y = upperBoundHeight; }
 	}
-	
+
 	this.Update = function(nodes, links)
 	{
-		
+
 		// Coulomb repulsion
 		for (var i in nodes)
 		{
@@ -100,40 +100,40 @@ function force_graph(ctx)
 			{
 				nodes[i].Visualisation = new force_graph_node(this.context, nodes[i]);
 			}
-		
+
 			for (var j in nodes)
 			{
 				if (i == j) continue;
-				
+
 				if (typeof nodes[j].Visualisation === "undefined" || nodes[j].Visualisation == null)
 				{
 					nodes[j].Visualisation = new force_graph_node(this.context, nodes[j]);
 				}
-				
+
 				var coulombForce = this.CoulombForce( nodes[i], nodes[j]);
-				
+
 				nodes[i].Visualisation.Acceleration = nodes[i].Visualisation.Acceleration.Add(coulombForce);
 				nodes[j].Visualisation.Acceleration = nodes[j].Visualisation.Acceleration.Subtract(coulombForce);
 			}
 		}
-		
-		
+
+
 		// Hooke Attraction
 		for (var i in links)
 		{
-			
+
 			var link = links[i];
 			if (typeof link.Visualisation === "undefined" || link.Visualisation == null)
 			{
 				link.Visualisation = new force_graph_link(this.context, link);
 			}
-		
+
 			var hookeForce = this.HookeAttraction(link.to, link.from, link.value * this.resting_link_length);
-			
+
 			link.to.Visualisation.Acceleration = link.to.Visualisation.Acceleration.Add(hookeForce );
 			link.from.Visualisation.Acceleration = link.from.Visualisation.Acceleration.Subtract(hookeForce );
 		}
-		
+
 		// Apply acceleration
 		for (var i in nodes)
 		{
@@ -141,13 +141,11 @@ function force_graph(ctx)
 
 			var acceleration_effect = node.Visualisation.Acceleration.Multiply(this.acceleration_speed);
 			node.Visualisation.Position = node.Visualisation.Position.Add(acceleration_effect);
-			
+
 			this.RemainWithinBounds(node.Visualisation);
 			node.Visualisation.Acceleration = new Point(0,0);
 		}
 	}
-	
-	
 }
 force_graph.prototype.coulomb_constant_ke = null;
 force_graph.prototype.hooke_constant = null;
@@ -162,7 +160,7 @@ force_graph.prototype.RemainWithinBounds = null;
 function force_graph_node(context)
 {
 	this.Context = context;
-	
+
 	this.CircleSize = 12;
 	this.Position = new Point(	(Math.random() * (context.canvas.width - (2 * this.CircleSize))) + this.CircleSize,
 								(Math.random() * (context.canvas.height - (2 * this.CircleSize))) + this.CircleSize);
@@ -171,7 +169,7 @@ function force_graph_node(context)
 	this.Draw = function ()
 		{
 			this.Context.beginPath();
-			this.Context.arc(this.Position.x, 
+			this.Context.arc(this.Position.x,
 						this.Position.y,
 						this.CircleSize,
 						0,
@@ -196,9 +194,9 @@ function force_graph_link(context, parent)
 	this.Draw = function()
 		{
 			this.Context.beginPath();
-			this.Context.moveTo(this.Parent.from.Visualisation.Position.x, 
+			this.Context.moveTo(this.Parent.from.Visualisation.Position.x,
 								this.Parent.from.Visualisation.Position.y);
-			this.Context.lineTo(this.Parent.to.Visualisation.Position.x, 
+			this.Context.lineTo(this.Parent.to.Visualisation.Position.x,
 								this.Parent.to.Visualisation.Position.y);
 			this.Context.stroke();
 		}
