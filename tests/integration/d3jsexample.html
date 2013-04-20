@@ -34,14 +34,20 @@ rect {
 var thepsom = new psom.BuildStandard();
 $(document).ready(function() {
   $("#psomlearn").click(function() {
-    thepsom.Learn([Math.random(), Math.random(), Math.random()]);
+    var input = [Math.random(), Math.random(), Math.random()];
+    thepsom.Learn(input);
+    restart();
+  });
+
+  $("#psomage").click(function() {
+    thepsom.AgeNetwork();
     restart();
   });
 });
 
 function SetupPSOM()
 {
-            
+
     thepsom.CreateNeuronWithRandomisedWeights_WeightLength = 3;
     thepsom.CreateNeuronFromInput_Deviation = 0.2;
     thepsom.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
@@ -50,7 +56,7 @@ function SetupPSOM()
     thepsom.StandardPSOMAlgorithm_LearningRate = 0.9;
     thepsom.AgeNetwork_AgeRate = 0.3;
     thepsom.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
-        
+
     thepsom.InitialiseNodeStructure();
 }
 
@@ -102,6 +108,8 @@ function restart() {
   link.enter().insert("line", ".node")
       .attr("class", "link");
 
+  link.exit().remove();
+
   node = node.data(nodes);
 
   node.enter().insert("circle")
@@ -109,12 +117,15 @@ function restart() {
       .attr("r", 5)
       .call(force.drag);
 
+  node.exit().remove();
+
   force.start();
 }
 
 </script>
 <br/>
 <input type="button" id="psomlearn" value="PSOM learn random"/>
+<input type="button" id="psomage" value="PSOM age"/>
 
 </body>
 </html>

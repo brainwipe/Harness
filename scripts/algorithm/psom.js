@@ -19,10 +19,10 @@ function psom(learn, distanceMetric, createNeuronWithRandomisedWeights, createNe
 	this.CreateNodeGroup = createNodeGroup;
 	this.RemoveNeuron = RemoveNeuron;
 
-	this.neurons = new Array();
-	this.links = new Array();
+	this.neurons = [];
+	this.links = [];
 	this.distanceFromInput = 0;
-};
+}
 psom.prototype.AddNeuron = null;
 psom.prototype.Learn = null;
 psom.prototype.DistanceMetric = null;
@@ -44,8 +44,6 @@ psom.prototype.neuronId = 0;
 psom.prototype.distanceFromInput = 0;
 psom.prototype.events = {};
 
-<<<<<<< HEAD
-=======
 psom.prototype.on = function(event, caller, func) {
 	if (this.events[event] == null)
 	{
@@ -53,14 +51,14 @@ psom.prototype.on = function(event, caller, func) {
 	}
 	if (this.events[event][caller] == null)
 	{
-		this.events[event][caller] = 
+		this.events[event][caller] =
 			{
 				"caller": caller,
 				"func": func
 			};
 	}
-	
-}
+
+};
 
 psom.prototype.processEvent = function(event, args) {
 	if (this.events[event] == null)
@@ -72,9 +70,8 @@ psom.prototype.processEvent = function(event, args) {
 		var theevent = this.events[event][eventId];
 		theevent.func(theevent.caller, args);
 	}
-}
+};
 
->>>>>>> Working on PSOM integration with D3
 psom.BuildStandard = function () {
 	return new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
 						CreateThreeNodeNeuronNetwork, AddFlatDistributionNoiseToWeights, FindFocus, UpdateNeuron, UpdateNeighbourhood,
@@ -84,7 +81,8 @@ psom.BuildStandard = function () {
 function Neuron(w)
 {
 	this.weights = w;
-};
+}
+
 Neuron.prototype.weights = null;
 Neuron.prototype.id = -1;
 Neuron.prototype.linkCount = 0; // This is for efficiency.
@@ -97,6 +95,7 @@ function Link(f, t, v) {
 	this.from.linkCount++;
 	this.to.linkCount++;
 }
+
 Link.prototype.from = null;
 Link.prototype.to = null;
 Link.prototype.value = null;
@@ -123,14 +122,14 @@ function AddLink(neuronFrom, neuronTo, value)
 	var link = new Link(neuronFrom, neuronTo, value);
 	this.links.push(link);
 	console.info("Created Link between n" + neuronFrom.id + " and n" + neuronTo.id);
-	
+
 	this.processEvent("AddLink", link);
 	return link;
-}
+};
 
 function AddNeuron(weights)
 {
-	if (typeof weights == 'undefined' || weights.length == 0)
+	if (typeof weights === 'undefined' || weights.length === 0)
 	{
 		throw 'weights must be an array of length of at least one';
 	}
@@ -148,11 +147,11 @@ function AddNeuron(weights)
 
 function RemoveNeuron(neuronToRemove)
 {
-	if (neuronToRemove == null)
+	if (neuronToRemove === null)
 	{
 		throw "Neuron is null and cannot be not removed.";
 	}
-	if (this.neurons.length == 0)
+	if (this.neurons.length === 0)
 	{
 		throw "No neurons in the network";
 	}
@@ -162,12 +161,12 @@ function RemoveNeuron(neuronToRemove)
 	// Remove all the links to the neuron
 	while (j < this.links.length)
 	{
-		if (this.links[j].from == neuronToRemove)
+		if (this.links[j].from === neuronToRemove)
 		{
 			this.processEvent("RemoveLink", this.links[j].from);
 			this.links.splice(j, 1);
 		}
-		else if (this.links[j].to == neuronToRemove)
+		else if (this.links[j].to === neuronToRemove)
 		{
 			this.processEvent("RemoveLink", this.links[j].to);
 			this.links.splice(j, 1);
@@ -181,7 +180,7 @@ function RemoveNeuron(neuronToRemove)
 	// Remove the neuron from the array
 	for (var i=0; i<this.neurons.length; i++)
 	{
-		if (this.neurons[i] == neuronToRemove)
+		if (this.neurons[i] === neuronToRemove)
 		{
 			this.processEvent("RemoveNeuron", neuronToRemove);
 			this.neurons.splice(i, 1);
@@ -205,15 +204,15 @@ Mathematic functions (swappable)
 */
 function EuclideanDistance(neuron, input)
 {
-	if (typeof input == 'undefined' || input.length == 0)
+	if (typeof input === 'undefined' || input.length === 0)
 	{
 		throw "Input to the distance metric must be a non-null array.";
 	}
-	if (typeof neuron.weights == 'undefined' || neuron.weights.length == 0)
+	if (typeof neuron.weights === 'undefined' || neuron.weights.length === 0)
 	{
 		throw "Euclidean distance needs the weights of neuron " +  neuron.id + " to be an array";
 	}
-	if (neuron.weights.length != input.length)
+	if (neuron.weights.length !== input.length)
 	{
 		throw "Neuron weights are of differing length, the weights must be of the same length to calculate the euclidean distance. Neuron length: " +
 				neuron.weights.length + " of neuron " + neuron.id +
@@ -236,11 +235,11 @@ function EuclideanDistance(neuron, input)
 */
 function FindFocus(input)
 {
-	if (typeof input == 'undefined' || input.length == 0)
+	if (typeof input === 'undefined' || input.length === 0)
 	{
 		throw 'Could not find focus because the input is null or length 0.';
 	}
-	if (this.neurons.length == 0)
+	if (this.neurons.length === 0)
 	{
 		throw 'Could not find focus because there are no neurons in the network.';
 	}
@@ -266,12 +265,12 @@ function FindFocus(input)
 */
 function CreateNeuronWithRandomisedWeights()
 {
-	if (typeof this.CreateNeuronWithRandomisedWeights_WeightLength == 'undefined')
+	if (typeof this.CreateNeuronWithRandomisedWeights_WeightLength === 'undefined')
 	{
 		throw "To use CreateNeuronWithRandomisedWeights, ensure you set the CreateNeuronWithRandomisedWeights_WeightLength  on the PSOM class when you create it. Example: psom.CreateNeuronWithRandomisedWeights_WeightLength = 0.2;";
 	}
 
-	var weights = new Array();
+	var weights = [];
 	for(i=0; i<this.CreateNeuronWithRandomisedWeights_WeightLength; i++)
 	{
 		weights[i] = Math.random();
@@ -285,7 +284,7 @@ function CreateNeuronWithRandomisedWeights()
 */
 function CreateNeuronFromInput(input)
 {
-	if (typeof this.CreateNeuronFromInput_Deviation == 'undefined')
+	if (typeof this.CreateNeuronFromInput_Deviation === 'undefined')
 	{
 		throw "To use CreateNeuronFromInput, ensure you set the CreateNeuronFromInput_Deviation on the PSOM class when you create it. Example: psom.CreateNeuronFromInput_Deviation = 0.2;";
 	}
@@ -296,7 +295,7 @@ function CreateNeuronFromInput(input)
 
 	var weights = null;
 
-	if (typeof input.weights == 'undefined')
+	if (typeof input.weights === 'undefined')
 	{
 		// It's an array
 		weights = input;
@@ -320,7 +319,7 @@ function CreateNeuronFromInput(input)
 */
 function AddFlatDistributionNoiseToWeights(inputWeights)
 {
-	if (typeof this.AddFlatDistributionNoiseToWeights_Deviation == 'undefined')
+	if (typeof this.AddFlatDistributionNoiseToWeights_Deviation === 'undefined')
 	{
 		throw "To use AddFlatDistributionNoiseToWeights, ensure you set the AddFlatDistributionNoiseToWeights_Deviation on the PSOM class when you create it. Example: psom.AddFlatDistributionNoiseToWeights_Deviation = 0.2;";
 	}
@@ -364,19 +363,19 @@ function CreateThreeNodeNeuronNetwork()
 */
 function StandardPSOMAlgorithm(input)
 {
-	if (typeof this.StandardPSOMAlgorithm_NodeBuilding == 'undefined')
+	if (typeof this.StandardPSOMAlgorithm_NodeBuilding === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_NodeBuilding on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_NodeBuilding= 0.2;";
 	}
-	if (typeof this.StandardPSOMAlgorithm_ClusterThreshold == 'undefined')
+	if (typeof this.StandardPSOMAlgorithm_ClusterThreshold === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_ClusterThreshold on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_ClusterThreshold = 0.2;";
 	}
-	if (typeof this.StandardPSOMAlgorithm_LearningRate == 'undefined')
+	if (typeof this.StandardPSOMAlgorithm_LearningRate === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_LearningRate on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_LearningRate = 0.2;";
 	}
-	if (typeof this.StandardPSOMAlgorithm_LearningRate == 'undefined')
+	if (typeof this.StandardPSOMAlgorithm_LearningRate === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_LearningRate on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_LearningRate = 0.2;";
 	}
@@ -413,15 +412,15 @@ function StandardPSOMAlgorithm(input)
 function UpdateNeuron(neuronToUpdate, target, learningRate)
 {
 	// If a neuron was passed in, we update target to be just the weights
-	if (typeof target.weights != 'undefined')
+	if (typeof target.weights !== 'undefined')
 	{
 		target = target.weights;
 	}
 
 	for(var i=0; i<neuronToUpdate.weights.length; i++)
 	{
-		neuronToUpdate.weights[i] = neuronToUpdate.weights[i]
-			+ (learningRate * (target[i] - neuronToUpdate.weights[i]));
+		neuronToUpdate.weights[i] = neuronToUpdate.weights[i] +
+			(learningRate * (target[i] - neuronToUpdate.weights[i]));
 	}
 }
 
@@ -434,11 +433,11 @@ function UpdateNeighbourhood(focus, learningRate)
 	for (var i=0; i < this.links.length; i++)
 	{
 		var target = null;
-		if (this.links[i].from == focus)
+		if (this.links[i].from === focus)
 		{
 			target = this.links[i].to;
 		}
-		else if (this.links[i].to == focus)
+		else if (this.links[i].to === focus)
 		{
 			target = this.links[i].from;
 		}
@@ -466,11 +465,9 @@ function UpdateNeighbourhood(focus, learningRate)
 
 			console.info("distance before: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
 
-			this.UpdateNeuron(this.links[i].to, this.links[i].from, (pushOrPull * learningRate * this.links[i].value))
+			this.UpdateNeuron(this.links[i].to, this.links[i].from, (pushOrPull * learningRate * this.links[i].value));
 
 			console.info("distance after: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
-
-
 		}
 	}
 }
@@ -480,7 +477,7 @@ function UpdateNeighbourhood(focus, learningRate)
 */
 function AgeNetwork()
 {
-	if (typeof this.AgeNetwork_AgeRate == 'undefined')
+	if (typeof this.AgeNetwork_AgeRate === 'undefined')
 	{
 		throw "To use AgeNetwork, ensure you set the AgeNetwork_AgeRate on the PSOM class when you create it. Example: psom.AgeNetwork_AgeRate= 0.2;";
 	}
@@ -495,7 +492,7 @@ function AgeNetwork()
 */
 function RemoveLinksAboveThreshold()
 {
-	if (typeof this.RemoveLinksAboveThreshold_AgeThreshold == 'undefined')
+	if (typeof this.RemoveLinksAboveThreshold_AgeThreshold === 'undefined')
 	{
 		throw "To use RemoveLinksAboveThreshold, ensure you set the RemoveLinksAboveThreshold_AgeThreshold on the PSOM class when you create it. Example: psom.RemoveLinksAboveThreshold_AgeThreshold = 0.2;";
 	}
@@ -508,9 +505,7 @@ function RemoveLinksAboveThreshold()
 			this.links[i].from.linkCount--;
 			this.links.splice(i,1);
 		}
-
 	}
-
 }
 
 /**
@@ -520,7 +515,7 @@ function RemoveUnlinkedNeurons()
 {
 	for(var i=this.neurons.length-1; i>=0; i--)
 	{
-		if (this.neurons[i].linkCount == 0)
+		if (this.neurons[i].linkCount === 0)
 		{
 			this.neurons.splice(i,1);
 		}
@@ -537,9 +532,9 @@ function CreateThreeNodeGroup(focus)
 	var n2 = this.CreateNeuronFromInput(focus);
 	var n3 = this.CreateNeuronFromInput(focus);
 
-	this.AddLink(n1, n2, this.DistanceMetric(n1, n2));
-	this.AddLink(n2, n3, this.DistanceMetric(n2, n3));
-	this.AddLink(n3, n1, this.DistanceMetric(n3, n1));
+	this.AddLink(n1, n2, this.DistanceMetric(n1, n2.weights));
+	this.AddLink(n2, n3, this.DistanceMetric(n2, n3.weights));
+	this.AddLink(n3, n1, this.DistanceMetric(n3, n1.weights));
 
 	// Rely on the fact that the neurons are sorted in order
 	this.AddLink(n1, this.neurons[0], this.DistanceMetric(n1, this.neurons[0].weights));

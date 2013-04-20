@@ -24,7 +24,7 @@ function print_r(x, max, sep, l) {
 
 	if (x === null) {
 		r += "(null)\n";
-	} else if (t == 'object') {
+	} else if (t === 'object') {
 
 		l++;
 
@@ -48,8 +48,8 @@ function print_r(x, max, sep, l) {
 
 	} else {
 
-		if (t == 'string') {
-			if (x == '') {
+		if (t === 'string') {
+			if (x === '') {
 				x = '(empty)';
 			}
 		}
@@ -60,7 +60,7 @@ function print_r(x, max, sep, l) {
 
 	return r;
 
-};
+}
 var_dump = print_r;
 
 /**
@@ -72,11 +72,22 @@ var_dump = print_r;
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined'
-        ? args[number]
-        : match
+    return this.replace(/{(\d+)}/g, function(match, number) {
+		return typeof args[number] !== 'undefined' ?
+			args[number] :
+			match
       ;
     });
   };
 }
+
+
+function RemoveFromArray(thearray, object) {
+		var index = thearray.indexOf(object);
+		if(index >= 0) {
+			return thearray.splice(index, 1)[0];
+		}
+		else {
+			return undefined;
+		}
+	}
