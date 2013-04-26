@@ -7,7 +7,7 @@ function PSOMD3EventHandler(mypsom, myd3force) {
 	this.AttachEventsToPSOM();
 }
 
-PSOMD3EventHandler.prototype.LongestLinkLength = 100;
+PSOMD3EventHandler.prototype.LongestLinkLength = 200;
 PSOMD3EventHandler.prototype.PSOM = null;
 PSOMD3EventHandler.prototype.D3Force = null;
 PSOMD3EventHandler.prototype.D3ForceNodes = null;
@@ -21,7 +21,8 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 	});
 
 	this.PSOM.on("AddLink", this, function(caller, elink) {
-		elink.D3Link = new D3Link(elink.from.D3Node, elink.to.D3Node, (this.LongestLinkLength * link.value)); // TODO why isn't link length scaling?
+		elink.D3Link = new D3Link(elink.from.D3Node, elink.to.D3Node, elink.value);
+		console.log(elink);
 		caller.D3ForceLinks.push(elink.D3Link);
 	});
 
@@ -41,5 +42,9 @@ D3Node.prototype.y = null;
 function D3Link(mysource, mytarget, myweight) {
 	this.source = mysource;
 	this.target = mytarget;
-	this.weight = myweight;
+	console.log(myweight);
+	console.log(this.LongestLinkLength);
+	this.value = myweight * this.LongestLinkLength;
+	
 }
+D3Link.prototype.LongestLinkLength = 200;

@@ -293,17 +293,17 @@ function CreateNeuronFromInput(input)
 		throw "CreateNeuronFromInput was passed a null input";
 	}
 
-	var weights = null;
+	var weights = [];
 
 	if (typeof input.weights === 'undefined')
 	{
 		// It's an array
-		weights = input;
+		weights = DeepCopy(input);
 	}
 	else
 	{
 		// It's a neuron
-		weights = input.weights;
+		weights = DeepCopy(input.weights);
 	}
 
 	weights = this.AddNoiseToWeights(weights);
@@ -539,4 +539,14 @@ function CreateThreeNodeGroup(focus)
 	// Rely on the fact that the neurons are sorted in order
 	this.AddLink(n1, this.neurons[0], this.DistanceMetric(n1, this.neurons[0].weights));
 	this.AddLink(n1, this.neurons[1], this.DistanceMetric(n1, this.neurons[1].weights));
+}
+
+
+/**
+* Performs a deep copy on an object
+*
+*/
+function DeepCopy(obj)
+{
+	return JSON.parse(JSON.stringify(obj));
 }

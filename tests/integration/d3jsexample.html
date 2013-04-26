@@ -49,7 +49,7 @@ function SetupPSOM()
 {
 
     thepsom.CreateNeuronWithRandomisedWeights_WeightLength = 3;
-    thepsom.CreateNeuronFromInput_Deviation = 0.2;
+    thepsom.CreateNeuronFromInput_Deviation = 0.4;
     thepsom.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
     thepsom.StandardPSOMAlgorithm_NodeBuilding = 0.29;
     thepsom.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
@@ -68,9 +68,12 @@ var fill = d3.scale.category20();
 
 var force = d3.layout.force()
     .size([width, height])
-    .nodes([]) // initialize with a single node
-    .linkDistance(30)
+    .nodes([])
     .charge(-60)
+    .distance(50)
+    .linkDistance(function(d) { 
+        return d.value;
+     })
     .on("tick", tick);
 
 var svg = d3.select("body").append("svg")
