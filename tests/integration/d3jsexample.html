@@ -54,7 +54,7 @@ function SetupPSOM()
     thepsom.StandardPSOMAlgorithm_NodeBuilding = 0.29;
     thepsom.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
     thepsom.StandardPSOMAlgorithm_LearningRate = 0.9;
-    thepsom.AgeNetwork_AgeRate = 0.3;
+    thepsom.AgeNetwork_AgeRate = 0.1;
     thepsom.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
 
     thepsom.InitialiseNodeStructure();
@@ -69,8 +69,7 @@ var fill = d3.scale.category20();
 var force = d3.layout.force()
     .size([width, height])
     .nodes([])
-    .charge(-60)
-    .distance(50)
+    .charge(-120)
     .linkDistance(function(d) { 
         return d.value;
      })

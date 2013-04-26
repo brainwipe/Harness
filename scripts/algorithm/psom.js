@@ -18,6 +18,7 @@ function psom(learn, distanceMetric, createNeuronWithRandomisedWeights, createNe
 	this.RemoveDeadNeurons = removeDeadNeurons;
 	this.CreateNodeGroup = createNodeGroup;
 	this.RemoveNeuron = RemoveNeuron;
+	this.Console = new PSOMConsole('debug');
 
 	this.neurons = [];
 	this.links = [];
@@ -72,6 +73,8 @@ psom.prototype.processEvent = function(event, args) {
 	}
 };
 
+psom.prototype.Console = null;
+
 psom.BuildStandard = function () {
 	return new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
 						CreateThreeNodeNeuronNetwork, AddFlatDistributionNoiseToWeights, FindFocus, UpdateNeuron, UpdateNeighbourhood,
@@ -100,6 +103,32 @@ Link.prototype.from = null;
 Link.prototype.to = null;
 Link.prototype.value = null;
 
+function PSOMConsole(level)
+{
+	this.warninglevel = level;
+}
+PSOMConsole.prototype.warninglevel = 'debug';
+PSOMConsole.prototype.debug = function(message)
+{
+	if (this.warninglevel == 'debug')
+	{
+		console.info(message);
+	}
+}
+PSOMConsole.prototype.error = function(message)
+{
+	console.error(message);
+}
+PSOMConsole.prototype.beginGroup = function(groupname)
+{
+	console.group(groupname);
+}
+PSOMConsole.prototype.endGroup = function()
+{
+	console.groupEnd();	
+}
+
+
 /*
 
 
@@ -121,7 +150,7 @@ function AddLink(neuronFrom, neuronTo, value)
 
 	var link = new Link(neuronFrom, neuronTo, value);
 	this.links.push(link);
-	console.info("Created Link between n" + neuronFrom.id + " and n" + neuronTo.id);
+	this.Console.debug("Created Link between n" + neuronFrom.id + " and n" + neuronTo.id);
 
 	this.processEvent("AddLink", link);
 	return link;
@@ -139,7 +168,7 @@ function AddNeuron(weights)
 	this.neuronId++;
 	this.neurons.push(newNeuron);
 
-	console.info("Created Neuron");
+	this.Console.debug("Created Neuron");
 
 	this.processEvent("AddNeuron", newNeuron);
 	return newNeuron;
@@ -188,7 +217,7 @@ function RemoveNeuron(neuronToRemove)
 		}
 	}
 
-	console.info("Removed Neuron: " + neuronToRemove.id);
+	this.Console.debug("Removed Neuron: " + neuronToRemove.id);
 }
 
 /*
@@ -349,13 +378,14 @@ function AddFlatDistributionNoiseToWeights(inputWeights)
 */
 function CreateThreeNodeNeuronNetwork()
 {
+	this.Console.beginGroup("Network Initalise - Create Three Neuron Network");
 	var n1 = this.CreateNeuron();
 	var n2 = this.CreateNeuron();
 	var n3 = this.CreateNeuron();
 
 	this.AddLink(n1, n2, Math.random());
 	this.AddLink(n2, n3, Math.random());
-
+	this.Console.endGroup();
 }
 
 /**
@@ -363,6 +393,7 @@ function CreateThreeNodeNeuronNetwork()
 */
 function StandardPSOMAlgorithm(input)
 {
+	this.Console.beginGroup("Algorithm Increment - StandardPSOMAlgorithm");
 	if (typeof this.StandardPSOMAlgorithm_NodeBuilding === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_NodeBuilding on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_NodeBuilding= 0.2;";
@@ -381,28 +412,35 @@ function StandardPSOMAlgorithm(input)
 	}
 
 	var focus = this.FindFocus(input);
-	console.info("Focus was " + focus.id + " with a distance of: " + focus.distanceFromInput);
+	this.Console.debug("Focus was " + focus.id + " with a distance of: " + focus.distanceFromInput);
 
 	if (focus.distanceFromInput > this.StandardPSOMAlgorithm_NodeBuilding)
 	{
-		console.info("Creating new neuron group");
+		this.Console.debug("Creating new neuron group");
 		this.CreateNodeGroup(focus);
 	}
 	else
 	{
-		console.info("Updating focus and neighbourhood");
+		this.Console.debug("Updating focus and neighbourhood");
 		this.UpdateNeuron(focus, input, this.StandardPSOMAlgorithm_LearningRate);
 
 		this.UpdateNeighbourhood(focus, this.StandardPSOMAlgorithm_LearningRate);
 	}
 
-	console.info("Network aging");
+	this.Console.debug("Network aging");
 	this.Age();
 
-	console.info("Prune network");
+	this.Console.debug("Prune network");
 	this.RemoveDeadLinks();
 	this.RemoveDeadNeurons();
 
+	this.processEvent("AlgorithmIterationComplete", {
+		"focus" : focus,
+		"neurons" : this.neurons,
+		"links" : this.links
+	});
+
+	this.Console.endGroup();
 	return focus.distanceFromInput; // This is essentially the last error
 }
 

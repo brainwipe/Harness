@@ -33,6 +33,12 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 	this.PSOM.on("RemoveNode", this, function(caller, elink) {
 		RemoveFromArray(caller.D3ForceNodes, elink.D3Node);
 	});
+
+	this.PSOM.on("AlgorithmIterationComplete", this, function(caller, context) {
+		for (var i = 0; i < context.links.length; i++) {
+			context.links[i].D3Link.SetLength(context.links[i].value);
+		};
+	});
 };
 
 function D3Node() {}
@@ -42,9 +48,11 @@ D3Node.prototype.y = null;
 function D3Link(mysource, mytarget, myweight) {
 	this.source = mysource;
 	this.target = mytarget;
-	console.log(myweight);
-	console.log(this.LongestLinkLength);
-	this.value = myweight * this.LongestLinkLength;
-	
+	this.SetLength(myweight)
 }
-D3Link.prototype.LongestLinkLength = 200;
+D3Link.prototype.LongestLinkLength = 100;
+D3Link.prototype.SetLength = function (newLength)
+{
+	this.value = newLength * this.LongestLinkLength;
+	return this.value;
+};
