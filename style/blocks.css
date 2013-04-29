@@ -30,6 +30,27 @@
    text-align:center;
 }
 
+.d3psom rect {
+  fill: none;
+  pointer-events: all;
+}
+
+.d3psom .node {
+  fill: #000;
+}
+
+.d3psom .cursor {
+  fill: none;
+  stroke: brown;
+  pointer-events: none;
+}
+
+.d3psom .link {
+  stroke: #999;
+}
+
+
+
 .blockpsomfunc {
    background:url('../images/psomfunc.png');
 }
@@ -41,4 +62,6 @@
 
 .blockarraysource {
    background:url('../images/arraysource.png');
+}
+
 }

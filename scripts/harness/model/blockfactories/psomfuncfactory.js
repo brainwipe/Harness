@@ -22,7 +22,8 @@ function(Block, Socket, SocketType, PSOMFuncView) {
                      this.FriendlyName,
                      this.FactoryName);
 
-      block.PSOM = new psom().BuildStandard();
+      block.PSOM = psom.BuildStandard();
+
       block.PSOM.CreateNeuronWithRandomisedWeights_WeightLength = 3;
       block.PSOM.CreateNeuronFromInput_Deviation = 0.2;
       block.PSOM.AddFlatDistributionNoiseToWeights_Deviation = 0.2;

@@ -88,13 +88,21 @@ var nodes = force.nodes(),
     node = svg.selectAll(".node"),
     link = svg.selectAll(".link");
 
+console.log(link);
+
 var eventHandler = new PSOMD3EventHandler(thepsom, force);
 
+console.log("settingupPSOM");
+
 SetupPSOM();
+
+console.log("PSOM set, now restart");
 
 restart();
 
 function tick() {
+  console.log("Tick");
+
   link.attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })

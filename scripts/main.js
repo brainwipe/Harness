@@ -19,7 +19,7 @@ require.config({
 		'd3':'//d3js.org/d3.v3.min',
 
 		'psom' : 'algorithm/psom',
-		'force_graph' : 'visualisations/force_graph'
+		'PSOMD3EventHandler' : 'visualisations/PSOMD3EventHandler'
 
 	},
 	shim: {
@@ -50,6 +50,10 @@ require.config({
 
 		'd3' : {
 			exports: 'd3'
+		},
+
+		'PSOMD3EventHandler' : {
+			exports: 'PSOMD3EventHandler'
 		}
 	}
 });
