@@ -65,10 +65,14 @@ function(Block, Socket, SocketType, PSOMFuncView) {
          return '"' + this.Data + '"';
       };
 
+      block.Initialise = function() {
+         
+      };
+
       return block;
    };
 
-   // KILL THIS
+   // KILL THIS eventually
    PSOMFuncFactory.prototype.RandomNeuron = function (thepsom)
    {
       var numNeurons = thepsom.neurons.length;

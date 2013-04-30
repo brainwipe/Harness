@@ -207,18 +207,7 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 		if (eventElement)
 		{
 			var blockBuilderId = eventElement.value;
-			var blockFactory = harness.BlockFactory.Factories[blockBuilderId];
-
-			var block = blockFactory.Build(harness.GetNextBlockId());
-			var view = blockFactory.GetView(block);
-			harness.AddBlock(block, view);
-
-			view.Base.Element.offset({
-				left: event.toElement.offsetLeft,
-				top: event.toElement.offsetTop
-				});
-
-			view.Draw();
+			harness.BlockFactory.CreateBlock(blockBuilderId, harness, event.toElement.offsetLeft, event.toElement.offsetTop);
 		}
 	};
 

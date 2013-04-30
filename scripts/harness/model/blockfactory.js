@@ -21,5 +21,22 @@ function(ScalarSourceFactory, ScalarSinkFactory, IncrementalSourceFactory, PSOMF
 	}
 	BlockFactory.prototype.Factories = null;
 
+	BlockFactory.prototype.CreateBlock = function(blockFactoryId, harness, viewOffsetLeft, viewOffsetTop)
+	{
+		var blockFactory = this.Factories[blockFactoryId];
+
+		var block = blockFactory.Build(harness.GetNextBlockId());
+		var view = blockFactory.GetView(block);
+		harness.AddBlock(block, view);
+
+		view.Base.Element.offset({
+			left: viewOffsetLeft,
+			top: viewOffsetTop
+		});
+
+		block.Initialise();
+
+		view.Draw();
+	};
 	return(BlockFactory);
 });

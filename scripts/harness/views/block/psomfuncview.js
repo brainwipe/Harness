@@ -57,8 +57,6 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       this.Link = svg.selectAll(".link");
 
       this.Force.start();
-      // this.ForceGraph.Extend(this.Block.PSOM.neurons, this.Block.PSOM.links);
-
    };
 
    PSOMFuncView.prototype.UpdateProperties = function()
