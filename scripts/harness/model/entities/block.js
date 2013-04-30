@@ -17,7 +17,7 @@ function(ValidationException) {
 		this.InputsCount = 0;
 		this.OutputsCount = 0;
 	}
-	Block.prototype.Initialise = function() {};
+	Block.prototype.Initialise = function(view) {};
 	Block.prototype.Id = null;
 	Block.prototype.Name = null;
 	Block.prototype.FactoryName = null;

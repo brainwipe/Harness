@@ -32,52 +32,15 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
    };
 
-   PSOMFuncView.prototype.Draw = function() {
-      
-   }
+   PSOMFuncView.prototype.Draw = function() {}
 
-   PSOMFuncView.prototype.CreateMarkup = function(element)
+   PSOMFuncView.prototype.Initialise = function(view)
    {
-      this.Base.CreateMarkup(element);
-
-      var width = 200;
-      var height = 200;
-
-      var svg = d3.select("{0}-contentcontainer".format(this.Block.Id))
-         .append("svg")
-         .attr("class", "d3psom")
-         .attr("width", width)
-         .attr("height", height);
-
-      svg.append("rect")
-         .attr("width", width)
-         .attr("height", height);
-
-      this.Node = svg.selectAll(".node");
-      this.Link = svg.selectAll(".link");
-
       this.Force.start();
-   };
-
-   PSOMFuncView.prototype.UpdateProperties = function()
-   {
-      this.Base.Properties.Update();
-   };
-
-   PSOMFuncView.prototype.Tick = function()
-   {
-      this.Link.attr("x1", function(d) { return d.source.x; })
-         .attr("y1", function(d) { return d.source.y; })
-         .attr("x2", function(d) { return d.target.x; })
-         .attr("y2", function(d) { return d.target.y; });
-
-      this.Node.attr("cx", function(d) { return d.x; })
-         .attr("cy", function(d) { return d.y; });
-      };
+   }
 
    PSOMFuncView.prototype.SetupD3Force = function()
    {
-
       var width = 200;
       var height = 200;
 
@@ -92,6 +55,44 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
       this.Nodes = this.Force.nodes();
       this.Links = this.Force.links();
+   };
+
+   PSOMFuncView.prototype.CreateMarkup = function(element)
+   {
+      this.Base.CreateMarkup(element);
+
+      var width = 200;
+      var height = 200;
+
+      var svg = d3.select("#{0}-contentcontainer".format(this.Block.Id))
+         .append("svg")
+         .attr("class", "d3psom")
+         .attr("width", width)
+         .attr("height", height);
+
+      svg.append("rect")
+         .attr("width", width)
+         .attr("height", height);
+
+      
+   };
+
+   PSOMFuncView.prototype.UpdateProperties = function()
+   {
+      this.Base.Properties.Update();
+   };
+
+   PSOMFuncView.prototype.Tick = function()
+   {
+      var link = svg.selectAll(".link");
+      link.attr("x1", function(d) { return d.source.x; })
+         .attr("y1", function(d) { return d.source.y; })
+         .attr("x2", function(d) { return d.target.x; })
+         .attr("y2", function(d) { return d.target.y; });
+
+      var node = svg.selectAll(".node");
+      node.attr("cx", function(d) { return d.x; })
+         .attr("cy", function(d) { return d.y; });
    };
 
    PSOMFuncView.prototype.RestartD3JS = function() 

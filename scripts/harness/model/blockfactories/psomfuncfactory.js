@@ -33,15 +33,6 @@ function(Block, Socket, SocketType, PSOMFuncView) {
       block.PSOM.AgeNetwork_AgeRate = 0.3;
       block.PSOM.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
       
-      block.PSOM.InitialiseNodeStructure();
-
-      var randomNeuron1 = this.RandomNeuron(block.PSOM);
-      var randomNeuron2 = this.RandomNeuron(block.PSOM);
-            
-      var newneuron = block.PSOM.CreateNeuron();
-      block.PSOM.AddLink(randomNeuron1, newneuron, Math.random());
-      block.PSOM.AddLink(randomNeuron2, newneuron, Math.random());
-
       block.AddInput(new Socket(block.Id, "InputPattern", new SocketType().BuildVector()), true, false);
       block.AddOutput(new Socket(block.Id, "LastError", new SocketType().BuildScalar()));
 
@@ -65,20 +56,27 @@ function(Block, Socket, SocketType, PSOMFuncView) {
          return '"' + this.Data + '"';
       };
 
-      block.Initialise = function() {
-         
+      // KILL THIS eventually
+      block.RandomNeuron = function(thepsom) {
+         var numNeurons = thepsom.neurons.length;
+         var randNeuron = MathTwo.Random(numNeurons);
+         return thepsom.neurons[randNeuron];
+      };
+
+      block.Initialise = function(view) {
+         this.PSOM.InitialiseNodeStructure();
+         var randomNeuron1 = this.RandomNeuron(block.PSOM);
+         var randomNeuron2 = this.RandomNeuron(block.PSOM);
+            
+         var newneuron = block.PSOM.CreateNeuron();
+         block.PSOM.AddLink(randomNeuron1, newneuron, Math.random());
+         block.PSOM.AddLink(randomNeuron2, newneuron, Math.random());
+
+         view.Initialise();
       };
 
       return block;
    };
-
-   // KILL THIS eventually
-   PSOMFuncFactory.prototype.RandomNeuron = function (thepsom)
-   {
-      var numNeurons = thepsom.neurons.length;
-      var randNeuron = MathTwo.Random(numNeurons);
-      return thepsom.neurons[randNeuron];
-   }
 
    PSOMFuncFactory.prototype.FactoryName = 'PSOMFuncFactory';
    PSOMFuncFactory.prototype.FriendlyName = 'PSOM';

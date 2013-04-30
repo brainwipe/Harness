@@ -27,14 +27,15 @@ function(ScalarSourceFactory, ScalarSinkFactory, IncrementalSourceFactory, PSOMF
 
 		var block = blockFactory.Build(harness.GetNextBlockId());
 		var view = blockFactory.GetView(block);
-		harness.AddBlock(block, view);
-
+		view.CreateMarkup(harness.Element);
 		view.Base.Element.offset({
 			left: viewOffsetLeft,
 			top: viewOffsetTop
 		});
 
-		block.Initialise();
+		block.Initialise(view);
+
+		harness.AddBlock(block, view);
 
 		view.Draw();
 	};
