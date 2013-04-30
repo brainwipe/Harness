@@ -32,12 +32,12 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
    };
 
-   PSOMFuncView.prototype.Draw = function() {}
+   PSOMFuncView.prototype.Draw = function() {};
 
    PSOMFuncView.prototype.Initialise = function(view)
    {
       this.Force.start();
-   }
+   };
 
    PSOMFuncView.prototype.SetupD3Force = function()
    {
@@ -48,13 +48,14 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
          .size([width, height])
          .nodes([])
          .charge(-120)
-         .linkDistance(function(d) { 
+         .linkDistance(function(d) {
              return d.value;
          })
-         .on("tick", this.Tick);
+         .on("tick", this.Tick.bind(this));
 
       this.Nodes = this.Force.nodes();
       this.Links = this.Force.links();
+
    };
 
    PSOMFuncView.prototype.CreateMarkup = function(element)
@@ -74,7 +75,8 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
          .attr("width", width)
          .attr("height", height);
 
-      
+      this.Link = svg.selectAll(".link");
+      this.Node = svg.selectAll(".node");
    };
 
    PSOMFuncView.prototype.UpdateProperties = function()
@@ -84,18 +86,16 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    PSOMFuncView.prototype.Tick = function()
    {
-      var link = svg.selectAll(".link");
-      link.attr("x1", function(d) { return d.source.x; })
+      this.Link.attr("x1", function(d) { return d.source.x; })
          .attr("y1", function(d) { return d.source.y; })
          .attr("x2", function(d) { return d.target.x; })
          .attr("y2", function(d) { return d.target.y; });
 
-      var node = svg.selectAll(".node");
-      node.attr("cx", function(d) { return d.x; })
+      this.Node.attr("cx", function(d) { return d.x; })
          .attr("cy", function(d) { return d.y; });
    };
 
-   PSOMFuncView.prototype.RestartD3JS = function() 
+   PSOMFuncView.prototype.RestartD3JS = function()
    {
       var link = this.Link.data(links);
 
