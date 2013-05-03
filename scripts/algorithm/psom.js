@@ -58,7 +58,6 @@ psom.prototype.on = function(event, caller, func) {
 				"func": func
 			};
 	}
-
 };
 
 psom.prototype.processEvent = function(event, args) {
@@ -125,7 +124,7 @@ PSOMConsole.prototype.beginGroup = function(groupname)
 }
 PSOMConsole.prototype.endGroup = function()
 {
-	console.groupEnd();	
+	console.groupEnd();
 }
 
 

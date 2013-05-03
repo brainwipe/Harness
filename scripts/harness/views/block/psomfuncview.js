@@ -11,6 +11,8 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
    function PSOMFuncView(block) {
       this.Block = block;
       this.Base = new BlockViewBase(block);
+      this.Base.DefaultWidth = 400;
+      this.Base.DefaultHeight = 400;
       this.Base.Properties = new PSOMFuncPropertiesView(block);
       this.Base.CreateContentMarkup = this.CreateContentMarkup;
       this.SetupD3Force();
@@ -36,13 +38,29 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    PSOMFuncView.prototype.Initialise = function(view)
    {
+      this.Link = this.Link.data(this.Links);
+
+      this.Link.enter().insert("line", ".node")
+         .attr("class", "link");
+
+      this.Link.exit().remove();
+
+      this.Node = this.Node.data(this.Nodes);
+
+      this.Node.enter().insert("circle")
+         .attr("class", "node")
+         .attr("r", 5)
+         .call(this.Force.drag);
+
+      this.Node.exit().remove();
+
       this.Force.start();
    };
 
    PSOMFuncView.prototype.SetupD3Force = function()
    {
-      var width = 200;
-      var height = 200;
+      var width = this.Base.DefaultWidth; // Markup not created yet, so we can use the defaults
+      var height = this.Base.DefaultHeight;
 
       this.Force = d3.layout.force()
          .size([width, height])
@@ -62,18 +80,23 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
    {
       this.Base.CreateMarkup(element);
 
-      var width = 200;
-      var height = 200;
+      var container = $("#{0}-contentcontainer".format(this.Block.Id));
+
+      var width = container.width();
+      var height = container.width();
 
       var svg = d3.select("#{0}-contentcontainer".format(this.Block.Id))
          .append("svg")
          .attr("class", "d3psom")
-         .attr("width", width)
-         .attr("height", height);
+         .attr("width", "100%")
+         .attr("height", "100%")
+         .attr("viewBox", "0 0 " + width + " " + height )
+         .attr("preserveAspectRatio", "xMidYMid meet");
 
       svg.append("rect")
          .attr("width", width)
          .attr("height", height);
+
 
       this.Link = svg.selectAll(".link");
       this.Node = svg.selectAll(".node");
@@ -93,27 +116,6 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
       this.Node.attr("cx", function(d) { return d.x; })
          .attr("cy", function(d) { return d.y; });
-   };
-
-   PSOMFuncView.prototype.RestartD3JS = function()
-   {
-      var link = this.Link.data(links);
-
-      link.enter().insert("line", ".node")
-         .attr("class", "link");
-
-      link.exit().remove();
-
-      var node = this.Node.data(nodes);
-
-      node.enter().insert("circle")
-         .attr("class", "node")
-         .attr("r", 5)
-         .call(this.Force.drag);
-
-      node.exit().remove();
-
-      this.Force.start();
    };
 
    return (PSOMFuncView);

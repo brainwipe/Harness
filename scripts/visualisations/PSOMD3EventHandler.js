@@ -22,7 +22,6 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 
 	this.PSOM.on("AddLink", this, function(caller, elink) {
 		elink.D3Link = new D3Link(elink.from.D3Node, elink.to.D3Node, elink.value);
-		console.log(elink);
 		caller.D3ForceLinks.push(elink.D3Link);
 	});
 
@@ -37,7 +36,7 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 	this.PSOM.on("AlgorithmIterationComplete", this, function(caller, context) {
 		for (var i = 0; i < context.links.length; i++) {
 			context.links[i].D3Link.SetLength(context.links[i].value);
-		};
+		}
 	});
 };
 
@@ -48,7 +47,7 @@ D3Node.prototype.y = null;
 function D3Link(mysource, mytarget, myweight) {
 	this.source = mysource;
 	this.target = mytarget;
-	this.SetLength(myweight)
+	this.SetLength(myweight);
 }
 D3Link.prototype.LongestLinkLength = 100;
 D3Link.prototype.SetLength = function (newLength)

@@ -18,11 +18,15 @@ function(Block, Socket) {
 	BlockViewBase.prototype.CssClass = null;
 	BlockViewBase.prototype.CreateContentMarkup  = null;
 	BlockViewBase.prototype.Properties = null;
+	BlockViewBase.prototype.DefaultWidth = 200;
+	BlockViewBase.prototype.DefaultHeight = 200;
 	BlockViewBase.prototype.CreateMarkup = function (containerElement) {
-		var blockMarkup = '<div title="{0}" class="block noselect {1}" id="{2}"><div class="block_resizable" style="width:200px; height:200px;">{3}</div><div class="options">{4}</div></div>'.format(
+		var blockMarkup = '<div title="{0}" class="block noselect {1}" id="{2}"><div class="block_resizable" style="width:{3}px; height:{4}px;">{5}</div><div class="options">{6}</div></div>'.format(
 				this.Block.Name,
 				this.CssClass,
 				this.Block.Id,
+				this.DefaultWidth,
+				this.DefaultHeight,
 				this.CreateContentMarkup(this.Block),
 				this.Block.Id
 				);

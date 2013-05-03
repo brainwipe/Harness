@@ -30,6 +30,12 @@
    text-align:center;
 }
 
+.d3psom {
+  position: absolute;
+  left:0;
+  top:0;
+}
+
 .d3psom rect {
   fill: none;
   pointer-events: all;
@@ -48,8 +54,6 @@
 .d3psom .link {
   stroke: #999;
 }
-
-
 
 .blockpsomfunc {
    background:url('../images/psomfunc.png');
