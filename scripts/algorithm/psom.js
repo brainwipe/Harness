@@ -113,19 +113,19 @@ PSOMConsole.prototype.debug = function(message)
 	{
 		console.info(message);
 	}
-}
+};
 PSOMConsole.prototype.error = function(message)
 {
 	console.error(message);
-}
+};
 PSOMConsole.prototype.beginGroup = function(groupname)
 {
 	console.group(groupname);
-}
+};
 PSOMConsole.prototype.endGroup = function()
 {
 	console.groupEnd();
-}
+};
 
 
 /*
@@ -416,7 +416,7 @@ function StandardPSOMAlgorithm(input)
 	if (focus.distanceFromInput > this.StandardPSOMAlgorithm_NodeBuilding)
 	{
 		this.Console.debug("Creating new neuron group");
-		this.CreateNodeGroup(focus);
+		this.CreateNodeGroup(input);
 	}
 	else
 	{
@@ -563,11 +563,11 @@ function RemoveUnlinkedNeurons()
 * This method creates three new neurons based on the focus. The three new nodes are linked together
 * and then the first neuron is linked to the most similar neuron in the network.
 */
-function CreateThreeNodeGroup(focus)
+function CreateThreeNodeGroup(input)
 {
-	var n1 = this.CreateNeuronFromInput(focus);
-	var n2 = this.CreateNeuronFromInput(focus);
-	var n3 = this.CreateNeuronFromInput(focus);
+	var n1 = this.CreateNeuronFromInput(input);
+	var n2 = this.CreateNeuronFromInput(input);
+	var n3 = this.CreateNeuronFromInput(input);
 
 	this.AddLink(n1, n2, this.DistanceMetric(n1, n2.weights));
 	this.AddLink(n2, n3, this.DistanceMetric(n2, n3.weights));

@@ -34,9 +34,7 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
    };
 
-   PSOMFuncView.prototype.Draw = function() {};
-
-   PSOMFuncView.prototype.Initialise = function(view)
+   PSOMFuncView.prototype.Draw = function()
    {
       this.Link = this.Link.data(this.Links);
 
@@ -55,6 +53,11 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       this.Node.exit().remove();
 
       this.Force.start();
+   };
+
+   PSOMFuncView.prototype.Initialise = function(view)
+   {
+
    };
 
    PSOMFuncView.prototype.SetupD3Force = function()
