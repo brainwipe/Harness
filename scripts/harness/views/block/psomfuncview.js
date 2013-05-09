@@ -50,6 +50,8 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
          .attr("r", 5)
          .call(this.Force.drag);
 
+      this.Node.attr("data-neuronId", function(d) { return d.neuronId; });
+
       this.Node.exit().remove();
 
       this.Force.start();
@@ -99,7 +101,6 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       svg.append("rect")
          .attr("width", width)
          .attr("height", height);
-
 
       this.Link = svg.selectAll(".link");
       this.Node = svg.selectAll(".node");

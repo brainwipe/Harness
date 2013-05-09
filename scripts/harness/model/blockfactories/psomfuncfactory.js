@@ -25,12 +25,12 @@ function(Block, Socket, SocketType, PSOMFuncView) {
       block.PSOM = psom.BuildStandard();
 
       block.PSOM.CreateNeuronWithRandomisedWeights_WeightLength = 3;
-      block.PSOM.CreateNeuronFromInput_Deviation = 0.2;
+      block.PSOM.CreateNeuronFromInput_Deviation = 0.05;
       block.PSOM.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
       block.PSOM.StandardPSOMAlgorithm_NodeBuilding = 0.29;
       block.PSOM.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
       block.PSOM.StandardPSOMAlgorithm_LearningRate = 0.9;
-      block.PSOM.AgeNetwork_AgeRate = 0.3;
+      block.PSOM.AgeNetwork_AgeRate = 0.05;
       block.PSOM.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
 
       block.AddInput(new Socket(block.Id, "InputPattern", new SocketType().BuildVector()), true, false);

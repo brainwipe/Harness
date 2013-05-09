@@ -16,7 +16,7 @@ PSOMD3EventHandler.prototype.D3ForceLinks = null;
 PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 {
 	this.PSOM.on("AddNeuron", this, function(caller, eneuron) {
-		eneuron.D3Node = new D3Node();
+		eneuron.D3Node = new D3Node(eneuron.id);
 		caller.D3ForceNodes.push(eneuron.D3Node);
 	});
 
@@ -40,9 +40,12 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 	});
 };
 
-function D3Node() {}
+function D3Node(myNeuronId) {
+	this.neuronId = myNeuronId;
+}
 D3Node.prototype.x = null;
 D3Node.prototype.y = null;
+D3Node.prototype.neuronId = -1;
 
 function D3Link(mysource, mytarget, myweight) {
 	this.source = mysource;

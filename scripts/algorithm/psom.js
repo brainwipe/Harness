@@ -191,12 +191,12 @@ function RemoveNeuron(neuronToRemove)
 	{
 		if (this.links[j].from === neuronToRemove)
 		{
-			this.processEvent("RemoveLink", this.links[j].from);
+			this.processEvent("RemoveLink", this.links[j]);
 			this.links.splice(j, 1);
 		}
 		else if (this.links[j].to === neuronToRemove)
 		{
-			this.processEvent("RemoveLink", this.links[j].to);
+			this.processEvent("RemoveLink", this.links[j]);
 			this.links.splice(j, 1);
 		}
 		else
@@ -538,6 +538,7 @@ function RemoveLinksAboveThreshold()
 	{
 		if (this.links[i].value > this.RemoveLinksAboveThreshold_AgeThreshold)
 		{
+			this.processEvent("RemoveLink", this.links[i]);
 			this.links[i].to.linkCount--;
 			this.links[i].from.linkCount--;
 			this.links.splice(i,1);
@@ -554,6 +555,7 @@ function RemoveUnlinkedNeurons()
 	{
 		if (this.neurons[i].linkCount === 0)
 		{
+			this.processEvent("RemoveNeuron", this.links[j]);
 			this.neurons.splice(i,1);
 		}
 	}
