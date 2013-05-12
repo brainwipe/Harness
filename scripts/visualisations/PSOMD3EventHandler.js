@@ -29,7 +29,7 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 		RemoveFromArray(caller.D3ForceLinks, elink.D3Link);
 	});
 
-	this.PSOM.on("RemoveNode", this, function(caller, elink) {
+	this.PSOM.on("RemoveNeuron", this, function(caller, elink) {
 		RemoveFromArray(caller.D3ForceNodes, elink.D3Node);
 	});
 

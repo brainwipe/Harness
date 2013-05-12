@@ -553,9 +553,9 @@ function RemoveUnlinkedNeurons()
 {
 	for(var i=this.neurons.length-1; i>=0; i--)
 	{
-		if (this.neurons[i].linkCount === 0)
+		if (this.neurons[i].linkCount < 1)
 		{
-			this.processEvent("RemoveNeuron", this.links[j]);
+			this.processEvent("RemoveNeuron", this.neurons[i]);
 			this.neurons.splice(i,1);
 		}
 	}

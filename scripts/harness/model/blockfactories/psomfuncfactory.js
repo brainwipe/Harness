@@ -30,7 +30,7 @@ function(Block, Socket, SocketType, PSOMFuncView) {
       block.PSOM.StandardPSOMAlgorithm_NodeBuilding = 0.29;
       block.PSOM.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
       block.PSOM.StandardPSOMAlgorithm_LearningRate = 0.9;
-      block.PSOM.AgeNetwork_AgeRate = 0.05;
+      block.PSOM.AgeNetwork_AgeRate = 0.01;
       block.PSOM.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
 
       block.AddInput(new Socket(block.Id, "InputPattern", new SocketType().BuildVector()), true, false);
