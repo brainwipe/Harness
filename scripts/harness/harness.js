@@ -45,7 +45,6 @@ function() {
 	Harness.prototype.AddBlock = function (block, view) {
 		this.Views[block.Id] = view;
 		this.Blocks[block.Id] = block;
-		this.Update();
 		this.Validate();
 		return block;
 	};

@@ -37,7 +37,7 @@ function(PropertiesViewBase) {
                      'Value'+
                   '</label>'+
                   '<div class="controls">'+
-                     '<input class="input-medium" id="{0}-configuration-value" type="text" value="{1}"/>'.format(this.Id, this.Block.Data) +
+                     '<input class="input-medium" id="{0}-configuration-value" type="text" value="{1}"/>'.format(this.Id, "DUMMY") +
                   '<div>'+
                '</div>'+
             '</fieldset>'+
@@ -51,7 +51,7 @@ function(PropertiesViewBase) {
 
       configValue.blur(function () {
          var block = harness.GetBlockFromAnyId($(this).attr("id"));
-         block.Data = $(this).val();
+         //block.Data = $(this).val();
          harness.Views[block.Id].Draw();
       });
    };

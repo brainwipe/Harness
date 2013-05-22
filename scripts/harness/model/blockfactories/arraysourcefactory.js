@@ -44,10 +44,6 @@ function(Block, Socket, SocketType, ArraySourceView) {
 			return true;
 		};
 
-		block.DataToJSON = function() {
-			return JSON.stringify(this.Data);
-		};
-
 		block.CurrentData = function() {
 			return this.Data.Values[this.Data.CurrentIndex];
 		};

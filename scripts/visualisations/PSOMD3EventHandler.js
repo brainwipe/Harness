@@ -40,6 +40,23 @@ PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
 	});
 };
 
+PSOMD3EventHandler.prototype.Build = function()
+{
+	for (var neuronId in this.PSOM.neurons)
+	{
+		var neuron = this.PSOM.neurons[neuronId];
+		neuron.D3Node = new D3Node(neuron.id);
+		this.D3ForceNodes.push(neuron.D3Node);
+	}
+
+	for (var linkId in this.PSOM.links)
+	{
+		var link = this.PSOM.links[linkId];
+		link.D3Link = new D3Link(link.from.D3Node, link.to.D3Node, link.value);
+		this.D3ForceLinks.push(link.D3Link);
+	}
+};
+
 function D3Node(myNeuronId) {
 	this.neuronId = myNeuronId;
 }

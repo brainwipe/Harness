@@ -93,9 +93,6 @@ function Link(f, t, v) {
 	this.from = f;
 	this.to = t;
 	this.value = v;
-
-	this.from.linkCount++;
-	this.to.linkCount++;
 }
 
 Link.prototype.from = null;
@@ -109,7 +106,7 @@ function PSOMConsole(level)
 PSOMConsole.prototype.warninglevel = 'debug';
 PSOMConsole.prototype.debug = function(message)
 {
-	if (this.warninglevel == 'debug')
+	if (this.warninglevel === 'debug')
 	{
 		console.info(message);
 	}
@@ -148,12 +145,15 @@ function AddLink(neuronFrom, neuronTo, value)
 	}
 
 	var link = new Link(neuronFrom, neuronTo, value);
+	neuronFrom.linkCount++;
+	neuronTo.linkCount++;
+
 	this.links.push(link);
 	this.Console.debug("Created Link between n" + neuronFrom.id + " and n" + neuronTo.id);
 
 	this.processEvent("AddLink", link);
 	return link;
-};
+}
 
 function AddNeuron(weights)
 {

@@ -35,10 +35,6 @@ function(Block, Socket, SocketType, ScalarSinkView) {
 			return this.ValidateRequiredInputs();
 		};
 
-		block.DataToJSON = function() {
-			return '"' + this.Data + '"';
-		};
-
 		return block;
 	};
 	ScalarSinkFactory.prototype.FactoryName = 'ScalarSinkFactory';

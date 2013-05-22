@@ -33,10 +33,6 @@ function(Block, Socket, SocketType, IncrementalSourceView) {
          return true;
       };
 
-      block.DataToJSON = function() {
-         return '"' + this.Data + '"';
-      };
-
       return block;
    };
 

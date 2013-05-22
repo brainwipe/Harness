@@ -16,7 +16,7 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
       this.Base.Properties = new PSOMFuncPropertiesView(block);
       this.Base.CreateContentMarkup = this.CreateContentMarkup;
       this.SetupD3Force();
-      this.PSOMD3EventHandler = new PSOMD3EventHandler(this.Block.PSOM, this.Force);
+      this.PSOMD3EventHandler = new PSOMD3EventHandler(this.Block.Data, this.Force);
    }
 
    PSOMFuncView.prototype.Base = null;
@@ -59,7 +59,7 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    PSOMFuncView.prototype.Initialise = function(view)
    {
-
+      this.PSOMD3EventHandler.Build();
    };
 
    PSOMFuncView.prototype.SetupD3Force = function()

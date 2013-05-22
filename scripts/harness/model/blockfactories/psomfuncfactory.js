@@ -4,11 +4,13 @@ define(
    "harness/model/entities/socket",
    "harness/model/entities/sockettype",
    "harness/views/block/psomfuncview",
+   "harness/engines/blockengines/psomserializer",
+   "harness/engines/blockengines/psomdeserializer",
    "algorithm/psom",
    "lib/math"
 ],
 
-function(Block, Socket, SocketType, PSOMFuncView) {
+function(Block, Socket, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
 
    function PSOMFuncFactory() {
 
@@ -22,24 +24,24 @@ function(Block, Socket, SocketType, PSOMFuncView) {
                      this.FriendlyName,
                      this.FactoryName);
 
-      block.PSOM = psom.BuildStandard();
+      block.Data = psom.BuildStandard();
 
-      block.PSOM.CreateNeuronWithRandomisedWeights_WeightLength = 3;
-      block.PSOM.CreateNeuronFromInput_Deviation = 0.05;
-      block.PSOM.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
-      block.PSOM.StandardPSOMAlgorithm_NodeBuilding = 0.29;
-      block.PSOM.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
-      block.PSOM.StandardPSOMAlgorithm_LearningRate = 0.9;
-      block.PSOM.AgeNetwork_AgeRate = 0.01;
-      block.PSOM.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
+      block.Data.CreateNeuronWithRandomisedWeights_WeightLength = 3;
+      block.Data.CreateNeuronFromInput_Deviation = 0.05;
+      block.Data.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
+      block.Data.StandardPSOMAlgorithm_NodeBuilding = 0.29;
+      block.Data.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
+      block.Data.StandardPSOMAlgorithm_LearningRate = 0.9;
+      block.Data.AgeNetwork_AgeRate = 0.01;
+      block.Data.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
+
+      block.Data.InitialiseNodeStructure();
 
       block.AddInput(new Socket(block.Id, "InputPattern", new SocketType().BuildVector()), true, false);
       block.AddOutput(new Socket(block.Id, "LastError", new SocketType().BuildScalar()));
 
-      block.Data = 1;
       block.Execute = function() {
-         this.Data = this.PSOM.Learn(this.Inputs.InputPattern.Data);
-         this.Outputs.LastError.Data = this.Data;
+         this.Outputs.LastError.Data = this.Data.Learn(this.Inputs.InputPattern.Data);
          this.Completed = true;
       };
 
@@ -53,25 +55,16 @@ function(Block, Socket, SocketType, PSOMFuncView) {
       };
 
       block.DataToJSON = function() {
-         return '"' + this.Data + '"';
+         var serializer = new PSOMSerializer();
+         return serializer.PSOMToJSON(this.Data);
       };
 
-      // KILL THIS eventually
-      block.RandomNeuron = function(thepsom) {
-         var numNeurons = thepsom.neurons.length;
-         var randNeuron = MathTwo.Random(numNeurons);
-         return thepsom.neurons[randNeuron];
+      block.JSONToData = function(jsonData) {
+         var deserializer = new PSOMDeserializer();
+         this.Data = deserializer.JSONToPSOM(this.Data, jsonData);
       };
 
       block.Initialise = function(view) {
-         this.PSOM.InitialiseNodeStructure();
-         var randomNeuron1 = this.RandomNeuron(block.PSOM);
-         var randomNeuron2 = this.RandomNeuron(block.PSOM);
-
-         var newneuron = block.PSOM.CreateNeuron();
-         block.PSOM.AddLink(randomNeuron1, newneuron, Math.random());
-         block.PSOM.AddLink(randomNeuron2, newneuron, Math.random());
-
          view.Initialise();
       };
 

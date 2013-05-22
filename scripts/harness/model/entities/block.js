@@ -80,8 +80,12 @@ function(ValidationException) {
 	};
 
 	Block.prototype.DataToJSON = function () {
-		return "{}";
+		return JSON.stringify(this.Data);
 	};
+
+	Block.prototype.JSONToData = function(jsonData) {
+      this.Data = jsonData;
+   };
 
 	return (Block);
 });

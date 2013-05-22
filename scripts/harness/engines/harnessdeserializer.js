@@ -31,24 +31,10 @@ function(BlockFactory) {
 		for (var key in blocks)
 		{
 			var blockJSON = blocks[key];
-			var blockFactory = this.BlockFactory.Factories[blockJSON.Factory];
-			var block = blockFactory.Build(harness.GetNextBlockId());
-			var view = blockFactory.GetView(block);
-			block.Data = blockJSON.Data;
 
-			var newblock = harness.AddBlock(block, view);
-			this.MapBlockIds(blockJSON.Id, newblock.Id);
-
-			this.SetupView(view, blockJSON.View);
+			var block = this.BlockFactory.CreateBlockFromJSON(harness, blockJSON);
+			this.MapBlockIds(blockJSON.Id, block.Id);
 		}
-	};
-
-	HarnessDeSerializer.prototype.SetupView = function(view, viewJSON) {
-		view.Base.Element.offset({ top: viewJSON.Top, left: viewJSON.Left});
-		view.Base.Element.children(".ui-resizable").width(viewJSON.Width);
-		view.Base.Element.children(".ui-resizable").height(viewJSON.Height);
-
-		return view;
 	};
 
 	HarnessDeSerializer.prototype.MapBlockIds = function(oldBlockId, newBlockId) {
