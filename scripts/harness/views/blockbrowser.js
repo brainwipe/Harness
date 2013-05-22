@@ -1,10 +1,13 @@
 define(
 [
 	'harness/Harness',
-	'harness/model/blockfactory'
+	'harness/model/blockfactory',
+	'harness/views/TemplateRender',
+	'text!harness/views/templates/blockbrowser.html',
+	'text!harness/views/templates/blockbrowseritem.html'
 ],
 
-function(Harness, BlockFactory) {
+function(Harness, BlockFactory, TemplateRender, BlockBrowserTemplate, BlockBrowserItemTemplate) {
 
 	function BlockBrowser(harness) {
 		this.Harness = harness;
@@ -43,42 +46,19 @@ function(Harness, BlockFactory) {
 
 	BlockBrowser.prototype.BlockListItem = function(id, blockBuilder)
 	{
-		return '<li class="chooser_block ' +
-			blockBuilder.CssClass +
-			'" alt="' +
-			blockBuilder.FriendlyName +
-			'" title="' +
-			blockBuilder.FriendlyName +
-			'" harness-block-type="' +
-			blockBuilder.Type +
-			'" harness-block-id="' +
-			id +
-			'"></li>';
+		var data = {
+			"CssClass": blockBuilder.CssClass,
+			"FriendlyName": blockBuilder.FriendlyName,
+			"BlockType": blockBuilder.Type,
+			"BlockId" : id
+		};
+
+		return new TemplateRender().Render(BlockBrowserItemTemplate, data);
 	};
 
 	BlockBrowser.prototype.CreateMarkup = function() {
 		harness.Element.append(
-			'<div class="modal hide fade noselect" id="blocksModal">'+
-				'<div class="modal-header">'+
-				'<button class="close" data-dismiss="modal">×</button>'+
-				'<h3>Block Browser</h3>'+
-			'</div>'+
-			'<div class="modal-body">'+
-				'<ul id="blockTypeList" class="nav nav-tabs">'+
-					'<li class="active"><a href="#sources" data-toggle="tab">Sources</a></li>'+
-					'<li><a href="#sinks" data-toggle="tab">Sinks</a></li>'+
-					'<li><a href="#functions" data-toggle="tab">Functions</a></li>'+
-				'</ul>'+
-				'<div class="tab-content">'+
-					'<ul id="sources" class="chooser_blocklist tab-pane active"></ul>'+
-					'<ul id="sinks" class="chooser_blocklist tab-pane"></ul>'+
-					'<ul id="functions" class="chooser_blocklist tab-pane"></ul>'+
-				'</div>'+
-			'</div>'+
-			'<div class="modal-footer">'+
-				'<a href="#" data-dismiss="modal" class="btn">Close</a>'+
-			'</div>'+
-		'</div>');
+			new TemplateRender().Render(BlockBrowserTemplate, {}));
 	};
 
 	return (BlockBrowser);

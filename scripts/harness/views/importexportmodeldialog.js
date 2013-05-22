@@ -1,36 +1,20 @@
 define(
 [
-   "harness/engines/harnessserializer",
+   'harness/engines/harnessserializer',
    'harness/harnessfactory',
-   "stringlib"
+   'harness/views/templaterender',
+   'text!harness/views/templates/importexportdialog.html',
+   'stringlib'
 ],
 
-function(HarnessSerializer, HarnessFactory) {
+function(HarnessSerializer, HarnessFactory, TemplateRender, ImportExportDialogTemplate) {
 
    function ImportExportModelDialog() { }
 
    ImportExportModelDialog.prototype.CreateMarkup = function() {
 
       harness.Element.append(
-      '<div class="modal hide fade" id="importExportModelDialog">' +
-            '<div class="modal-header">' +
-            '<button class="close" data-dismiss="modal">×</button>' +
-            '<h3>Import / Export Model</h3>' +
-         '</div>' +
-         '<div class="modal-body">' +
-            '<div class="alert alert-error alert-block" id="importError">' +
-               '<h4>Import Error</h4><span id="error-reason"></span>' +
-            '</div>' +
-            '<p>Below is the Model in JSON format. Copy the contents into your favourite text editor to export.</p><p>To import some blocks, click empty below and paste in a JSON model. The new blocks will be imported on top of your existing model, so you might want to clear that first.</p>'+
-            '<form><fieldset>'+
-            '<textarea rows="8" class="input-block-level" id="jsonImportExport">' +
-             '</textarea></fieldset></form>' +
-         '</div>'+
-         '<div class="modal-footer">'+
-            '<button type="button" class="btn btn-primary" data-dismiss="modal" id="importModel" disabled="disabled">Import</button>'+
-            '<button type="button" class="btn" data-dismiss="modal">Cancel</button>'+
-         '</div>'+
-      '</div>');
+         new TemplateRender().Render(ImportExportDialogTemplate, {}));
 
       $('#importExportModelDialog').on('show', function (e) {
          var serializer = new HarnessSerializer();
@@ -64,8 +48,6 @@ function(HarnessSerializer, HarnessFactory) {
          }
       });
    };
-
-
 
    return (ImportExportModelDialog);
 

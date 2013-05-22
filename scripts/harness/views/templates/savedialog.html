@@ -1,0 +1,21 @@
+<div class="modal hide fade" id="saveDialog">
+   <div class="modal-header">
+      <button class="close" data-dismiss="modal">×</button>
+      <h3>Save Model</h3>
+   </div>
+   <div class="modal-body">
+      <form class="form-horizontal" id="savedModelsPlaceholder">
+         <legend>Save a new model by typing a new name</legend>
+         <div class="control-group">
+            <label class="control-label" for="newModelName">New name:</label>
+            <div class="controls">
+               <input type="text" id="newModelName" placeholder="{{ harnessName }}">
+            </div>
+         </div>
+      </form>
+   </div>
+   <div class="modal-footer">
+      <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveModel">Save</button>
+      <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+   </div>
+</div>

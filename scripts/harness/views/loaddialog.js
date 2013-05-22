@@ -1,30 +1,19 @@
 define(
 [
 	'harness/harnessfactory',
+	'harness/views/TemplateRender',
+	'text!harness/views/templates/loaddialog.html',
+	'text!harness/views/templates/savedmodels.html',
 	'stringlib'
 ],
 
-function(HarnessFactory) {
+function(HarnessFactory, TemplateRender, LoadDialogTemplate, SavedModelsTemplate) {
 
 	function LoadDialog() {	}
 
 	LoadDialog.prototype.CreateMarkup = function()
 	{
-		harness.Element.append('<div class="modal hide fade" id="loadDialog">'+
-				'<div class="modal-header">'+
-				'<button class="close" data-dismiss="modal">×</button>'+
-				'<h3>Load Model</h3>'+
-			'</div>'+
-			'<div class="modal-body">'+
-				'<form class="form-horizontal">'+
-					'<div id="loadModelsPlaceholder"></div>'+
-				'</form>'+
-			'</div>'+
-			'<div class="modal-footer">'+
-				'<button type="button" class="btn btn-primary" data-dismiss="modal" id="loadModel">Load</button>'+
-				'<button type="button" class="btn" data-dismiss="modal">Cancel</button>'+
-			'</div>'+
-		'</div>');
+		harness.Element.append(new TemplateRender().Render(LoadDialogTemplate));
 
 		this.ApplySavedModelsToDialog();
 
@@ -63,30 +52,18 @@ function(HarnessFactory) {
 	LoadDialog.prototype.GetSavedModelsInList = function() {
 		var models = this.GetSavedModels();
 
-		var list = '<legend>Choose a model to load...</legend>'+
-						'<div class="control-group savedModelChooser">'+
-							'<div class="controls"><select id="savedModelsChoice">';
-		var modelCount = 0;
-
-		for (var i in models)
-		{
-			modelCount++;
-			list += '<option>{0}</option>'.format(i);
-		}
-
-		list += '</select></div></div>';
-		list += '<div class="control-group"><label class="control-label" for="newModelName">or choose a new name:</label>'+
-						'<div class="controls">'+
-							'<input type="text" id="newModelName" placeholder="' + harness.Name + '">'+
-						'</div>'+
-					'</div>';
-
-		if (modelCount === 0)
+		if (models.length === 0)
 		{
 			return '';
 		}
 
-		return list;
+		var data = {
+			"title": "Choose a model to load...",
+			"models": models,
+			"harnessName": harness.Name
+		};
+
+		return new TemplateRender().Render(SavedModelsTemplate, data);
 	};
 
 	LoadDialog.prototype.ApplySavedModelsToDialog = function() {

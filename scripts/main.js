@@ -16,6 +16,7 @@ require.config({
 		'exception': 'harness',
 		'stringlib': 'lib/stringlib',
 		'domReady': 'lib/requirejs/domReady',
+		'text' : 'lib/requirejs/text',
 		'd3':'//d3js.org/d3.v3.min',
 
 		'psom' : 'algorithm/psom',
@@ -27,7 +28,7 @@ require.config({
 			exports: '$'
 		},
 
-      	'jqueryui': {
+      'jqueryui': {
 			deps: ['jquery'],
 			exports: 'jqueryui'
 		},

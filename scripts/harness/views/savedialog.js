@@ -1,36 +1,20 @@
 define(
 [
 	"harness/engines/harnessserializer",
+	"harness/views/templaterender",
+	"text!harness/views/templates/savedialog.html",
+	"text!harness/views/templates/savedmodels.html",
 	"stringlib"
 ],
 
-function(HarnessSerializer) {
+function(HarnessSerializer, TemplateRender, SaveDialogTemplate, SavedModelsTemplate) {
 
 	function SaveDialog() {	}
 
 	SaveDialog.prototype.CreateMarkup = function() {
+
 		harness.Element.append(
-		'<div class="modal hide fade" id="saveDialog">' +
-				'<div class="modal-header">' +
-				'<button class="close" data-dismiss="modal">×</button>' +
-				'<h3>Save Model</h3>' +
-			'</div>' +
-			'<div class="modal-body">' +
-				'<form class="form-horizontal" id="savedModelsPlaceholder">'+
-					'<legend>Save a new model by typing a new name</legend>'+
-					'<div class="control-group">'+
-						'<label class="control-label" for="newModelName">New name:</label>'+
-						'<div class="controls">'+
-							'<input type="text" id="newModelName" placeholder="' + harness.Name + '">'+
-						'</div>'+
-					'</div>'+
-				'</form>'+
-			'</div>'+
-			'<div class="modal-footer">'+
-				'<button type="button" class="btn btn-primary" data-dismiss="modal" id="saveModel">Save</button>'+
-				'<button type="button" class="btn" data-dismiss="modal">Cancel</button>'+
-			'</div>'+
-		'</div>');
+			new TemplateRender().Render(SaveDialogTemplate, {"harnessName": harness.Name}));
 
 		this.ApplySavedModelsToDialog();
 
@@ -78,31 +62,19 @@ function(HarnessSerializer) {
 	SaveDialog.prototype.GetSavedModelsInList = function() {
 		var models = this.GetSavedModels();
 
-		var list = '<legend>Choose a saved model to overwrite...</legend>'+
-						'<div class="control-group savedModelChooser">'+
-							'<div class="controls"><select id="savedModelsChoice">';
-		var modelCount = 0;
-
-		for (var i in models)
-		{
-			modelCount++;
-			var id = i.replace(/ /g,'');
-			list += '<option value="{0}">{1}</option>'.format(id, i);
-		}
-
-		list += '</select></div></div>';
-		list += '<div class="control-group"><label class="control-label" for="newModelName">or choose a new name:</label>'+
-						'<div class="controls">'+
-							'<input type="text" id="newModelName" placeholder="' + harness.Name + '">'+
-						'</div>'+
-					'</div>';
-
-		if (modelCount === 0)
+		if (models.length === 0)
 		{
 			return '';
 		}
 
-		return list;
+		var data = {
+			"title": "Choose a saved model to overwrite...",
+			"models": models,
+			"harnessName": harness.Name
+		};
+
+		return new TemplateRender().Render(SavedModelsTemplate, data);
+
 	};
 
 	SaveDialog.prototype.ApplySavedModelsToDialog = function() {
