@@ -2,10 +2,12 @@ define(
 [
 	"harness/model/entities/block",
 	"harness/model/entities/socket",
+	"harness/views/templaterender",
+	"text!harness/views/templates/block/blockviewbase.html",
 	"stringlib"
 ],
 
-function(Block, Socket) {
+function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 
 	function BlockViewBase(block)	{
 		this.Block = block;
@@ -21,16 +23,15 @@ function(Block, Socket) {
 	BlockViewBase.prototype.DefaultWidth = 200;
 	BlockViewBase.prototype.DefaultHeight = 200;
 	BlockViewBase.prototype.CreateMarkup = function (containerElement) {
-		var blockMarkup = '<div title="{0}" class="block noselect {1}" id="{2}"><div class="block_resizable" style="width:{3}px; height:{4}px;">{5}</div><div class="options">{6}</div></div>'.format(
-				this.Block.Name,
-				this.CssClass,
-				this.Block.Id,
-				this.DefaultWidth,
-				this.DefaultHeight,
-				this.CreateContentMarkup(this.Block),
-				this.Block.Id
-				);
-		containerElement.append(blockMarkup);
+		var data = {
+			"blockName": this.Block.Name,
+			"blockClass": this.CssClass,
+			"blockId": this.Block.Id,
+			"defaultWidth": this.DefaultWidth,
+			"defaultHeight": this.DefaultHeight,
+			"contentMarkup": this.CreateContentMarkup(this.Block)
+		};
+		containerElement.append(new TemplateRender().Render(BlockViewBaseTemplate, data));
 
 		this.Element = $("#" + this.Block.Id);
 
