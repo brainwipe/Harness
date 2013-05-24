@@ -1,0 +1,76 @@
+<div class="modal hide fade" id="{{id}}">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>{{blockName}} Properties</h3>
+	</div>
+	<div class="modal-body">
+		<ul class="nav nav-tabs">
+			{{# var css="active"; }}
+			{{# _.each(tabs, function(tab) { }}
+			 	<li class="{{css}}">
+			 		<a href="#{{tab.Id}}" data-toggle="tab">{{ tab.Name }}</a>
+			 	</li>
+			 	{{# css = "";}}
+			{{# }); }}
+		{{# if (inputsCount > 0) { }}
+			<li>
+				<a href="#{{id}}-inputs" data-toggle="tab">Inputs</a>
+			</li>
+		{{# }; }}
+
+		{{# if (outputsCount > 0) { }}
+			<li>
+				<a href="#{{id}}-outputs" data-toggle="tab">Outputs</a>
+			</li>
+		{{# }; }}
+		</ul>
+
+		<div class="tab-content">
+			{{# var css="active"; }}
+			{{# _.each(tabs, function(tab) { }} 
+				<div class="tab-pane {{css}}" id="{{tab.Id}}">{{tab.Content}}</div>
+				{{# css = "";}}
+			{{# }); }}
+
+			{{# if (inputsCount > 0) { }}
+				<div class="tab-pane {{css}}" id="{{id}}-inputs">
+					<form class="form-horizontal">
+						<fieldset>
+							{{# _.each(Inputs, function(input) { }} 
+								<div class="control-group">
+									<label class="control-label" for="">{{input.Name}}</label>
+									<div class="controls">
+										<input type="text" class="input-medium uneditable-input" id="{{id}}-inputs-{{input.Id}}" value="{{input.Data}}"/>
+									</div>
+								</div>
+							{{# }); }}
+						</fieldset>
+					</form>
+				</div>
+				{{# css = "";}}
+			{{# }; }}
+
+			{{# if (outputsCount > 0) { }}
+				<div class="tab-pane {{css}}" id="{{id}}-outputs">
+					<form class="form-horizontal">
+						<fieldset>
+							{{# _.each(Outputs, function(output) { }} 
+								<div class="control-group">
+									<label class="control-label" for="">{{output.Name}}</label>
+									<div class="controls">
+										<input type="text" class="input-medium uneditable-input" id="{{id}}-output-{{output.Id}}" value="{{output.Data}}"/>
+									</div>
+								</div>
+							{{# }); }}
+						</fieldset>
+					</form>
+				</div>
+				{{# css = "";}}
+			{{# }; }}
+
+		</div>
+	</div> 
+	<div class="modal-footer">
+		<a href="#" data-dismiss="modal" class="btn">Close</a>
+	</div>
+</div>

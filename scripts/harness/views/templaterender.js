@@ -8,8 +8,9 @@ function (_) {
    {
       _.templateSettings = {
          evaluate:    /\{\{#([\s\S]+?)\}\}/g,            // {{# console.log("blah") }}
-         interpolate: /\{\{\{(\s*\w+?\s*)\}\}\}/g,  // {{ title }}
-         escape:      /\{\{(\s*\w+?\s*)\}\}(?!\})/g          // {{{ title }}}
+         escape:      /\{\{\{(\s*(\w|\.)+?\s*)\}\}\}/g,         // {{{ title }}}
+         interpolate: /\{\{(\s*(\w|\.)+?\s*)\}\}(?!\})/g  // {{ title }}
+         
       };
    }
 
