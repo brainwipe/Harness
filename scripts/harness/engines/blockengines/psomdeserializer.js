@@ -12,14 +12,7 @@ function() {
 
       psom.links = this.Relink(psom.neurons, psomJSON.links);
 
-      psom.CreateNeuronWithRandomisedWeights_WeightLength = psomJSON.CreateNeuronWithRandomisedWeights_WeightLength;
-      psom.CreateNeuronFromInput_Deviation = psomJSON.CreateNeuronFromInput_Deviation;
-      psom.AddFlatDistributionNoiseToWeights_Deviation = psomJSON.AddFlatDistributionNoiseToWeights_Deviation;
-      psom.StandardPSOMAlgorithm_NodeBuilding = psomJSON.StandardPSOMAlgorithm_NodeBuilding;
-      psom.StandardPSOMAlgorithm_ClusterThreshold = psomJSON.StandardPSOMAlgorithm_ClusterThreshold;
-      psom.StandardPSOMAlgorithm_LearningRate = psomJSON.StandardPSOMAlgorithm_LearningRate;
-      psom.AgeNetwork_AgeRate = psomJSON.AgeNetwork_AgeRate;
-      psom.RemoveLinksAboveThreshold_AgeThreshold = psomJSON.RemoveLinksAboveThreshold_AgeThreshold;
+      psom.configuration = psomJSON.configuration;
 
       return psom;
    };
