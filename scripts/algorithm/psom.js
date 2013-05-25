@@ -22,6 +22,8 @@ function psom(learn, distanceMetric, createNeuronWithRandomisedWeights, createNe
 
 	this.neurons = [];
 	this.links = [];
+	this.configuration = {};
+	this.configurationtext = {};
 	this.distanceFromInput = 0;
 }
 psom.prototype.AddNeuron = null;
@@ -39,8 +41,8 @@ psom.prototype.RemoveDeadNeurons = null;
 psom.prototype.RemoveNeuron = null;
 psom.prototype.CreateNodeGroup = null;
 
-psom.prototype.configuration = {};
-psom.prototype.configurationtext = {};
+psom.prototype.configuration = null;
+psom.prototype.configurationtext = null;
 psom.prototype.neurons = null;
 psom.prototype.links = null;
 psom.prototype.neuronId = 0;

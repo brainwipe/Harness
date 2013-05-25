@@ -11,7 +11,6 @@ define(
 	"harness/views/validationbrowser",
 	"harness/views/notify",
 	"stringlib"
-
 ],
 function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, ScalarSinkView, ScalarSourceView, ValidationException, ValidationBrowser, Notify) {
 	describe("Harness", function () {
@@ -104,16 +103,19 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('will report false if you try and disconnect a connector that does not exist', function() {
+
+				// Arrange
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
 
+				// Act
 				var connector = outputSocket.Connect(inputSocket);
 
+				// Assert
 				expect(outputSocket.Connectors[0]).toEqual(connector);
 				expect(inputSocket.Connectors[0]).toEqual(connector);
 
 				expect(inputSocket.Disconnect(connector)).toEqual(true);
-
 				expect(inputSocket.Disconnect(connector)).toEqual(false);
 			});
 
