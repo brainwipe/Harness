@@ -26,15 +26,6 @@ function(Block, Socket, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializ
 
       block.Data = psom.BuildStandard();
 
-      block.Data.CreateNeuronWithRandomisedWeights_WeightLength = 3;
-      block.Data.CreateNeuronFromInput_Deviation = 0.05;
-      block.Data.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
-      block.Data.StandardPSOMAlgorithm_NodeBuilding = 0.29;
-      block.Data.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
-      block.Data.StandardPSOMAlgorithm_LearningRate = 0.9;
-      block.Data.AgeNetwork_AgeRate = 0.01;
-      block.Data.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
-
       block.Data.InitialiseNodeStructure();
 
       block.AddInput(new Socket(block.Id, "InputPattern", new SocketType().BuildVector()), true, false);

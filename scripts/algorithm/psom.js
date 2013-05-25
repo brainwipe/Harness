@@ -39,6 +39,8 @@ psom.prototype.RemoveDeadNeurons = null;
 psom.prototype.RemoveNeuron = null;
 psom.prototype.CreateNodeGroup = null;
 
+psom.prototype.configuration = {};
+psom.prototype.configurationtext = {};
 psom.prototype.neurons = null;
 psom.prototype.links = null;
 psom.prototype.neuronId = 0;
@@ -75,9 +77,29 @@ psom.prototype.processEvent = function(event, args) {
 psom.prototype.Console = null;
 
 psom.BuildStandard = function () {
-	return new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
+	var newpsom = new psom(StandardPSOMAlgorithm, EuclideanDistance, CreateNeuronWithRandomisedWeights, CreateNeuronFromInput,
 						CreateThreeNodeNeuronNetwork, AddFlatDistributionNoiseToWeights, FindFocus, UpdateNeuron, UpdateNeighbourhood,
 						AgeNetwork, RemoveLinksAboveThreshold, RemoveUnlinkedNeurons, CreateThreeNodeGroup);
+
+	newpsom.configuration.CreateNeuronWithRandomisedWeights_WeightLength = 3;
+   newpsom.configuration.CreateNeuronFromInput_Deviation = 0.05;
+   newpsom.configuration.AddFlatDistributionNoiseToWeights_Deviation = 0.2;
+   newpsom.configuration.StandardPSOMAlgorithm_NodeBuilding = 0.29;
+   newpsom.configuration.StandardPSOMAlgorithm_ClusterThreshold = 0.23;
+   newpsom.configuration.StandardPSOMAlgorithm_LearningRate = 0.9;
+   newpsom.configuration.AgeNetwork_AgeRate = 0.01;
+   newpsom.configuration.RemoveLinksAboveThreshold_AgeThreshold = 0.9;
+
+   newpsom.configurationtext.CreateNeuronWithRandomisedWeights_WeightLength = "Neuron create random weight length";
+   newpsom.configurationtext.CreateNeuronFromInput_Deviation = "Neuron create deviation from input";
+	newpsom.configurationtext.AddFlatDistributionNoiseToWeights_Deviation = "Add flat noise to weights deviation";
+	newpsom.configurationtext.StandardPSOMAlgorithm_NodeBuilding = "Algorithm node building threshold";
+	newpsom.configurationtext.StandardPSOMAlgorithm_ClusterThreshold = "Algorithm cluster threshold";
+	newpsom.configurationtext.StandardPSOMAlgorithm_LearningRate = "Algorithm learning rate";
+	newpsom.configurationtext.AgeNetwork_AgeRate = "Algorithm aging rate";
+	newpsom.configurationtext.RemoveLinksAboveThreshold_AgeThreshold = "Remove link age threshold";
+
+	return newpsom;
 };
 
 function Neuron(w)
@@ -293,13 +315,13 @@ function FindFocus(input)
 */
 function CreateNeuronWithRandomisedWeights()
 {
-	if (typeof this.CreateNeuronWithRandomisedWeights_WeightLength === 'undefined')
+	if (typeof this.configuration.CreateNeuronWithRandomisedWeights_WeightLength === 'undefined')
 	{
 		throw "To use CreateNeuronWithRandomisedWeights, ensure you set the CreateNeuronWithRandomisedWeights_WeightLength  on the PSOM class when you create it. Example: psom.CreateNeuronWithRandomisedWeights_WeightLength = 0.2;";
 	}
 
 	var weights = [];
-	for(i=0; i<this.CreateNeuronWithRandomisedWeights_WeightLength; i++)
+	for(i=0; i<this.configuration.CreateNeuronWithRandomisedWeights_WeightLength; i++)
 	{
 		weights[i] = Math.random();
 	}
@@ -312,7 +334,7 @@ function CreateNeuronWithRandomisedWeights()
 */
 function CreateNeuronFromInput(input)
 {
-	if (typeof this.CreateNeuronFromInput_Deviation === 'undefined')
+	if (typeof this.configuration.CreateNeuronFromInput_Deviation === 'undefined')
 	{
 		throw "To use CreateNeuronFromInput, ensure you set the CreateNeuronFromInput_Deviation on the PSOM class when you create it. Example: psom.CreateNeuronFromInput_Deviation = 0.2;";
 	}
@@ -347,12 +369,12 @@ function CreateNeuronFromInput(input)
 */
 function AddFlatDistributionNoiseToWeights(inputWeights)
 {
-	if (typeof this.AddFlatDistributionNoiseToWeights_Deviation === 'undefined')
+	if (typeof this.configuration.AddFlatDistributionNoiseToWeights_Deviation === 'undefined')
 	{
 		throw "To use AddFlatDistributionNoiseToWeights, ensure you set the AddFlatDistributionNoiseToWeights_Deviation on the PSOM class when you create it. Example: psom.AddFlatDistributionNoiseToWeights_Deviation = 0.2;";
 	}
 
-	var deviation = this.AddFlatDistributionNoiseToWeights_Deviation;
+	var deviation = this.configuration.AddFlatDistributionNoiseToWeights_Deviation;
 
 	for (i=0; i<inputWeights.length; i++)
 	{
@@ -393,19 +415,19 @@ function CreateThreeNodeNeuronNetwork()
 function StandardPSOMAlgorithm(input)
 {
 	this.Console.beginGroup("Algorithm Increment - StandardPSOMAlgorithm");
-	if (typeof this.StandardPSOMAlgorithm_NodeBuilding === 'undefined')
+	if (typeof this.configuration.StandardPSOMAlgorithm_NodeBuilding === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_NodeBuilding on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_NodeBuilding= 0.2;";
 	}
-	if (typeof this.StandardPSOMAlgorithm_ClusterThreshold === 'undefined')
+	if (typeof this.configuration.StandardPSOMAlgorithm_ClusterThreshold === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_ClusterThreshold on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_ClusterThreshold = 0.2;";
 	}
-	if (typeof this.StandardPSOMAlgorithm_LearningRate === 'undefined')
+	if (typeof this.configuration.StandardPSOMAlgorithm_LearningRate === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_LearningRate on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_LearningRate = 0.2;";
 	}
-	if (typeof this.StandardPSOMAlgorithm_LearningRate === 'undefined')
+	if (typeof this.configuration.StandardPSOMAlgorithm_LearningRate === 'undefined')
 	{
 		throw "To use StandardPSOMAlgorithm, ensure you set the StandardPSOMAlgorithm_LearningRate on the PSOM class when you create it. Example: psom.StandardPSOMAlgorithm_LearningRate = 0.2;";
 	}
@@ -413,7 +435,7 @@ function StandardPSOMAlgorithm(input)
 	var focus = this.FindFocus(input);
 	this.Console.debug("Focus was " + focus.id + " with a distance of: " + focus.distanceFromInput);
 
-	if (focus.distanceFromInput > this.StandardPSOMAlgorithm_NodeBuilding)
+	if (focus.distanceFromInput > this.configuration.StandardPSOMAlgorithm_NodeBuilding)
 	{
 		this.Console.debug("Creating new neuron group");
 		this.CreateNodeGroup(input);
@@ -421,9 +443,9 @@ function StandardPSOMAlgorithm(input)
 	else
 	{
 		this.Console.debug("Updating focus and neighbourhood");
-		this.UpdateNeuron(focus, input, this.StandardPSOMAlgorithm_LearningRate);
+		this.UpdateNeuron(focus, input, this.configuration.StandardPSOMAlgorithm_LearningRate);
 
-		this.UpdateNeighbourhood(focus, this.StandardPSOMAlgorithm_LearningRate);
+		this.UpdateNeighbourhood(focus, this.configuration.StandardPSOMAlgorithm_LearningRate);
 	}
 
 	this.Console.debug("Network aging");
@@ -487,7 +509,7 @@ function UpdateNeighbourhood(focus, learningRate)
 
 			// Update neuron weights
 			var pushOrPull = 0;
-			if (this.links[i].value > this.StandardPSOMAlgorithm_ClusterThreshold)
+			if (this.links[i].value > this.configuration.StandardPSOMAlgorithm_ClusterThreshold)
 			{
 				// Push away
 				pushOrPull = -1;
@@ -514,13 +536,13 @@ function UpdateNeighbourhood(focus, learningRate)
 */
 function AgeNetwork()
 {
-	if (typeof this.AgeNetwork_AgeRate === 'undefined')
+	if (typeof this.configuration.AgeNetwork_AgeRate === 'undefined')
 	{
 		throw "To use AgeNetwork, ensure you set the AgeNetwork_AgeRate on the PSOM class when you create it. Example: psom.AgeNetwork_AgeRate= 0.2;";
 	}
 	for(var i=0; i<this.links.length; i++)
 	{
-		this.links[i].value += this.AgeNetwork_AgeRate;
+		this.links[i].value += this.configuration.AgeNetwork_AgeRate;
 	}
 }
 
@@ -529,14 +551,14 @@ function AgeNetwork()
 */
 function RemoveLinksAboveThreshold()
 {
-	if (typeof this.RemoveLinksAboveThreshold_AgeThreshold === 'undefined')
+	if (typeof this.configuration.RemoveLinksAboveThreshold_AgeThreshold === 'undefined')
 	{
 		throw "To use RemoveLinksAboveThreshold, ensure you set the RemoveLinksAboveThreshold_AgeThreshold on the PSOM class when you create it. Example: psom.RemoveLinksAboveThreshold_AgeThreshold = 0.2;";
 	}
 	// Go backwards when removing multiple items so that the indexes don't keep changing
 	for(var i=this.links.length-1; i >= 0; i--)
 	{
-		if (this.links[i].value > this.RemoveLinksAboveThreshold_AgeThreshold)
+		if (this.links[i].value > this.configuration.RemoveLinksAboveThreshold_AgeThreshold)
 		{
 			this.processEvent("RemoveLink", this.links[i]);
 			this.links[i].to.linkCount--;

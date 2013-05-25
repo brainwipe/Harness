@@ -1,9 +1,11 @@
 define(
 [
-   'harness/views/block/properties/propertiesviewbase'
+   'harness/views/block/properties/propertiesviewbase',
+   'harness/views/templaterender',
+   'text!harness/views/templates/block/properties/generictabcontent.html'
 ],
 
-function(PropertiesViewBase) {
+function(PropertiesViewBase, TemplateRender, GenericTabContent) {
 
    function PSOMFuncPropertiesView(block) {
       this.Block = block;
@@ -30,22 +32,29 @@ function(PropertiesViewBase) {
    };
    PSOMFuncPropertiesView.prototype.CreateConfigurationContent = function() {
 
-      var scalarSourceContent = '<form class="form-horizontal">'+
-            '<fieldset>'+
-               '<div class="control-group">'+
-                  '<label class="control-label">'+
-                     'Value'+
-                  '</label>'+
-                  '<div class="controls">'+
-                     '<input class="input-medium" id="{0}-configuration-value" type="text" value="{1}"/>'.format(this.Id, "DUMMY") +
-                  '<div>'+
-               '</div>'+
-            '</fieldset>'+
-         '</form>';
-      return scalarSourceContent;
+      var data = {
+         "properties" : this.GetProperties(this.Block.Data.configuration, this.Block.Data.configurationtext)
+      };
+
+      return new TemplateRender().Render(GenericTabContent, data);
+   };
+
+   PSOMFuncPropertiesView.prototype.GetProperties = function(psomConfiguration, psomConfigurationText)
+   {
+      var properties = {};
+      for(var config in psomConfiguration)
+      {
+         properties[config] = {};
+         properties[config].value = psomConfiguration[config];
+         properties[config].text = psomConfigurationText[config];
+      }
+
+      return properties;
    };
 
    PSOMFuncPropertiesView.prototype.BindEvents = function() {
+
+
 
       var configValue = $("#{0}-configuration-value".format(this.Id));
 

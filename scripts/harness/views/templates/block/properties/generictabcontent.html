@@ -1,0 +1,12 @@
+<form class="form-horizontal">
+      {{# _.each(properties, function(property, key) { }}
+         <div class="control-group">
+            <label class="control-label">
+               {{property.text}}
+            </label>
+            <div class="controls">
+               <input class="input-medium" id="{{key}}-configuration-value" type="text" value="{{property.value}}"/>
+            </div>
+         </div>
+      {{# }); }}
+</form>
