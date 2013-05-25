@@ -51,7 +51,12 @@ define(
 		return connector;
 	};
 	Socket.prototype.Disconnect = function(connectorToRemove) {
-		this.Connectors.splice(this.Connectors.indexOf(connectorToRemove),1);
+		var connectorIndex = this.Connectors.indexOf(connectorToRemove);
+		if (connectorIndex === -1) {
+			throw 'This connector is not connected to this socket and cannot be disconnected';
+		}
+
+		this.Connectors.splice(connectorIndex,1);
 		return true;
 	};
 	Socket.prototype.HasConnectors = function() {
@@ -70,6 +75,7 @@ define(
 				connector.To.Disconnect(connector);
 			}
 		}
+		this.Connectors = [];
 	};
 
 	return (Socket);

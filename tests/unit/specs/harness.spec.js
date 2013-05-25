@@ -4,6 +4,7 @@ define(
 	"../mock/HarnessMockFactory",
 	"harness/model/entities/socket",
 	"harness/model/blockfactories/scalarsourcefactory",
+	"harness/model/blockfactories/arraysourcefactory",
 	"harness/model/blockfactories/scalarsinkfactory",
 	"harness/views/block/scalarsinkview",
 	"harness/views/block/scalarsourceview",
@@ -12,13 +13,27 @@ define(
 	"harness/views/notify",
 	"stringlib"
 ],
-function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, ScalarSinkView, ScalarSourceView, ValidationException, ValidationBrowser, Notify) {
+function($,
+	HarnessMockFactory,
+	Socket,
+	ScalarSourceFactory,
+	ArraySourceFactory,
+	ScalarSinkFactory,
+	ScalarSinkView,
+	ScalarSourceView,
+	ValidationException,
+	ValidationBrowser,
+	Notify)
+{
+
 	describe("Harness", function () {
 
 		describe("Blocks, Sockets and Connections", function () {
 			var harness = null;
 			var scalarsink = null;
+			var scalarsinktwo = null;
 			var scalarsource = null;
+			var scalarsourcetwo = null;
 
 			beforeEach(function () {
 				var harnessFactory = new HarnessMockFactory();
@@ -26,9 +41,11 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 				var idnumber = 1;
 				var scalarSinkFactory = new ScalarSinkFactory();
 				scalarsink = scalarSinkFactory.Build(idnumber);
+				scalarsinktwo = scalarSinkFactory.Build(idnumber + 1);
 
 				var scalarSourceFactory = new ScalarSourceFactory();
-				scalarsource = scalarSourceFactory.Build(idnumber);
+				scalarsource = scalarSourceFactory.Build(idnumber + 2);
+				scalarsourcetwo = scalarSourceFactory.Build(idnumber + 3);
 			});
 
 			it('can create a scalar sink builder', function() {
@@ -66,11 +83,14 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can connect two sockets together without using the harness (at low level)', function() {
+				// Arrange
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
 
+				// Act
 				var connector = outputSocket.Connect(inputSocket);
 
+				// Assert
 				expect(outputSocket.Connectors[0]).toEqual(connector);
 				expect(inputSocket.Connectors[0]).toEqual(connector);
 			});
@@ -88,69 +108,144 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can disconnect a socket', function() {
-				var outputSocket = scalarsource.Outputs.Value;
-				var inputSocket = scalarsink.Inputs.Value;
-
-				var connector = outputSocket.Connect(inputSocket);
-
-				expect(outputSocket.Connectors[0]).toEqual(connector);
-				expect(inputSocket.Connectors[0]).toEqual(connector);
-
-				expect(inputSocket.Disconnect(connector)).toEqual(true);
-
-				expect(outputSocket.Connectors[0]).toEqual(connector);
-				expect(inputSocket.Connectors.length).toEqual(0);
-			});
-
-			it('will report false if you try and disconnect a connector that does not exist', function() {
-
 				// Arrange
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
 
-				// Act
 				var connector = outputSocket.Connect(inputSocket);
 
-				// Assert
 				expect(outputSocket.Connectors[0]).toEqual(connector);
 				expect(inputSocket.Connectors[0]).toEqual(connector);
 
+				// Act
 				expect(inputSocket.Disconnect(connector)).toEqual(true);
-				expect(inputSocket.Disconnect(connector)).toEqual(false);
+
+				// Assert
+				expect(outputSocket.Connectors[0]).toEqual(connector);
+				expect(inputSocket.Connectors.length).toEqual(0);
+			});
+
+			it('will throw an exception if you try and disconnect a connector that does not exist', function() {
+
+				// Arrange
+				var outputSocket = scalarsource.Outputs.Value;
+				var inputSocket = scalarsink.Inputs.Value;
+				var connector = outputSocket.Connect(inputSocket);
+
+				expect(outputSocket.Connectors[0]).toEqual(connector);
+				expect(inputSocket.Connectors[0]).toEqual(connector);
+				expect(inputSocket.Disconnect(connector)).toEqual(true);
+
+				// Act and Assert
+				expect(function() {inputSocket.Disconnect(connector);}).toThrow('This connector is not connected to this socket and cannot be disconnected');
 			});
 
 			it('can tell you that it has connections', function() {
+				// Arrange
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
 
 				var connector = outputSocket.Connect(inputSocket);
 
+				// Act and Assert
 				expect(outputSocket.HasConnectors()).toEqual(true);
 			});
 
 			it('will throw an exception on validation if a required input does not have a connection', function() {
-			 	var exception = new ValidationException("Block ScalarSink1 requires an input",
-			 		"The block called 'ScalarSink1' of type 'Scalar Sink' has an input called 'Value', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
+				var exception = new ValidationException(
+					"Block ScalarSink1 requires an input",
+					"The block called 'ScalarSink1' of type 'Scalar Sink' has an input called 'Value', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
 
-			 	expect(function() {scalarsink.ValidateRequiredInputs(); } ).toThrow(exception);
+				expect(function() {scalarsink.ValidateRequiredInputs(); } ).toThrow(exception);
+			});
+
+			it('can delete all connections on a socket, removing the connectors from other sockets too', function() {
+				// Arrange
+				var outputSocket = scalarsource.Outputs.Value;
+				var inputSocket = scalarsink.Inputs.Value;
+				var inputSocketTwo = scalarsinktwo.Inputs.Value;
+
+				outputSocket.Connect(inputSocket);
+				outputSocket.Connect(inputSocketTwo);
+
+				// Act
+				outputSocket.DeleteConnections();
+
+				// Assert
+				expect(outputSocket.HasConnectors()).toEqual(false);
+				expect(inputSocket.HasConnectors()).toEqual(false);
+				expect(inputSocketTwo.HasConnectors()).toEqual(false);
 			});
 
 			it('will validate correctly if a required input has a connection', function() {
+				// Arrange
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
 
 				var connector = outputSocket.Connect(inputSocket);
 
-				expect(scalarsink.ValidateRequiredInputs()).toEqual(true);
+				// Act
+				var isValid = scalarsink.ValidateRequiredInputs();
+
+				// Assert
+				expect(isValid).toEqual(true);
 			});
 
 			it('will get a block given the long id of a sub control', function() {
+				// Arrange
 				var scalarSinkView = new ScalarSinkView(scalarsink);
 				harness.AddBlock(scalarsink, scalarSinkView);
+
+				// Act
 				var sinkBlock = harness.GetBlockFromAnyId("ScalarSink1-properties-some-property");
 
+				// Assert
 				expect(sinkBlock.Id).toEqual("ScalarSink1");
 			});
+
+			it('will throw an exception if you try to connect sockets with different types', function() {
+				// Arrange
+				var arraySourceFactory = new ArraySourceFactory();
+				var idnumber = 1;
+				var arraySource = arraySourceFactory.Build(idnumber);
+
+				var outputSocket = arraySource.Outputs.Vector;
+				var inputSocket = scalarsink.Inputs.Value;
+
+				// Act and Assert
+				expect(function() {outputSocket.Connect(inputSocket);}).toThrow('You are trying to connect a socket of type Harness.Socket.Type.Scalar to a socket of type Harness.Socket.Type.Vector. Socket types must be compatible.');
+			});
+
+			it('will throw an exception if you try and connect an non-multiple input to more than one output', function() {
+				// Arrange
+				var outputSocketOne = scalarsource.Outputs.Value;
+				var outputSocketTwo = scalarsourcetwo.Outputs.Value;
+				var inputSocket = scalarsink.Inputs.Value;
+
+				outputSocketOne.Connect(inputSocket);
+
+				// Act and Assert
+				expect(function() {outputSocketTwo.Connect(inputSocket);}).toThrow('This input socket can only accept one connector, which it already has.');
+			});
+
+			it('can delete all connections on a block, removing the connectors from other sockets too', function() {
+				// Arrange
+				var outputSocket = scalarsource.Outputs.Value;
+				var inputSocket = scalarsink.Inputs.Value;
+				var inputSocketTwo = scalarsinktwo.Inputs.Value;
+
+				outputSocket.Connect(inputSocket);
+				outputSocket.Connect(inputSocketTwo);
+
+				// Act
+				scalarsource.DeleteConnections();
+
+				// Assert
+				expect(outputSocket.HasConnectors()).toEqual(false);
+				expect(inputSocket.HasConnectors()).toEqual(false);
+				expect(inputSocketTwo.HasConnectors()).toEqual(false);
+			});
+
 		});
 
 		describe("Harness non-gui functions", function() {
@@ -185,15 +280,18 @@ function($, HarnessMockFactory, Socket, ScalarSourceFactory, ScalarSinkFactory, 
 			});
 
 			it('can connect two blocks together by names', function() {
+				// Arrange
 				harness.AddBlock(scalarsource, scalarsourceview);
 				harness.AddBlock(scalarsink, scalarsinkview);
 
 				var outputSocket = scalarsource.Outputs.Value;
 				var inputSocket = scalarsink.Inputs.Value;
 
+				// Act
 				harness.ConnectSockets(outputSocket.QualifiedId(),
 								inputSocket.QualifiedId());
 
+				// Assert
 				expect(outputSocket.Connectors[0].To).toEqual(inputSocket);
 				expect(outputSocket.Connectors.length).toEqual(1);
 				expect(inputSocket.Connectors[0].From).toEqual(outputSocket);

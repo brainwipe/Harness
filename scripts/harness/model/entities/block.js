@@ -34,12 +34,14 @@ function(ValidationException) {
 		this.InputsCount++;
 		this.Inputs[inputSocket.Name] = inputSocket;
 	};
+
 	Block.prototype.AddOutput = function (outputSocket) {
 		outputSocket.IsInputSocket = false;
 		outputSocket.IsRequired = false;
 		this.OutputsCount++;
 		this.Outputs[outputSocket.Name] = outputSocket;
 	};
+
 	Block.prototype.ValidateRequiredInputs = function() {
 		for(var i in this.Inputs) {
 			var input = this.Inputs[i];
@@ -59,6 +61,7 @@ function(ValidationException) {
 		}
 		return true;
 	};
+
 	Block.prototype.DeleteConnections = function () {
 		for (var i in this.Inputs)
 		{
