@@ -1,12 +1,13 @@
 define(
 [
+	"harness/model/socketfactory",
 	"harness/model/entities/block",
 	"harness/model/entities/socket",
 	"harness/model/entities/sockettype",
 	"harness/views/block/arraysourceview"
 ],
 
-function(Block, Socket, SocketType, ArraySourceView) {
+function(SocketFactory, Block, Socket, SocketType, ArraySourceView) {
 
 	function ArraySourceFactory() {}
 	ArraySourceFactory.prototype.Build = function(idNumber)
@@ -16,7 +17,15 @@ function(Block, Socket, SocketType, ArraySourceView) {
 							idNumber,
 							this.FriendlyName,
 							this.FactoryName);
-		block.AddOutput(new Socket(block.Id, "Vector", new SocketType().BuildVector()));
+
+		var socketfactory = new SocketFactory();
+
+		block.AddOutput(
+			socketfactory.OutputSingleFixed(
+				block,
+				"Vector",
+				new SocketType().BuildVector()));
+
 		block.Data = {
 			"CurrentIndex" : 0,
 			"Values" : [

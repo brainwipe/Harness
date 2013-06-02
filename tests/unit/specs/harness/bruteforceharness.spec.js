@@ -2,6 +2,7 @@ define(
 [
    "jquery",
    "HarnessMockFactory",
+   "harness/model/socketfactory",
    "harness/model/entities/socket",
    "harness/model/blockfactories/scalarsourcefactory",
    "harness/model/blockfactories/arraysourcefactory",
@@ -15,6 +16,7 @@ define(
 ],
 function($,
    HarnessMockFactory,
+   SocketFactory,
    Socket,
    ScalarSourceFactory,
    ArraySourceFactory,
@@ -32,9 +34,12 @@ function($,
       var scalarsource = null;
       var scalarSinkFactory = null;
       var scalarSourceFactory = null;
+      var socketFactory = null;
 
       beforeEach(function () {
          var harnessFactory = new HarnessMockFactory();
+         var socketFactory = new SocketFactory();
+
          harness = harnessFactory.Build($("#harnessContainer"));
          var idnumber = 1;
 

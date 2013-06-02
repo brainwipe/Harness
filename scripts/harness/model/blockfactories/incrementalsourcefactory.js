@@ -1,12 +1,13 @@
 define(
 [
+   "harness/model/socketfactory",
    "harness/model/entities/block",
    "harness/model/entities/socket",
    "harness/model/entities/sockettype",
    "harness/views/block/incrementalsourceview"
 ],
 
-function(Block, Socket, SocketType, IncrementalSourceView) {
+function(SocketFactory, Block, Socket, SocketType, IncrementalSourceView) {
 
    function IncrementalSourceFactory() {}
    IncrementalSourceFactory.prototype.Build = function(idNumber)
@@ -16,7 +17,15 @@ function(Block, Socket, SocketType, IncrementalSourceView) {
                      idNumber,
                      this.FriendlyName,
                      this.FactoryName);
-      block.AddOutput(new Socket(block.Id, "Value", new SocketType().BuildScalar()));
+
+      var socketfactory = new SocketFactory();
+
+      block.AddOutput(
+         socketfactory.OutputSingleFixed(
+            block,
+            "Value",
+            new SocketType().BuildScalar()));
+
       block.Data = 0;
       block.Execute = function() {
          this.Data = this.Data + 1;

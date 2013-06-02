@@ -1,5 +1,6 @@
 define(
 [
+   "harness/model/socketfactory",
    "harness/model/entities/block",
    "harness/model/entities/socket",
    "harness/model/entities/sockettype",
@@ -10,7 +11,7 @@ define(
    "lib/math"
 ],
 
-function(Block, Socket, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
+function(SocketFactory, Block, Socket, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
 
    function PSOMFuncFactory() {
 
@@ -28,8 +29,18 @@ function(Block, Socket, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializ
 
       block.Data.InitialiseNodeStructure();
 
-      block.AddInput(new Socket(block.Id, "InputPattern", new SocketType().BuildVector()), true, false);
-      block.AddOutput(new Socket(block.Id, "LastError", new SocketType().BuildScalar()));
+      var socketFactory = new SocketFactory();
+      block.AddInput(
+         socketFactory.InputSingleFixedRequired(
+            block,
+            "InputPattern",
+            new SocketType().BuildVector()));
+
+      block.AddOutput(
+         socketFactory.OutputSingleFixed(
+            block,
+            "LastError",
+            new SocketType().BuildScalar()));
 
       block.Execute = function() {
          this.Outputs.LastError.Data = this.Data.Learn(this.Inputs.InputPattern.Data);

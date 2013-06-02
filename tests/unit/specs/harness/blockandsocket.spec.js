@@ -2,7 +2,9 @@ define(
 [
    "jquery",
    "HarnessMockFactory",
+   "harness/model/socketfactory",
    "harness/model/entities/socket",
+   "harness/model/entities/sockettype",
    "harness/model/blockfactories/scalarsourcefactory",
    "harness/model/blockfactories/arraysourcefactory",
    "harness/model/blockfactories/scalarsinkfactory",
@@ -15,7 +17,9 @@ define(
 ],
 function($,
    HarnessMockFactory,
+   SocketFactory,
    Socket,
+   SocketType,
    ScalarSourceFactory,
    ArraySourceFactory,
    ScalarSinkFactory,
@@ -31,9 +35,11 @@ function($,
       var scalarsinktwo = null;
       var scalarsource = null;
       var scalarsourcetwo = null;
+      var socketFactory = new SocketFactory();
 
       beforeEach(function () {
          var harnessFactory = new HarnessMockFactory();
+
          harness = harnessFactory.Build($("#harnessContainer"));
          var idnumber = 1;
          var scalarSinkFactory = new ScalarSinkFactory();
@@ -60,8 +66,14 @@ function($,
       });
 
       it('can create an input socket that is not required', function() {
-         var newSocket = new Socket(scalarsink.Id,'TestSocket');
-         scalarsink.AddInput(newSocket, false);
+
+         var context = socketFactory.GetExampleContext();
+         context.BlockId = scalarsink.Id;
+         context.Name = "TestSocket";
+         context.IsRequired = false;
+
+         var newSocket = socketFactory.FromContext(context);
+         scalarsink.AddInput(newSocket);
          newSocket = scalarsink.Inputs.TestSocket;
 
          expect(newSocket.IsInputSocket).toEqual(true);
@@ -242,5 +254,68 @@ function($,
          expect(inputSocket.HasConnectors()).toEqual(false);
          expect(inputSocketTwo.HasConnectors()).toEqual(false);
       });
+
+      it ('cannot delete a socket that is marked as CannotDelete', function () {
+         // Act
+         scalarsink.DeleteInput(scalarsink.Inputs.Value);
+
+         // Assert
+         expect(scalarsink.Inputs.Value).toBeDefined();
+      });
+
+      it ('can delete a socket added post-build', function () {
+         // Arrange
+         var newSocketContext = {
+            BlockId : scalarsink.Id,
+            Name : "DeleteThisSocket",
+            Type : new SocketType().BuildAny(),
+            IsInput : true,
+            CanBeDeleted : true,
+            IsMultiple : false,
+            IsRequired : true
+         };
+
+         var newSocket = socketFactory.FromContext(newSocketContext);
+         scalarsink.AddInput(newSocket);
+
+         // Act
+         scalarsink.DeleteInput(scalarsink.Inputs.DeleteThisSocket);
+
+         // Assert
+         expect(scalarsink.Inputs.DeleteThisSocket).toBeUndefined();
+      });
+
+      it ('can delete all connections when a socket is deleted', function () {
+
+         // Arrange
+         var newSocketContext = {
+            BlockId : scalarsink.Id,
+            Name : "DeleteThisSocket",
+            Type : new SocketType().BuildScalar(),
+            IsInput : true,
+            CanBeDeleted : true,
+            IsMultiple : false,
+            IsRequired : true
+         };
+
+         var newSocket = socketFactory.FromContext(newSocketContext);
+         scalarsink.AddInput(newSocket);
+
+         var outputSocket = scalarsource.Outputs.Value;
+         var inputSocket = scalarsink.Inputs.Value;
+         var inputSocketTwo = scalarsink.Inputs.DeleteThisSocket;
+
+         outputSocket.Connect(inputSocket);
+         outputSocket.Connect(inputSocketTwo);
+
+         // Act
+         scalarsink.DeleteInput(scalarsink.Inputs.DeleteThisSocket);
+
+         // Assert
+         expect(outputSocket.HasConnectors()).toEqual(true);
+         expect(inputSocket.HasConnectors()).toEqual(true);
+         expect(outputSocket.Connectors.length).toEqual(1);
+      });
+
    });
 });

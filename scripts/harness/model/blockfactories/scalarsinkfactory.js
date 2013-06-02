@@ -1,12 +1,13 @@
 define(
 [
+	"harness/model/socketfactory",
 	"harness/model/entities/block",
 	"harness/model/entities/socket",
 	"harness/model/entities/sockettype",
 	"harness/views/block/scalarsinkview"
 ],
 
-function(Block, Socket, SocketType, ScalarSinkView) {
+function(SocketFactory, Block, Socket, SocketType, ScalarSinkView) {
 
 	function ScalarSinkFactory() {}
 	ScalarSinkFactory.prototype.Build = function(idNumber)
@@ -19,7 +20,13 @@ function(Block, Socket, SocketType, ScalarSinkView) {
 
 		block.Data = 'Empty';
 
-		block.AddInput(new Socket(block.Id, "Value", new SocketType().BuildScalar()), true, false);
+		var socketfactory = new SocketFactory();
+
+		block.AddInput(
+			socketfactory.InputSingleFixedRequired(
+				block,
+				"Value",
+				new SocketType().BuildScalar()));
 
 		block.Execute = function() {
 			this.Data = this.Inputs.Value.Data;

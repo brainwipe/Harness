@@ -1,12 +1,13 @@
 define(
 [
+	"harness/model/socketfactory",
 	"harness/model/entities/block",
 	"harness/model/entities/socket",
 	"harness/model/entities/sockettype",
 	"harness/views/block/scalarsourceview"
 ],
 
-function(Block, Socket, SocketType, ScalarSourceView) {
+function(SocketFactory, Block, Socket, SocketType, ScalarSourceView) {
 
 	function ScalarSourceFactory() {}
 	ScalarSourceFactory.prototype.Build = function(idNumber)
@@ -16,7 +17,16 @@ function(Block, Socket, SocketType, ScalarSourceView) {
 							idNumber,
 							this.FriendlyName,
 							this.FactoryName);
-		block.AddOutput(new Socket(block.Id, "Value", new SocketType().BuildScalar()));
+
+		var socketFactory = new SocketFactory();
+
+		block.AddOutput(
+			socketFactory.OutputSingleFixed(
+				block,
+				"Value",
+				new SocketType().BuildScalar()
+				));
+
 		block.Data = 10;
 		block.Execute = function() {
 			this.Outputs.Value.Data = this.Data;
