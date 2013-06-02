@@ -20,7 +20,9 @@
                'bootbox' : '../vendor/bootstrap/scripts/bootbox.min',
                'd3':'../vendor/d3/d3-min',
                'exception': 'harness',
-               'stringlib': 'lib/stringlib'
+               'stringlib': 'lib/stringlib',
+               'HarnessMockFactory' : '../tests/unit/mock/HarnessMockFactory',
+               'HarnessPainterMock' : '../tests/unit/mock/HarnessPainterMock'
 
    			},
             shim: {
@@ -67,7 +69,9 @@
                'harness/views/savedialog',
                'harness/views/loaddialog',
                'harness/views/importexportmodeldialog',
-   			   '../tests/unit/specs/harness.spec'
+   			   '../tests/unit/specs/harness/harness.spec',
+               '../tests/unit/specs/harness/bruteforceharness.spec',
+               '../tests/unit/specs/harness/blockandsocket.spec'
    			],
    			function($) {
    				$(function() {

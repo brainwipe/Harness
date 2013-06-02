@@ -5,7 +5,7 @@ define(
 	"harness/engines/BruteForceEngine",
 	"harness/engines/validationengine",
 	"harness/model/blockfactory",
-	"../mock/HarnessPainterMock"
+	"HarnessPainterMock"
 
 ],
 function($, Harness, BruteForceEngine, ValidationEngine, BlockFactory, HarnessPainterMock) {
