@@ -14,17 +14,18 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 		var data = {
 			"id": id,
 			"blockName": block.Name,
+			"propertiesCssClass": block.CssClass + '-properties',
 			"inputsCount": block.InputsCount,
 			"outputsCount": block.OutputsCount,
 			"Outputs" : block.Outputs,
 			"Inputs": block.Inputs,
 			"tabs": tabs
-		}
+		};
 
 		harness.Element.append(
 			new TemplateRender().Render(PropertiesViewBaseTemplate, data)
 			);
-	
+
 		return $("#" + id);
 	};
 

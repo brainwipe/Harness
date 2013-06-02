@@ -28,16 +28,12 @@ function(ValidationException) {
 	Block.prototype.Execute = null;
 	Block.prototype.Reset = null;
 	Block.prototype.Validate = null;
-	Block.prototype.AddInput = function (inputSocket, isRequired, isMultiple) {
-		inputSocket.IsInputSocket = true;
-		inputSocket.IsRequired = isRequired;
+	Block.prototype.AddInput = function (inputSocket) {
 		this.InputsCount++;
 		this.Inputs[inputSocket.Name] = inputSocket;
 	};
 
 	Block.prototype.AddOutput = function (outputSocket) {
-		outputSocket.IsInputSocket = false;
-		outputSocket.IsRequired = false;
 		this.OutputsCount++;
 		this.Outputs[outputSocket.Name] = outputSocket;
 	};
@@ -60,6 +56,29 @@ function(ValidationException) {
 			}
 		}
 		return true;
+	};
+
+	Block.prototype.DeleteInput = function (inputSocket) {
+		this.Inputs = this.DeleteSocket(this.Inputs, inputSocket);
+	};
+
+	Block.prototype.DeleteOutput = function (outputSocket) {
+		this.Outputs = this.DeleteSocket(this.Outputs, outputSocket);
+	};
+
+	Block.prototype.DeleteSocket = function (socketArray, socket) {
+		if (socket == null || socket.CanBeDeleted === false)
+		{
+			return socketArray;
+		}
+
+		if (socket.HasConnectors() === true)
+		{
+			socket.DeleteConnections();
+		}
+
+		delete socketArray[socket.Id];
+		return socketArray;
 	};
 
 	Block.prototype.DeleteConnections = function () {

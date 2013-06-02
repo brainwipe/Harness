@@ -3,15 +3,19 @@ define(
 	"harness/model/entities/connector"
 ],
 
-	function(Connector) {
+function(Connector) {
 
-	function Socket(blockId, name, type)
+	function Socket(blockId, name, type, isInput, canBeDeleted, isMultiple, isRequired)
 	{
 		this.Id = encodeURI(name);
 		this.Name = name;
 		this.Connectors = [];
 		this.BlockId = blockId;
 		this.Type = type;
+		this.CanBeDeleted = canBeDeleted;
+		this.IsMultiple = isMultiple;
+		this.IsInputSocket = isInput;
+		this.IsRequired = isRequired;
 	}
 
 	Socket.prototype.Id = null;
@@ -29,7 +33,9 @@ define(
 	Socket.prototype.IsMultiple = false;
 	Socket.prototype.IsRequired = false;
 	Socket.prototype.IsReady = false;
+	Socket.prototype.CanBeDeleted = false;
 	Socket.prototype.Type = {};
+
 	Socket.prototype.Connect = function(inputSocket) {
 		if (inputSocket.Type.Key !== this.Type.Key && this.Type.Key !== "Harness.Socket.Type.Any")
 		{
@@ -50,6 +56,7 @@ define(
 		inputSocket.Connectors.push(connector);
 		return connector;
 	};
+
 	Socket.prototype.Disconnect = function(connectorToRemove) {
 		var connectorIndex = this.Connectors.indexOf(connectorToRemove);
 		if (connectorIndex === -1) {
@@ -59,9 +66,11 @@ define(
 		this.Connectors.splice(connectorIndex,1);
 		return true;
 	};
+
 	Socket.prototype.HasConnectors = function() {
 		return this.Connectors.length > 0;
 	};
+
 	Socket.prototype.DeleteConnections = function() {
 		for(var i in this.Connectors)
 		{

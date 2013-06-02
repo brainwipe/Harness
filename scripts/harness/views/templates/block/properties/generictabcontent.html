@@ -4,8 +4,17 @@
             <label class="control-label">
                {{property.text}}
             </label>
-            <div class="controls">
+            <div class="controls input-append">
                <input class="input-medium" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
+               <div class="btn-group">
+                  <button class="btn dropdown-toggle" data-toggle="dropdown">
+                     <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                     <li>Make input socket</li>
+                     <li>Make output socket</li>
+                  </ul>
+               </div>
             </div>
          </div>
       {{# }); }}
