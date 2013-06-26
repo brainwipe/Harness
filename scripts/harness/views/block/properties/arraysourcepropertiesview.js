@@ -6,18 +6,12 @@ define(
 function(PropertiesViewBase) {
 
 	function ArraySourcePropertiesView(block) {
-		this.Block = block;
-		this.Id = this.Block.Id + '-properties';
-		this.Base = new PropertiesViewBase();
+		PropertiesViewBase.call(this, block);
 	}
 
-	ArraySourcePropertiesView.prototype.Block = null;
-	ArraySourcePropertiesView.prototype.Id = null;
-	ArraySourcePropertiesView.prototype.Base = null;
-	ArraySourcePropertiesView.prototype.Create = function() {
-		this.Base.Create(this.Id, this.Block, this.CreateTabs());
-		this.BindEvents();
-	};
+	ArraySourcePropertiesView.prototype = Object.create( PropertiesViewBase.prototype );
+	ArraySourcePropertiesView.prototype.constructor = ArraySourcePropertiesView;
+
 	ArraySourcePropertiesView.prototype.CreateTabs = function() {
 		var tabs = [];
 		tabs.push({
@@ -34,7 +28,6 @@ function(PropertiesViewBase) {
 		return tabs;
 	};
 	ArraySourcePropertiesView.prototype.CreateDataTableTab = function() {
-
 
 		var arraySourceTableContent = '<form class="form-horizontal">'+
             '<fieldset>'+
@@ -86,7 +79,7 @@ function(PropertiesViewBase) {
 	};
 
 	ArraySourcePropertiesView.prototype.Update = function() {
-		this.Base.Update(this.Id, this.Block);
+		this.UpdateInputsAndOuputs();
 		this.UpdateRawData();
 		this.UpdateDatatableCurrentIndex();
 	};
@@ -138,10 +131,10 @@ function(PropertiesViewBase) {
 		currentIndexOnDataTable.blur(function () {
 			var block = harness.GetBlockFromAnyId($(this).attr("id"));
 
-			var value = parseInt($(this).val());
+			var value = parseInt($(this).val(), 10);
 			block.Data.CurrentIndex = value;
 			block.ValidateData();
-			
+
 			var view = harness.Views[block.Id];
 			view.Draw();
 			view.Base.Properties.Update();

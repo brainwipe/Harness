@@ -7,18 +7,24 @@
 
 function(TemplateRender, PropertiesViewBaseTemplate) {
 
-	function PropertiesViewBase() {}
+	function PropertiesViewBase(block) {
+		this.Block = block;
+		this.Id = this.Block.Id + '-properties';
+	}
+	PropertiesViewBase.prototype.Block = null;
+	PropertiesViewBase.prototype.Id = null;
 
-	PropertiesViewBase.prototype.Create = function(id, block, tabs) {
+	PropertiesViewBase.prototype.Create = function() {
+		var tabs = this.CreateTabs();
 
 		var data = {
-			"id": id,
-			"blockName": block.Name,
-			"propertiesCssClass": block.CssClass + '-properties',
-			"inputsCount": block.InputsCount,
-			"outputsCount": block.OutputsCount,
-			"Outputs" : block.Outputs,
-			"Inputs": block.Inputs,
+			"id": this.Id,
+			"blockName": this.Block.Name,
+			"propertiesCssClass": this.Block.CssClass + '-properties',
+			"inputsCount": this.Block.InputsCount,
+			"outputsCount": this.Block.OutputsCount,
+			"Outputs" : this.Block.Outputs,
+			"Inputs": this.Block.Inputs,
 			"tabs": tabs
 		};
 
@@ -26,22 +32,31 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 			new TemplateRender().Render(PropertiesViewBaseTemplate, data)
 			);
 
-		return $("#" + id);
+		this.BindEvents();
 	};
 
-	PropertiesViewBase.prototype.Update = function(painterId, block) {
-		for(var input in block.Inputs) {
-			$('#' + painterId + '-inputs-' + block.Inputs[input].Id).val(
-				block.Inputs[input].Data
+	PropertiesViewBase.prototype.BindEvents = function() {};
+	PropertiesViewBase.prototype.CreateTabs = function() {};
+
+	PropertiesViewBase.prototype.Update = function() {
+		// When deriving your own properties view, you MUST call update inputs or outputs
+		this.UpdateInputsAndOuputs();
+	};
+
+	PropertiesViewBase.prototype.UpdateInputsAndOuputs = function() {
+		for(var input in this.Block.Inputs) {
+			$('#' + this.Id + '-inputs-' + this.Block.Inputs[input].Id).val(
+				this.Block.Inputs[input].Data
 			);
 		}
 
-		for(var output in block.Outputs) {
-			$('#' + painterId + '-outputs-' + block.Outputs[output].Id).val(
-				block.Outputs[output].Data
+		for(var output in this.Block.Outputs) {
+			$('#' + this.Id + '-outputs-' + this.Block.Outputs[output].Id).val(
+				this.Block.Outputs[output].Data
 			);
 		}
 	};
+
 
 	return (PropertiesViewBase);
 });

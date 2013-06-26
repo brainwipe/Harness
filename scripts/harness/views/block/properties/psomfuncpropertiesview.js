@@ -8,18 +8,12 @@ define(
 function(PropertiesViewBase, TemplateRender, GenericTabContent) {
 
    function PSOMFuncPropertiesView(block) {
-      this.Block = block;
-      this.Id = this.Block.Id + '-properties';
-      this.Base = new PropertiesViewBase();
+      PropertiesViewBase.call(this, block);
    }
 
-   PSOMFuncPropertiesView.prototype.Block = null;
-   PSOMFuncPropertiesView.prototype.Id = null;
-   PSOMFuncPropertiesView.prototype.Base = null;
-   PSOMFuncPropertiesView.prototype.Create = function() {
-      this.Base.Create(this.Id, this.Block, this.CreateTabs());
-      this.BindEvents();
-   };
+   PSOMFuncPropertiesView.prototype = Object.create( PropertiesViewBase.prototype );
+   PSOMFuncPropertiesView.prototype.constructor = PSOMFuncPropertiesView;
+
    PSOMFuncPropertiesView.prototype.CreateTabs = function() {
       var tabs = [];
       tabs.push({
@@ -81,7 +75,7 @@ function(PropertiesViewBase, TemplateRender, GenericTabContent) {
    };
 
    PSOMFuncPropertiesView.prototype.Update = function() {
-      this.Base.Update(this.Id, this.Block);
+      this.UpdateInputsAndOuputs();
       $("#" + this.Id + "-configuration-value").val(this.Block.Data);
    };
 

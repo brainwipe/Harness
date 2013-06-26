@@ -6,18 +6,12 @@ define(
 function(PropertiesViewBase) {
 
    function IncrementalSourcePropertiesView(block) {
-      this.Block = block;
-      this.Id = this.Block.Id + '-properties';
-      this.Base = new PropertiesViewBase();
+      PropertiesViewBase.call(this, block);
    }
 
-   IncrementalSourcePropertiesView.prototype.Block = null;
-   IncrementalSourcePropertiesView.prototype.Id = null;
-   IncrementalSourcePropertiesView.prototype.Base = null;
-   IncrementalSourcePropertiesView.prototype.Create = function() {
-      this.Base.Create(this.Id, this.Block, this.CreateTabs());
-      this.BindEvents();
-   };
+   IncrementalSourcePropertiesView.prototype = Object.create( PropertiesViewBase.prototype );
+   IncrementalSourcePropertiesView.prototype.constructor = IncrementalSourcePropertiesView;
+
    IncrementalSourcePropertiesView.prototype.CreateTabs = function() {
       var tabs = [];
       tabs.push({
@@ -57,7 +51,8 @@ function(PropertiesViewBase) {
    };
 
    IncrementalSourcePropertiesView.prototype.Update = function() {
-      this.Base.Update(this.Id, this.Block);
+      this.UpdateInputsAndOuputs();
+
       $("#" + this.Id + "-configuration-value").val(this.Block.Data);
    };
 

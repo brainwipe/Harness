@@ -6,18 +6,12 @@
 function(PropertiesViewBase) {
 
 	function ScalarSourcePropertiesView(block) {
-		this.Block = block;
-		this.Id = this.Block.Id + '-properties';
-		this.Base = new PropertiesViewBase();
+		PropertiesViewBase.call(this, block);
 	}
 
-	ScalarSourcePropertiesView.prototype.Block = null;
-	ScalarSourcePropertiesView.prototype.Id = null;
-	ScalarSourcePropertiesView.prototype.Base = null;
-	ScalarSourcePropertiesView.prototype.Create = function() {
-		this.Base.Create(this.Id, this.Block, this.CreateTabs());
-		this.BindEvents();
-	};
+	ScalarSourcePropertiesView.prototype = Object.create( PropertiesViewBase.prototype );
+   ScalarSourcePropertiesView.prototype.constructor = ScalarSourcePropertiesView;
+
 	ScalarSourcePropertiesView.prototype.CreateTabs = function() {
 		var tabs = [];
 		tabs.push({
@@ -54,10 +48,6 @@ function(PropertiesViewBase) {
 			block.Data = $(this).val();
 			harness.Views[block.Id].Draw();
 		});
-	};
-
-	ScalarSourcePropertiesView.prototype.Update = function() {
-		this.Base.Update(this.Id, this.Block);
 	};
 
 	return (ScalarSourcePropertiesView);
