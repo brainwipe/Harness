@@ -10,9 +10,11 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 	function PropertiesViewBase(block) {
 		this.Block = block;
 		this.Id = this.Block.Id + '-properties';
+		this.CssClass = block.Name.replace(/ /g, '') + '-properties';
 	}
 	PropertiesViewBase.prototype.Block = null;
 	PropertiesViewBase.prototype.Id = null;
+	PropertiesViewBase.prototype.CssClass = "";
 
 	PropertiesViewBase.prototype.Create = function() {
 		var tabs = this.CreateTabs();
@@ -20,7 +22,7 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 		var data = {
 			"id": this.Id,
 			"blockName": this.Block.Name,
-			"propertiesCssClass": this.Block.CssClass + '-properties',
+			"propertiesCssClass": this.CssClass,
 			"inputsCount": this.Block.InputsCount,
 			"outputsCount": this.Block.OutputsCount,
 			"Outputs" : this.Block.Outputs,
