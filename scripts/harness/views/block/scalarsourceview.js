@@ -7,14 +7,12 @@ define(
 function(BlockViewBase, ScalarSourcePropertiesView) {
 
 	function ScalarSourceView(block)	{
-		this.Block = block;
-		this.Base = new BlockViewBase(block);
-		this.Base.Properties = new ScalarSourcePropertiesView(block);
-		this.Base.CreateContentMarkup = this.CreateContentMarkup;
+		BlockViewBase.call(this, block);
+		this.Properties = new ScalarSourcePropertiesView(block);
 	}
 
-	ScalarSourceView.prototype.Base = null;
-	ScalarSourceView.prototype.Block = null;
+	ScalarSourceView.prototype = Object.create( BlockViewBase.prototype );
+   ScalarSourceView.prototype.constructor = ScalarSourceView;
 
 	ScalarSourceView.prototype.CreateContentMarkup = function ()
 	{
@@ -39,16 +37,6 @@ function(BlockViewBase, ScalarSourcePropertiesView) {
 		}
 
 		elementContent.text( $(line).text() );
-	};
-
-	ScalarSourceView.prototype.CreateMarkup = function(element)
-	{
-		this.Base.CreateMarkup(element);
-	};
-
-	ScalarSourceView.prototype.UpdateProperties = function()
-	{
-		this.Base.Properties.Update();
 	};
 
 	return (ScalarSourceView);

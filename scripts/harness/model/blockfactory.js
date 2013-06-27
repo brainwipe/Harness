@@ -29,7 +29,7 @@ function(ScalarSourceFactory, ScalarSinkFactory, IncrementalSourceFactory, PSOMF
 
       var view = blockFactory.GetView(block);
 		view.CreateMarkup(harness.Element);
-		view.Base.Element.offset({
+		view.Element.offset({
 			left: viewOffsetLeft,
 			top: viewOffsetTop
 		});

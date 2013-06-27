@@ -9,18 +9,17 @@ define(
 function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    function PSOMFuncView(block) {
-      this.Block = block;
-      this.Base = new BlockViewBase(block);
-      this.Base.DefaultWidth = 400;
-      this.Base.DefaultHeight = 400;
-      this.Base.Properties = new PSOMFuncPropertiesView(block);
-      this.Base.CreateContentMarkup = this.CreateContentMarkup;
+      BlockViewBase.call(this, block);
+      this.DefaultWidth = 400;
+      this.DefaultHeight = 400;
+      this.Properties = new PSOMFuncPropertiesView(block);
       this.SetupD3Force();
       this.PSOMD3EventHandler = new PSOMD3EventHandler(this.Block.Data, this.Force);
    }
 
-   PSOMFuncView.prototype.Base = null;
-   PSOMFuncView.prototype.Block = null;
+   PSOMFuncView.prototype = Object.create( BlockViewBase.prototype );
+   PSOMFuncView.prototype.constructor = PSOMFuncView;
+
    PSOMFuncView.prototype.Force = null;
    PSOMFuncView.prototype.PSOMD3EventHandler = null;
    PSOMFuncView.prototype.Links = null;
@@ -64,8 +63,8 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    PSOMFuncView.prototype.SetupD3Force = function()
    {
-      var width = this.Base.DefaultWidth; // Markup not created yet, so we can use the defaults
-      var height = this.Base.DefaultHeight;
+      var width = this.DefaultWidth; // Markup not created yet, so we can use the defaults
+      var height = this.DefaultHeight;
 
       this.Force = d3.layout.force()
          .size([width, height])
@@ -83,7 +82,7 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
    PSOMFuncView.prototype.CreateMarkup = function(element)
    {
-      this.Base.CreateMarkup(element);
+      this.CreateGenericMarkup(element);
 
       var container = $("#{0}-contentcontainer".format(this.Block.Id));
 
@@ -104,11 +103,6 @@ function(BlockViewBase, PSOMFuncPropertiesView, d3) {
 
       this.Link = svg.selectAll(".link");
       this.Node = svg.selectAll(".node");
-   };
-
-   PSOMFuncView.prototype.UpdateProperties = function()
-   {
-      this.Base.Properties.Update();
    };
 
    PSOMFuncView.prototype.Tick = function()

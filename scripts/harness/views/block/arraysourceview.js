@@ -7,14 +7,12 @@ define(
 function(BlockViewBase, ArraySourcePropertiesView) {
 
 	function ArraySourceView(block)	{
-		this.Block = block;
-		this.Base = new BlockViewBase(block);
-		this.Base.Properties = new ArraySourcePropertiesView(block);
-		this.Base.CreateContentMarkup = this.CreateContentMarkup;
+		BlockViewBase.call(this, block);
+		this.Properties = new ArraySourcePropertiesView(block);
 	}
 
-	ArraySourceView.prototype.Base = null;
-	ArraySourceView.prototype.Block = null;
+	ArraySourceView.prototype = Object.create( BlockViewBase.prototype );
+   ArraySourceView.prototype.constructor = ArraySourceView;
 
 	ArraySourceView.prototype.CreateContentMarkup = function ()
 	{
@@ -39,16 +37,6 @@ function(BlockViewBase, ArraySourcePropertiesView) {
 		}
 
 		elementContent.text( $(line).text() );
-	};
-
-	ArraySourceView.prototype.CreateMarkup = function(element)
-	{
-		this.Base.CreateMarkup(element);
-	};
-
-	ArraySourceView.prototype.UpdateProperties = function()
-	{
-		this.Base.Properties.Update();
 	};
 
 	return (ArraySourceView);

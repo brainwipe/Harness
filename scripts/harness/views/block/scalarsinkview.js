@@ -8,14 +8,12 @@ define(
 function(BlockViewBase, ScalarSinkPropertiesView) {
 
 	function ScalarSinkView(block)	{
-		this.Block = block;
-		this.Base = new BlockViewBase(block);
-		this.Base.Properties = new ScalarSinkPropertiesView(block);
-		this.Base.CreateContentMarkup = this.CreateContentMarkup;
+		BlockViewBase.call(this, block);
+		this.Properties = new ScalarSinkPropertiesView(block);
 	}
 
-	ScalarSinkView.prototype.Base = null;
-	ScalarSinkView.prototype.Block = null;
+	ScalarSinkView.prototype = Object.create( BlockViewBase.prototype );
+   ScalarSinkView.prototype.constructor = ScalarSinkView;
 
 	ScalarSinkView.prototype.CreateContentMarkup = function ()
 	{
@@ -42,15 +40,5 @@ function(BlockViewBase, ScalarSinkPropertiesView) {
 		elementContent.text( $(line).text() );
 	};
 
-	ScalarSinkView.prototype.CreateMarkup = function(element)
-	{
-		this.Base.CreateMarkup(element);
-	};
-
-	ScalarSinkView.prototype.UpdateProperties = function()
-	{
-		this.Base.Properties.Update();
-	};
-
-	return (ScalarSinkView)
+	return (ScalarSinkView);
 });

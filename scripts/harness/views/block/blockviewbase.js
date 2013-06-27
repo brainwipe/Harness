@@ -22,7 +22,13 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 	BlockViewBase.prototype.Properties = null;
 	BlockViewBase.prototype.DefaultWidth = 200;
 	BlockViewBase.prototype.DefaultHeight = 200;
-	BlockViewBase.prototype.CreateMarkup = function (containerElement) {
+
+	BlockViewBase.prototype.CreateMarkup = function(element)
+	{
+		this.CreateGenericMarkup(element);
+	};
+
+	BlockViewBase.prototype.CreateGenericMarkup = function (containerElement) {
 		var data = {
 			"blockName": this.Block.Name,
 			"blockClass": this.CssClass,
@@ -134,6 +140,11 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 				}
 			});
 		}
+	};
+
+	BlockViewBase.prototype.UpdateProperties = function()
+	{
+		this.Properties.Update();
 	};
 
 	return (BlockViewBase);

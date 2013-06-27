@@ -2,20 +2,17 @@ define(
 [
    'harness/views/block/blockviewbase',
    'harness/views/block/properties/IncrementalSourcePropertiesView'
-
 ],
 
 function(BlockViewBase, IncrementalSourcePropertiesView) {
 
    function IncrementalSourceView(block) {
-      this.Block = block;
-      this.Base = new BlockViewBase(block);
-      this.Base.Properties = new IncrementalSourcePropertiesView(block);
-      this.Base.CreateContentMarkup = this.CreateContentMarkup;
+      BlockViewBase.call(this, block);
+      this.Properties = new IncrementalSourcePropertiesView(block);
    }
 
-   IncrementalSourceView.prototype.Base = null;
-   IncrementalSourceView.prototype.Block = null;
+   IncrementalSourceView.prototype = Object.create( BlockViewBase.prototype );
+   IncrementalSourceView.prototype.constructor = IncrementalSourceView;
 
    IncrementalSourceView.prototype.CreateContentMarkup = function ()
    {
@@ -40,16 +37,6 @@ function(BlockViewBase, IncrementalSourcePropertiesView) {
       }
 
       elementContent.text( $(line).text() );
-   };
-
-   IncrementalSourceView.prototype.CreateMarkup = function(element)
-   {
-      this.Base.CreateMarkup(element);
-   };
-
-   IncrementalSourceView.prototype.UpdateProperties = function()
-   {
-      this.Base.Properties.Update();
    };
 
    return (IncrementalSourceView);

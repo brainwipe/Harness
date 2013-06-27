@@ -124,7 +124,7 @@ function(PropertiesViewBase) {
 
 			var view = harness.Views[block.Id];
 			view.Draw();
-			view.Base.Properties.Update();
+			view.Properties.Update();
 		});
 
 		var currentIndexOnDataTable = $('#{0}-datatable-currentindex'.format(this.Id));
@@ -137,7 +137,7 @@ function(PropertiesViewBase) {
 
 			var view = harness.Views[block.Id];
 			view.Draw();
-			view.Base.Properties.Update();
+			view.Properties.Update();
 		});
 	};
 
