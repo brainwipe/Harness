@@ -8,8 +8,8 @@ var importexportmodeldialog;
 
 require.config({
 	paths: {
-		'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min',
-		'jqueryui' : '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min',
+		'jquery': '../vendor/jquery/jquery.min',
+		'jqueryui' : '../vendor/jquery/jquery-ui-1.10.3/ui/minified/jquery-ui.min',
 		'underscore': '../vendor/underscore/underscore-min',
 		'bootstrap': '../vendor/bootstrap/scripts/bootstrap.min',
 		'bootbox' : '../vendor/bootstrap/scripts/bootbox.min',
