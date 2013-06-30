@@ -41,7 +41,7 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 	PropertiesViewBase.prototype.CreateTabs = function() {};
 
 	PropertiesViewBase.prototype.Update = function() {
-		// When deriving your own properties view, you MUST call update inputs or outputs
+		// When deriving your own properties view, you MUST call update inputs or outputs in your Upodate
 		this.UpdateInputsAndOuputs();
 	};
 
@@ -58,7 +58,6 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 			);
 		}
 	};
-
 
 	return (PropertiesViewBase);
 });
