@@ -49,7 +49,7 @@ function() {
 		return block;
 	};
 	Harness.prototype.DeleteBlock = function(blockId) {
-		this.Views[blockId].Base.Element.remove();
+		this.Views[blockId].Element.remove();
 		delete this.Views[blockId];
 		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];
