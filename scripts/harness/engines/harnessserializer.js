@@ -45,7 +45,7 @@ function() {
 			'{' +
 				'"Id" : "' + block.Id + '",' +
 				'"Name" : "' + block.Name + '",' +
-				'"Factory" : "' + block.FactoryName + '",' +
+				'"Type" : "' + block.constructor.name + '",' +
 				'"Data" : ' + block.DataToJSON() + ',' +
 				'"View" : ' + this.ViewToJSON(view) +
 			'}';
@@ -53,12 +53,12 @@ function() {
 	};
 
 	HarnessSerializer.prototype.ViewToJSON = function(view) {
-		var location = view.Base.Element.offset();
+		var location = view.Element.offset();
 		var serialized = '{' +
 			'"Left" : "' + location.left + '",' +
 			'"Top" : "' +  location.top + '",' +
-			'"Width" : "' + view.Base.Element.width() + '",' +
-			'"Height" : "' + view.Base.Element.height() + '"' +
+			'"Width" : "' + view.Element.width() + '",' +
+			'"Height" : "' + view.Element.height() + '"' +
 		'}';
 		return serialized;
 	};

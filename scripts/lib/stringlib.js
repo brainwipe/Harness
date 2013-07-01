@@ -83,11 +83,25 @@ if (!String.prototype.format) {
 
 
 function RemoveFromArray(thearray, object) {
-		var index = thearray.indexOf(object);
-		if(index >= 0) {
-			return thearray.splice(index, 1)[0];
-		}
-		else {
-			return undefined;
+	var index = thearray.indexOf(object);
+	if(index >= 0) {
+		return thearray.splice(index, 1)[0];
+	}
+	else {
+		return undefined;
+	}
+}
+
+function FindRequireJSModulesByObjectName(namespace) {
+	var definedFunctions = require.s.contexts._.defined;
+	var outputModules = {};
+	for(var key in definedFunctions)
+	{
+		if (key.indexOf(namespace) !== -1)
+		{
+			var objectKey = key.substr(key.lastIndexOf('/') + 1);
+			outputModules[objectKey] = definedFunctions[key];
 		}
 	}
+	return outputModules;
+}

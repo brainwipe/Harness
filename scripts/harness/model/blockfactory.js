@@ -1,33 +1,25 @@
 define(
 [
-	"harness/model/blockfactories/ScalarSourceFactory",
-	"harness/model/blockfactories/ScalarSinkFactory",
-   "harness/model/blockfactories/IncrementalSourceFactory",
-   "harness/model/blockfactories/PSOMFuncFactory",
-   "harness/model/blockfactories/ArraySourceFactory"
-
+   "harness/model/blocks/arraysource",
+   "harness/model/blocks/incrementalsource",
+   "harness/model/blocks/psomfunc",
+	"harness/model/blocks/scalarsource",
+   "harness/model/blocks/scalarsink"
 ],
 
-function(ScalarSourceFactory, ScalarSinkFactory, IncrementalSourceFactory, PSOMFuncFactory, ArraySourceFactory) {
+function() {
 
 	function BlockFactory() {
-		this.Factories = {};
-
-		this.Factories.ScalarSourceFactory = new ScalarSourceFactory();
-		this.Factories.ScalarSinkFactory = new ScalarSinkFactory();
-      this.Factories.IncrementalSourceFactory = new IncrementalSourceFactory();
-      this.Factories.PSOMFuncFactory = new PSOMFuncFactory();
-      this.Factories.ArraySourceFactory = new ArraySourceFactory();
+      this.BlockDefinitions = FindRequireJSModulesByObjectName("harness/model/blocks");
 	}
-	BlockFactory.prototype.Factories = null;
+
+   BlockFactory.prototype.BlockDefinitions = {};
 
 	BlockFactory.prototype.CreateBlock = function(blockFactoryId, harness, viewOffsetLeft, viewOffsetTop)
 	{
-		var blockFactory = this.Factories[blockFactoryId];
+		var block = new this.BlockDefinitions[blockFactoryId](harness.GetNextBlockId());
 
-		var block = blockFactory.Build(harness.GetNextBlockId());
-
-      var view = blockFactory.GetView(block);
+      var view = block.GetView();
 		view.CreateMarkup(harness.Element);
 		view.Element.offset({
 			left: viewOffsetLeft,
@@ -45,20 +37,20 @@ function(ScalarSourceFactory, ScalarSinkFactory, IncrementalSourceFactory, PSOMF
 
    BlockFactory.prototype.CreateBlockFromJSON = function(harness, blockJSON)
    {
-      var blockFactory = this.Factories[blockJSON.Factory];
+      var block = new this.BlockDefinitions[blockJSON.Type.toLowerCase()](harness.GetNextBlockId());
 
-      var block = blockFactory.Build(harness.GetNextBlockId());
+      block.Name = blockJSON.Name;
       block.JSONToData(blockJSON.Data);
 
-      var view = blockFactory.GetView(block);
+      var view = block.GetView(block);
       view.CreateMarkup(harness.Element);
-      view.Base.Element.offset({
+      view.Element.offset({
          left: blockJSON.View.Left,
          top: blockJSON.View.Top
       });
 
-      view.Base.Element.children(".ui-resizable").width(blockJSON.View.Width);
-      view.Base.Element.children(".ui-resizable").height(blockJSON.View.Height);
+      view.Element.children(".ui-resizable").width(blockJSON.View.Width);
+      view.Element.children(".ui-resizable").height(blockJSON.View.Height);
 
       block.Initialise(view);
 

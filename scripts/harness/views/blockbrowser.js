@@ -15,9 +15,10 @@ function(Harness, BlockFactory, TemplateRender, BlockBrowserTemplate, BlockBrows
 	BlockBrowser.prototype.Harness = null;
 	BlockBrowser.prototype.GetBlocks = function()
 	{
-		for (var i in this.Harness.BlockFactory.Factories)
+		for (var i in this.Harness.BlockFactory.BlockDefinitions)
 		{
-			var factory = this.Harness.BlockFactory.Factories[i];
+			var factory = new this.Harness.BlockFactory.BlockDefinitions[i]();
+
 			var block = "";
 			if (factory.Type === "Source")
 			{
