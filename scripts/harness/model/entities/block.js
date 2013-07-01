@@ -1,15 +1,17 @@
 define(
 [
-	"harness/validationexception"
+	"harness/validationexception",
+	"harness/model/socketfactory"
 ],
 
-function(ValidationException) {
+function(ValidationException, SocketFactory) {
 
-	function Block (id, name, factory)
+	function Block (sequenceIdNumber, name)
 	{
-		this.Id = id.replace(/ /g,'');
+		this.SocketFactory = new SocketFactory();
+
+		this.Id = name.replace(/ /g,'') + sequenceIdNumber;
 		this.Name = name;
-		this.FactoryName = factory;
 		this.Inputs = {};
 		this.Outputs = {};
 		this.Data = {};
@@ -17,10 +19,10 @@ function(ValidationException) {
 		this.InputsCount = 0;
 		this.OutputsCount = 0;
 	}
+
 	Block.prototype.Initialise = function(view) {};
 	Block.prototype.Id = null;
 	Block.prototype.Name = null;
-	Block.prototype.FactoryName = null;
 	Block.prototype.Inputs = null;
 	Block.prototype.Outputs = null;
 	Block.prototype.Data = null;
@@ -28,6 +30,8 @@ function(ValidationException) {
 	Block.prototype.Execute = null;
 	Block.prototype.Reset = null;
 	Block.prototype.Validate = null;
+	Block.prototype.SocketFactory = null;
+
 	Block.prototype.AddInput = function (inputSocket) {
 		this.InputsCount++;
 		this.Inputs[inputSocket.Name] = inputSocket;
