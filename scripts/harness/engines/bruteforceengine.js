@@ -26,7 +26,7 @@ function(Block, Socket) {
 				var inputSocketsReady = this.AreInputSocketsReady(block);
 
 				if (inputSocketsReady === true) {
-					block.Execute();
+					block.ExecuteAll();
 
 					this.PropagateOutputs(block);
 				}

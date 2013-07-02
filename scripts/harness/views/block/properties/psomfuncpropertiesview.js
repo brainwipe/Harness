@@ -75,8 +75,15 @@ function(PropertiesViewBase, TemplateRender, GenericTabContent) {
    };
 
    PSOMFuncPropertiesView.prototype.Update = function() {
-      this.UpdateInputsAndOuputs();
-      $("#" + this.Id + "-configuration-value").val(this.Block.Data);
+      this.UpdateInputsAndOutputs();
+
+      for(var i in this.Block.Data.configuration)
+      {
+         var configValue = this.Block.Data.configuration[i];
+         var propertyValueId = "#" + this.Id + '-configuration-' + i + '-value';
+         $(propertyValueId).val(configValue);
+      }
+
    };
 
    return (PSOMFuncPropertiesView);

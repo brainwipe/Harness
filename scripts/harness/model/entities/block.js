@@ -34,12 +34,12 @@ function(ValidationException, SocketFactory) {
 
 	Block.prototype.AddInput = function (inputSocket) {
 		this.InputsCount++;
-		this.Inputs[inputSocket.Name] = inputSocket;
+		this.Inputs[inputSocket.Id] = inputSocket;
 	};
 
 	Block.prototype.AddOutput = function (outputSocket) {
 		this.OutputsCount++;
-		this.Outputs[outputSocket.Name] = outputSocket;
+		this.Outputs[outputSocket.Id] = outputSocket;
 	};
 
 	Block.prototype.ValidateRequiredInputs = function() {
@@ -60,6 +60,20 @@ function(ValidationException, SocketFactory) {
 			}
 		}
 		return true;
+	};
+
+	Block.prototype.ExecuteAll = function () {
+
+		for (var i in this.Inputs)
+		{
+			var input = this.Inputs[i];
+			if (input.IsDataSocket === true)
+			{
+				this.Data.configuration[input.DataSocketPropertyId] = input.Data;
+			}
+		}
+
+		this.Execute();
 	};
 
 	Block.prototype.DeleteInput = function (inputSocket) {

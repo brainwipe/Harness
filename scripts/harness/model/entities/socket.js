@@ -5,9 +5,9 @@ define(
 
 function(Connector) {
 
-	function Socket(blockId, name, type, isInput, canBeDeleted, isMultiple, isRequired)
+	function Socket(blockId, name, type, isInput, canBeDeleted, isMultiple, isRequired, isDataSocket)
 	{
-		this.Id = encodeURI(name);
+		this.Id = name.replace(/ /g, '');
 		this.Name = name;
 		this.Connectors = [];
 		this.BlockId = blockId;
@@ -16,6 +16,7 @@ function(Connector) {
 		this.IsMultiple = isMultiple;
 		this.IsInputSocket = isInput;
 		this.IsRequired = isRequired;
+		this.IsDataSocket = isDataSocket;
 	}
 
 	Socket.prototype.Id = null;
@@ -34,6 +35,8 @@ function(Connector) {
 	Socket.prototype.IsRequired = false;
 	Socket.prototype.IsReady = false;
 	Socket.prototype.CanBeDeleted = false;
+	Socket.prototype.IsDataSocket = false;
+	Socket.prototype.DataSocketPropertyId = null;
 	Socket.prototype.Type = {};
 
 	Socket.prototype.Connect = function(inputSocket) {

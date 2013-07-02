@@ -35,6 +35,24 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 			);
 
 		this.BindEvents();
+		this.BindMakeSocketEvents();
+	};
+
+	PropertiesViewBase.prototype.BindMakeSocketEvents = function() {
+
+		$(".make-input-socket").click(function () {
+
+			var propertiesControlId = $(this).attr("data-properties-id");
+			var block = harness.GetBlockFromAnyId(propertiesControlId);
+			var configurationPropertyId = $(this).attr("data-property-id");
+
+			var socket = block.SocketFactory.InputFromData(block, configurationPropertyId);
+
+			block.AddInput(socket);
+
+			var view = harness.Views[block.Id];
+			view.CreateSocketMarkup(view.Element, socket);
+      });
 	};
 
 	PropertiesViewBase.prototype.BindEvents = function() {};
@@ -45,7 +63,7 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 		this.UpdateInputsAndOuputs();
 	};
 
-	PropertiesViewBase.prototype.UpdateInputsAndOuputs = function() {
+	PropertiesViewBase.prototype.UpdateInputsAndOutputs = function() {
 		for(var input in this.Block.Inputs) {
 			$('#' + this.Id + '-inputs-' + this.Block.Inputs[input].Id).val(
 				this.Block.Inputs[input].Data

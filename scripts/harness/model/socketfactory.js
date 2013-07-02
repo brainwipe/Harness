@@ -16,7 +16,8 @@ function(Socket, SocketType) {
          IsInput : true,
          CanBeDeleted : false,
          IsMultiple : false,
-         IsRequired : true
+         IsRequired : true,
+         IsDataSocket : false
       };
       return exampleContext;
    };
@@ -29,7 +30,8 @@ function(Socket, SocketType) {
          context.IsInput,
          context.CanBeDeleted,
          context.IsMultiple,
-         context.IsRequired);
+         context.IsRequired,
+         context.IsDataSocket);
    };
 
    // This input socket can accept only one connection, cannot be deleted and is required
@@ -42,7 +44,8 @@ function(Socket, SocketType) {
          IsInput : true,
          CanBeDeleted : false,
          IsMultiple : false,
-         IsRequired : true
+         IsRequired : true,
+         IsDataSocket : false
       };
 
       return this.FromContext(inputSingleFixedContext);
@@ -58,10 +61,31 @@ function(Socket, SocketType) {
          IsInput : false,
          CanBeDeleted : false,
          IsMultiple : false,
-         IsRequired : false
+         IsRequired : false,
+         IsDataSocket : false
       };
 
       return this.FromContext(outputSingleFixedContext);
+   };
+
+   // This input is connected to a data property
+   SocketFactory.prototype.InputFromData = function(block, dataPropertyId)
+   {
+      var inputFromData = {
+         BlockId : block.Id,
+         Name : block.Data.configurationtext[dataPropertyId],
+         Type : new SocketType().BuildScalar(),
+         IsInput : true,
+         CanBeDeleted : true,
+         IsMultiple : false,
+         IsRequired : true,
+         IsDataSocket : true
+      };
+
+      var socket = this.FromContext(inputFromData);
+      socket.DataSocketPropertyId = dataPropertyId;
+
+      return socket;
    };
 
    return (SocketFactory);

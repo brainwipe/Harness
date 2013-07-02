@@ -79,7 +79,7 @@ function(PropertiesViewBase) {
 	};
 
 	ArraySourcePropertiesView.prototype.Update = function() {
-		this.UpdateInputsAndOuputs();
+		this.UpdateInputsAndOutputs();
 		this.UpdateRawData();
 		this.UpdateDatatableCurrentIndex();
 	};

@@ -1,19 +1,21 @@
-<form class="form-horizontal">
+<form class="form-horizontal properties-generic">
       {{# _.each(properties, function(property, key) { }}
          <div class="control-group">
             <label class="control-label">
                {{property.text}}
             </label>
-            <div class="controls input-append">
-               <input class="input-medium" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
-               <div class="btn-group">
-                  <button class="btn dropdown-toggle" data-toggle="dropdown">
-                     <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                     <li>Make input socket</li>
-                     <li>Make output socket</li>
-                  </ul>
+            <div class="controls">
+               <div class="input-append">
+                  <input class="input-medium" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
+                  <div class="btn-group">
+                     <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                     </button>
+                     <ul class="dropdown-menu">
+                        <li><a class="make-input-socket" data-properties-id="{{propertiesid}}" data-property-id="{{key}}">Make input socket</a></li>
+                        <li><a class="make-output-socket" data-properties-id="{{propertiesid}}" data-property-id="{{key}}">Make output socket</a></li>
+                     </ul>
+                  </div>
                </div>
             </div>
          </div>
