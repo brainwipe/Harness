@@ -2,9 +2,9 @@ define(
 [
    "harness/model/entities/block",
    "harness/model/entities/sockettype",
-   "harness/views/block/psomfuncview",
-   "harness/engines/blockengines/psomserializer",
-   "harness/engines/blockengines/psomdeserializer",
+   "harness/blocks/psomfunc/psomfuncview",
+   "harness/blocks/psomfunc/helper/psomserializer",
+   "harness/blocks/psomfunc/helper/psomdeserializer",
    "algorithm/psom",
    "lib/math"
 ],

@@ -2,7 +2,7 @@ define(
 [
    "harness/model/entities/block",
    "harness/model/entities/sockettype",
-   "harness/views/block/scalarsourceview"
+   "harness/blocks/scalarsource/scalarsourceview"
 ],
 
 function(Block, SocketType, ScalarSourceView) {

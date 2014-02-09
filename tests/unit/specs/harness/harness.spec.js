@@ -3,11 +3,8 @@ define(
 	"jquery",
 	"HarnessMockFactory",
 	"harness/model/entities/socket",
-	"harness/model/blockfactories/scalarsourcefactory",
-	"harness/model/blockfactories/arraysourcefactory",
-	"harness/model/blockfactories/scalarsinkfactory",
-	"harness/views/block/scalarsinkview",
-	"harness/views/block/scalarsourceview",
+	"harness/blocks/scalarsink/scalarsink",
+	"harness/blocks/scalarsource/scalarsource",
 	"harness/validationexception",
 	"harness/views/validationbrowser",
 	"harness/views/notify",
@@ -16,11 +13,8 @@ define(
 function($,
 	HarnessMockFactory,
 	Socket,
-	ScalarSourceFactory,
-	ArraySourceFactory,
-	ScalarSinkFactory,
-	ScalarSinkView,
-	ScalarSourceView,
+	ScalarSinkBlock,
+	ScalarSourceBlock,
 	ValidationException,
 	ValidationBrowser,
 	Notify)
@@ -39,13 +33,11 @@ function($,
 				var harnessFactory = new HarnessMockFactory();
 				harness = harnessFactory.Build($("#harnessContainer"));
 				var idnumber = 1;
-				var scalarSinkFactory = new ScalarSinkFactory();
-				scalarsink = scalarSinkFactory.Build(idnumber);
-				scalarsinkview = new ScalarSinkView(scalarsink);
+				scalarsink = new ScalarSinkBlock(idnumber);
+				scalarsinkview = scalarsink.GetView();
 
-				var scalarSourceFactory = new ScalarSourceFactory();
-				scalarsource = scalarSourceFactory.Build(idnumber);
-				scalarsourceview = new ScalarSourceView(scalarsource);
+				scalarsource = new ScalarSourceBlock(idnumber++);
+				scalarsourceview = scalarsource.GetView();
 			});
 
 			it('can increment the block id number on each get', function() {

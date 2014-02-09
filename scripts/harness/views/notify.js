@@ -1,8 +1,7 @@
 define(
 [
 	"harness/views/templaterender",
-	"text!harness/views/templates/notify.html",
-   "stringlib"
+	"text!harness/views/templates/notify.html"
 ],
 function (TemplateRender, NotifyTemplate) {
 

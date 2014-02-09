@@ -5,11 +5,9 @@ define(
    "harness/model/socketfactory",
    "harness/model/entities/socket",
    "harness/model/entities/sockettype",
-   "harness/model/blockfactories/scalarsourcefactory",
-   "harness/model/blockfactories/arraysourcefactory",
-   "harness/model/blockfactories/scalarsinkfactory",
-   "harness/views/block/scalarsinkview",
-   "harness/views/block/scalarsourceview",
+   "harness/blocks/arraysource/arraysource",
+   "harness/blocks/scalarsink/scalarsink",
+   "harness/blocks/scalarsource/scalarsource",
    "harness/validationexception",
    "harness/views/validationbrowser",
    "harness/views/notify",
@@ -20,11 +18,9 @@ function($,
    SocketFactory,
    Socket,
    SocketType,
-   ScalarSourceFactory,
-   ArraySourceFactory,
-   ScalarSinkFactory,
-   ScalarSinkView,
-   ScalarSourceView,
+   ArraySourceBlock,
+   ScalarSinkBlock,
+   ScalarSourceBlock,
    ValidationException,
    ValidationBrowser,
    Notify)
@@ -33,22 +29,27 @@ function($,
       var harness = null;
       var scalarsink = null;
       var scalarsinktwo = null;
+      var scalarsinkviewtwo = null;
       var scalarsource = null;
       var scalarsourcetwo = null;
+      var scalarsourceviewtwo = null;
       var socketFactory = new SocketFactory();
 
       beforeEach(function () {
          var harnessFactory = new HarnessMockFactory();
 
          harness = harnessFactory.Build($("#harnessContainer"));
-         var idnumber = 1;
-         var scalarSinkFactory = new ScalarSinkFactory();
-         scalarsink = scalarSinkFactory.Build(idnumber);
-         scalarsinktwo = scalarSinkFactory.Build(idnumber + 1);
+         scalarsink = new ScalarSinkBlock(1);
+         scalarsinkview = scalarsink.GetView();
 
-         var scalarSourceFactory = new ScalarSourceFactory();
-         scalarsource = scalarSourceFactory.Build(idnumber + 2);
-         scalarsourcetwo = scalarSourceFactory.Build(idnumber + 3);
+         scalarsinktwo = new ScalarSinkBlock(2);
+         scalarsinkviewtwo = scalarsink.GetView();
+
+         scalarsource = new ScalarSourceBlock(3);
+         scalarsourceview = scalarsource.GetView();
+
+         scalarsourcetwo = new ScalarSourceBlock(4);
+         scalarsourceviewtwo = scalarsource.GetView();
       });
 
       it('can create a scalar sink builder', function() {
@@ -202,7 +203,7 @@ function($,
 
       it('will get a block given the long id of a sub control', function() {
          // Arrange
-         var scalarSinkView = new ScalarSinkView(scalarsink);
+         var scalarSinkView = scalarsink.GetView()
          harness.AddBlock(scalarsink, scalarSinkView);
 
          // Act
@@ -214,9 +215,7 @@ function($,
 
       it('will throw an exception if you try to connect sockets with different types', function() {
          // Arrange
-         var arraySourceFactory = new ArraySourceFactory();
-         var idnumber = 1;
-         var arraySource = arraySourceFactory.Build(idnumber);
+         var arraySource = new ArraySourceBlock(5);
 
          var outputSocket = arraySource.Outputs.Vector;
          var inputSocket = scalarsink.Inputs.Value;

@@ -1,7 +1,7 @@
 define(
 [
    'harness/views/block/blockviewbase',
-   'harness/views/block/properties/IncrementalSourcePropertiesView'
+   'harness/blocks/incrementalsource/IncrementalSourcePropertiesView'
 ],
 
 function(BlockViewBase, IncrementalSourcePropertiesView) {

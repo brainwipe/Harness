@@ -1,10 +1,10 @@
 define(
 [
-   "harness/model/blocks/arraysource",
-   "harness/model/blocks/incrementalsource",
-   "harness/model/blocks/psomfunc",
-   "harness/model/blocks/scalarsource",
-   "harness/model/blocks/scalarsink"
+   "harness/blocks/arraysource/arraysource",
+   "harness/blocks/incrementalsource/incrementalsource",
+   "harness/blocks/psomfunc/psomfunc",
+   "harness/blocks/scalarsource/scalarsource",
+   "harness/blocks/scalarsink/scalarsink"
 ],
 
 function() {

@@ -4,11 +4,8 @@ define(
    "HarnessMockFactory",
    "harness/model/socketfactory",
    "harness/model/entities/socket",
-   "harness/model/blockfactories/scalarsourcefactory",
-   "harness/model/blockfactories/arraysourcefactory",
-   "harness/model/blockfactories/scalarsinkfactory",
-   "harness/views/block/scalarsinkview",
-   "harness/views/block/scalarsourceview",
+   "harness/blocks/scalarsink/scalarsink",
+   "harness/blocks/scalarsource/scalarsource",
    "harness/validationexception",
    "harness/views/validationbrowser",
    "harness/views/notify",
@@ -18,11 +15,8 @@ function($,
    HarnessMockFactory,
    SocketFactory,
    Socket,
-   ScalarSourceFactory,
-   ArraySourceFactory,
-   ScalarSinkFactory,
-   ScalarSinkView,
-   ScalarSourceView,
+   ScalarSinkBlock,
+   ScalarSourceBlock,
    ValidationException,
    ValidationBrowser,
    Notify)
@@ -43,13 +37,11 @@ function($,
          harness = harnessFactory.Build($("#harnessContainer"));
          var idnumber = 1;
 
-         scalarSinkFactory = new ScalarSinkFactory();
-         scalarsink = scalarSinkFactory.Build(idnumber);
-         scalarsinkview = new ScalarSinkView(scalarsink);
+         scalarsink = new ScalarSinkBlock(idnumber);
+         scalarsinkview = scalarsink.GetView();
 
-         scalarSourceFactory = new ScalarSourceFactory();
-         scalarsource = scalarSourceFactory.Build(idnumber);
-         scalarsourceview = new ScalarSourceView(scalarsource);
+         scalarsource = new ScalarSourceBlock(idnumber++);
+         scalarsourceview = scalarsource.GetView();
       });
 
       it('can tell if inputs are ready on a scalar source block (they always are)', function() {
@@ -133,10 +125,10 @@ function($,
 
       it('can propagate multiple outputs to different sinks on a single tick', function () {
 
-         var scalarsink2 = scalarSinkFactory.Build(3);
-         var scalarsource2 = scalarSourceFactory.Build(4);
-         var scalarsinkview2 = new ScalarSinkView(scalarsink2);
-         var scalarsourceview2 = new ScalarSourceView(scalarsource2);
+         var scalarsink2 = new ScalarSinkBlock(3);
+         var scalarsource2 = new ScalarSourceBlock(4);
+         var scalarsinkview2 = scalarsink2.GetView();
+         var scalarsourceview2 = scalarsource2.GetView();
 
          harness.AddBlock(scalarsource, scalarsourceview);
          harness.AddBlock(scalarsink, scalarsinkview);

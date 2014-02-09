@@ -1,29 +1,29 @@
 define(
 [
 	'harness/views/block/blockviewbase',
-	'harness/views/block/properties/ArraySourcePropertiesView'
+	'harness/blocks/scalarsource/ScalarSourcePropertiesView'
 ],
 
-function(BlockViewBase, ArraySourcePropertiesView) {
+function(BlockViewBase, ScalarSourcePropertiesView) {
 
-	function ArraySourceView(block)	{
+	function ScalarSourceView(block)	{
 		BlockViewBase.call(this, block);
-		this.Properties = new ArraySourcePropertiesView(block);
+		this.Properties = new ScalarSourcePropertiesView(block);
 	}
 
-	ArraySourceView.prototype = Object.create( BlockViewBase.prototype );
-   ArraySourceView.prototype.constructor = ArraySourceView;
+	ScalarSourceView.prototype = Object.create( BlockViewBase.prototype );
+   ScalarSourceView.prototype.constructor = ScalarSourceView;
 
-	ArraySourceView.prototype.CreateContentMarkup = function ()
+	ScalarSourceView.prototype.CreateContentMarkup = function ()
 	{
 		return '<div class="block-content">' +
 					this.Block.Data +
 					'</div>';
 	};
 
-	ArraySourceView.prototype.Draw = function() {
+	ScalarSourceView.prototype.Draw = function() {
 		var elementContent = $("#" + this.Block.Id + "  .block-content");
-		elementContent.html(this.Block.Data.CurrentIndex + ": " + JSON.stringify(this.Block.CurrentData()));
+		elementContent.html(this.Block.Data);
 		var width = elementContent.width(),
 		height = elementContent.height(),
 		html = '<span style="white-space:nowrap; border: 1px solid blue;"></span>',
@@ -39,5 +39,5 @@ function(BlockViewBase, ArraySourcePropertiesView) {
 		elementContent.text( $(line).text() );
 	};
 
-	return (ArraySourceView);
+	return (ScalarSourceView);
 });
