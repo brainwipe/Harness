@@ -80,7 +80,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 
 	PropertiesViewBase.prototype.BindMakeSocketEvents = function() {
 
-		$(".make-input-socket").click(function () {
+		$("#" + this.Id + " .make-input-socket").click(function () {
 
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var block = harness.GetBlockFromAnyId(propertiesControlId);
@@ -94,7 +94,23 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			view.CreateSocketMarkup(view.Element, socket);
 
 			view.Properties.ReBuildInputs();
-      });
+      	});
+
+	  	$("#" + this.Id + " .make-output-socket").click(function () {
+
+			var propertiesControlId = $(this).attr("data-properties-id");
+			var block = harness.GetBlockFromAnyId(propertiesControlId);
+			var configurationPropertyId = $(this).attr("data-property-id");
+
+			var socket = block.SocketFactory.OutputFromData(block, configurationPropertyId);
+
+			block.AddOutput(socket);
+
+			var view = harness.Views[block.Id];
+			view.CreateSocketMarkup(view.Element, socket);
+
+			view.Properties.ReBuildOutputs();
+      	});
 		
 	};
 

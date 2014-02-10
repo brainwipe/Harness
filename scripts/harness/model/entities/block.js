@@ -83,6 +83,15 @@ function(ValidationException, SocketFactory) {
 			}
 		}
 
+		for (var i in this.Outputs)
+		{
+			var output = this.Outputs[i];
+			if (output.IsDataSocket === true)
+			{
+				output.Data = this.Data.configuration[output.DataSocketPropertyId];
+			}
+		} 
+
 		this.Execute();
 	};
 

@@ -88,6 +88,26 @@ function(Socket, SocketType) {
       return socket;
    };
 
+   // This output is connected to a data property
+   SocketFactory.prototype.OutputFromData = function(block, dataPropertyId)
+   {
+      var outputFromData = {
+         BlockId : block.Id,
+         Name : block.Data.configurationtext[dataPropertyId],
+         Type : new SocketType().BuildScalar(),
+         IsInput : false,
+         CanBeDeleted : true,
+         IsMultiple : false,
+         IsRequired : true,
+         IsDataSocket : true
+      };
+
+      var socket = this.FromContext(outputFromData);
+      socket.DataSocketPropertyId = dataPropertyId;
+
+      return socket;
+   };
+
    return (SocketFactory);
 
 });
