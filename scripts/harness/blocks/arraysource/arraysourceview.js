@@ -23,7 +23,16 @@ function(BlockViewBase, ArraySourcePropertiesView) {
 
 	ArraySourceView.prototype.Draw = function() {
 		var elementContent = $("#" + this.Block.Id + "  .block-content");
-		elementContent.html(this.Block.Data.CurrentIndex + ": " + JSON.stringify(this.Block.CurrentData()));
+
+		if (this.Block.Data.CurrentIndex == -1)
+		{
+			elementContent.html("No data sent yet");
+		}
+		else
+		{
+			elementContent.html(this.Block.Data.CurrentIndex + ": " + JSON.stringify(this.Block.CurrentData()));
+		}
+		
 		var width = elementContent.width(),
 		height = elementContent.height(),
 		html = '<span style="white-space:nowrap; border: 1px solid blue;"></span>',

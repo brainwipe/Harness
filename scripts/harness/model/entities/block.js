@@ -33,11 +33,21 @@ function(ValidationException, SocketFactory) {
 	Block.prototype.SocketFactory = null;
 
 	Block.prototype.AddInput = function (inputSocket) {
+		if (this.Inputs.hasOwnProperty(inputSocket.Id))
+		{
+			throw "Cannot create input socket, it already exists.";
+		}
+
 		this.InputsCount++;
 		this.Inputs[inputSocket.Id] = inputSocket;
 	};
 
 	Block.prototype.AddOutput = function (outputSocket) {
+		if (this.Outputs.hasOwnProperty(outputSocket.Id))
+		{
+			throw "Cannot create output socket, it already exists.";
+		}
+
 		this.OutputsCount++;
 		this.Outputs[outputSocket.Id] = outputSocket;
 	};

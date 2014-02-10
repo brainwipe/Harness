@@ -14,6 +14,7 @@ function(Block, Socket) {
 		var blockCount = keys.length;
 		var completedCount = 0;
 
+		this.ResetSockets(blocks);
 		this.ResetBlocks(blocks);
 
 		while (blocksComplete === false) {
@@ -54,6 +55,17 @@ function(Block, Socket) {
 			blocks[i].Reset();
 		}
 	};
+
+	BruteForceEngine.prototype.ResetSockets = function(blocks)
+	{
+		for(var i in blocks) {
+			var block = blocks[i];
+			for(var j in block.Inputs)
+			{
+				block.Inputs[j].IsReady = false;
+			}
+		}
+	}
 
 	BruteForceEngine.prototype.AreInputSocketsReady = function(block) {
 		for(var i in block.Inputs) {

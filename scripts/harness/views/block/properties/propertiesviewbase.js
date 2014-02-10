@@ -2,10 +2,12 @@
 [
 	"harness/views/templaterender",
 	"text!harness/views/templates/block/properties/propertiesviewbase.html",
+	"text!harness/views/templates/block/properties/propertiesinputstemplate.html",
+	"text!harness/views/templates/block/properties/propertiesoutputstemplate.html",
 	"stringlib"
 ],
 
-function(TemplateRender, PropertiesViewBaseTemplate) {
+function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, PropertiesOutputsTemplate) {
 
 	function PropertiesViewBase(block) {
 		this.Block = block;
@@ -25,8 +27,6 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 			"propertiesCssClass": this.CssClass,
 			"inputsCount": this.Block.InputsCount,
 			"outputsCount": this.Block.OutputsCount,
-			"Outputs" : this.Block.Outputs,
-			"Inputs": this.Block.Inputs,
 			"tabs": tabs
 		};
 
@@ -34,8 +34,48 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 			new TemplateRender().Render(PropertiesViewBaseTemplate, data)
 			);
 
+		$("#" + this.Id + "-inputs").append(this.BuildInputs());
+		$("#" + this.Id + "-outputs").append(this.BuildOutputs());
+
 		this.BindEvents();
 		this.BindMakeSocketEvents();
+		return $("#" + this.Id);
+	};
+
+	PropertiesViewBase.prototype.BuildInputs = function() {
+
+		var data = {
+			"id" : this.Id,
+			"Inputs": this.Block.Inputs
+		};
+
+		return new TemplateRender().Render(PropertiesInputsTemplate, data);
+	};
+
+	PropertiesViewBase.prototype.BuildOutputs = function() {
+
+		var data = {
+			"id" : this.Id,
+			"Outputs": this.Block.Outputs
+		};
+
+		return new TemplateRender().Render(PropertiesOutputsTemplate, data);
+	};
+
+	PropertiesViewBase.prototype.ReBuildInputs = function()
+	{
+		var inputsContent = $("#" + this.Id + "-inputs");
+		inputsContent.html("");
+		inputsContent.append(this.BuildInputs());
+		this.BindEvents();
+	};
+
+	PropertiesViewBase.prototype.ReBuildOutputs = function()
+	{
+		var outputsContent = $("#" + this.Id + "-outputs");
+		outputsContent.html("");
+		outputsContent.append(this.BuildOutputs());
+		this.BindEvents();
 	};
 
 	PropertiesViewBase.prototype.BindMakeSocketEvents = function() {
@@ -52,7 +92,10 @@ function(TemplateRender, PropertiesViewBaseTemplate) {
 
 			var view = harness.Views[block.Id];
 			view.CreateSocketMarkup(view.Element, socket);
+
+			view.Properties.ReBuildInputs();
       });
+		
 	};
 
 	PropertiesViewBase.prototype.BindEvents = function() {};

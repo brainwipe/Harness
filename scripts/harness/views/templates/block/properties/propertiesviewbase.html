@@ -33,38 +33,12 @@
 			{{# }); }}
 
 			{{# if (inputsCount > 0) { }}
-				<div class="tab-pane {{css}}" id="{{id}}-inputs">
-					<form class="form-horizontal">
-						<fieldset>
-							{{# _.each(Inputs, function(input) { }}
-								<div class="control-group">
-									<label class="control-label" for="">{{input.Name}}</label>
-									<div class="controls">
-										<input type="text" class="input-medium uneditable-input" id="{{id}}-inputs-{{input.Id}}" value="{{input.Data}}"/>
-									</div>
-								</div>
-							{{# }); }}
-						</fieldset>
-					</form>
-				</div>
+				<div class="tab-pane {{css}}" id="{{id}}-inputs"></div>
 				{{# css = "";}}
 			{{# }; }}
 
 			{{# if (outputsCount > 0) { }}
-				<div class="tab-pane {{css}}" id="{{id}}-outputs">
-					<form class="form-horizontal">
-						<fieldset>
-							{{# _.each(Outputs, function(output) { }}
-								<div class="control-group">
-									<label class="control-label" for="">{{output.Name}}</label>
-									<div class="controls">
-										<input type="text" class="input-medium uneditable-input" id="{{id}}-output-{{output.Id}}" value="{{output.Data}}"/>
-									</div>
-								</div>
-							{{# }); }}
-						</fieldset>
-					</form>
-				</div>
+				<div class="tab-pane {{css}}" id="{{id}}-outputs"></div>
 				{{# css = "";}}
 			{{# }; }}
 

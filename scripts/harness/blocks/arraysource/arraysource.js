@@ -17,7 +17,7 @@ function(Block, SocketType, ArraySourceView) {
             new SocketType().BuildVector()));
 
       this.Data = {
-         "CurrentIndex" : 0,
+         "CurrentIndex" : -1,
          "Values" : [
                      [0,0,1],
                      [0,1,0],
@@ -35,8 +35,8 @@ function(Block, SocketType, ArraySourceView) {
    ArraySource.prototype.Description = 'On each tick, this block puts a vector on its output.';
 
    ArraySource.prototype.Execute = function() {
-      this.Outputs.Vector.Data = this.CurrentData();
       this.Data.CurrentIndex++;
+      this.Outputs.Vector.Data = this.CurrentData();
       if (this.Data.CurrentIndex > this.VectorSize() - 1)
       {
          this.Data.CurrentIndex = 0;
