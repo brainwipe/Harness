@@ -10,7 +10,7 @@ define(
 function() {
 
    function BlockFactory() {
-      this.BlockDefinitions = FindRequireJSModulesByObjectName("harness/model/blocks");
+      this.BlockDefinitions = FindRequireJSModulesByObjectName("harness/blocks");
    }
 
    BlockFactory.prototype.BlockDefinitions = {};

@@ -99,8 +99,12 @@ function FindRequireJSModulesByObjectName(namespace) {
 	{
 		if (key.indexOf(namespace) !== -1)
 		{
-			var objectKey = key.substr(key.lastIndexOf('/') + 1);
-			outputModules[objectKey] = definedFunctions[key];
+			var fullKey = key.replace("harness/blocks" + "/", "");
+			var parts = fullKey.split("/");
+			if (parts.length == 2 && parts[0] == parts[1])
+			{
+				outputModules[key] = definedFunctions[key];
+			}
 		}
 	}
 	return outputModules;

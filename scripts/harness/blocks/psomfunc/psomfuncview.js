@@ -1,7 +1,7 @@
 define(
 [
    'harness/views/block/blockviewbase',
-   'harness/views/block/properties/PSOMFuncPropertiesView',
+   'harness/blocks/psomfunc/PSOMFuncPropertiesView',
    'd3',
    'visualisations/PSOMD3EventHandler'
 ],
