@@ -37,10 +37,14 @@ function() {
 
    BlockFactory.prototype.CreateBlockFromJSON = function(harness, blockJSON)
    {
-      var block = new this.BlockDefinitions[blockJSON.Type.toLowerCase()](harness.GetNextBlockId());
+      var fullyQualifiedBlockName = "harness/blocks/" + blockJSON.Type.toLowerCase() + "/" + blockJSON.Type.toLowerCase();
+
+      var block = new this.BlockDefinitions[fullyQualifiedBlockName](harness.GetNextBlockId());
 
       block.Name = blockJSON.Name;
       block.JSONToData(blockJSON.Data);
+      this.CreateInputsFromJSON(block, blockJSON.Sockets.Inputs);
+      this.CreateOutputsFromJSON(block, blockJSON.Sockets.Outputs);
 
       var view = block.GetView(block);
       view.CreateMarkup(harness.Element);
@@ -59,6 +63,30 @@ function() {
       view.Draw();
 
       return block;
+   };
+
+   BlockFactory.prototype.CreateInputsFromJSON = function(block, inputs)
+   {
+      block.InputsCount = 0;
+      block.Inputs = {};
+
+      for(var i in inputs)
+      {
+         var jsonSocket = inputs[i];
+         block.AddInput(block.SocketFactory.FromJSON(jsonSocket));
+      }
+   };
+
+   BlockFactory.prototype.CreateOutputsFromJSON = function(block, outputs)
+   {
+      block.OutputsCount = 0;
+      block.Outputs = {};
+
+      for(var i in outputs)
+      {
+         var jsonSocket = outputs[i];
+         block.AddOutput(block.SocketFactory.FromJSON(jsonSocket));
+      }
    };
 
    return(BlockFactory);

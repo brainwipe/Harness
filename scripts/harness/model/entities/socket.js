@@ -39,6 +39,19 @@ function(Connector) {
 	Socket.prototype.DataSocketPropertyId = null;
 	Socket.prototype.Type = {};
 
+	Socket.prototype.ToJSON = function() {
+		return '{ "Id" : "' + this.Id + '", ' +
+		'"Name" : "' + this.Name + '", ' +
+		'"BlockId" : "' + this.BlockId + '", ' +
+		'"Type" : ' + JSON.stringify(this.Type) + ', ' +
+		'"CanBeDeleted" : "' + this.CanBeDeleted + '", ' +
+		'"IsMultiple" : "' + this.IsMultiple + '", ' +		
+		'"IsInputSocket" : "' + this.IsInputSocket + '", ' +
+		'"IsRequired" : "' + this.IsRequired + '", ' +
+		'"IsDataSocket" : "' + this.isDataSocket + '", ' + 
+		'"DataSocketPropertyId" : "' + this.DataSocketPropertyId + '" } ';
+	};
+
 	Socket.prototype.Connect = function(inputSocket) {
 		if (inputSocket.Type.Key !== this.Type.Key && this.Type.Key !== "Harness.Socket.Type.Any")
 		{

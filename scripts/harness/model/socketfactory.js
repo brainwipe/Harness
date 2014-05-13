@@ -34,6 +34,13 @@ function(Socket, SocketType) {
          context.IsDataSocket);
    };
 
+   SocketFactory.prototype.FromJSON = function(json)
+   {
+      var socket = this.FromContext(json);
+      socket.DataSocketPropertyId = json.DataSocketPropertyId;
+      return socket;
+   };
+
    // This input socket can accept only one connection, cannot be deleted and is required
    SocketFactory.prototype.InputSingleFixedRequired = function (block, name, type)
    {
