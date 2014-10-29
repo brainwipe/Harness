@@ -1,6 +1,6 @@
 define(
 [
-	"harness/validationexception"
+	"harness/ValidationException"
 ],
 
 function(ValidationException) {

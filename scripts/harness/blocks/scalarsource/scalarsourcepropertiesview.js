@@ -1,6 +1,6 @@
 ﻿define(
 [
-	'harness/views/block/properties/propertiesviewbase'
+	'harness/views/block/properties/PropertiesViewBase'
 ],
 
 function(PropertiesViewBase) {

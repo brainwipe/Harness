@@ -1,6 +1,6 @@
 define(
 [
-	'harness/model/blockfactory'
+	'harness/model/BlockFactory'
 ],
 
 function(BlockFactory) {

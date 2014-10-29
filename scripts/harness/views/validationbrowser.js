@@ -1,7 +1,7 @@
 define(
 [
     "harness/Harness",
-    "harness/views/templaterender",
+    "harness/views/TemplateRender",
     "text!harness/views/templates/validationbrowser.html",
     "stringlib"
 ],

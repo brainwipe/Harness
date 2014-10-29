@@ -1,11 +1,11 @@
 define(
 [
 	"harness/Harness",
-	"harness/views/harnesspainter",
-	"harness/engines/bruteforceengine",
-	"harness/engines/validationengine",
-	"harness/model/blockfactory",
-	"harness/engines/harnessdeserializer"
+	"harness/views/HarnessPainter",
+	"harness/engines/BruteForceEngine",
+	"harness/engines/ValidationEngine",
+	"harness/model/BlockFactory",
+	"harness/engines/HarnessDeserializer"
 ],
 function(Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockFactory, HarnessDeserializer) {
 

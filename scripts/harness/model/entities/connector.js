@@ -1,6 +1,6 @@
 define(
 [
-	"harness/model/entities/block"
+	"harness/model/entities/Block"
 ],
 
 function() {

@@ -1,6 +1,6 @@
 define(
 [
-	'harness/views/block/blockviewbase',
+	'harness/views/block/BlockViewBase',
 	'harness/blocks/scalarsink/ScalarSinkPropertiesView'
 
 ],

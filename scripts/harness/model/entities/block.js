@@ -1,7 +1,7 @@
 define(
 [
-	"harness/validationexception",
-	"harness/model/socketfactory"
+	"harness/ValidationException",
+	"harness/model/SocketFactory"
 ],
 
 function(ValidationException, SocketFactory) {

@@ -1,6 +1,6 @@
 define(
 [
-	"harness/model/entities/connector"
+	"harness/model/entities/Connector"
 ],
 
 function(Connector) {

@@ -1,6 +1,6 @@
 ﻿define(
 [
-	"harness/views/templaterender",
+	"harness/views/TemplateRender",
 	"text!harness/views/templates/block/properties/propertiesviewbase.html",
 	"text!harness/views/templates/block/properties/propertiesinputstemplate.html",
 	"text!harness/views/templates/block/properties/propertiesoutputstemplate.html",

@@ -1,7 +1,7 @@
 define(
 [
-   'harness/views/block/properties/propertiesviewbase',
-   'harness/views/templaterender',
+   'harness/views/block/properties/PropertiesViewBase',
+   'harness/views/TemplateRender',
    'text!harness/views/templates/block/properties/generictabcontent.html'
 ],
 

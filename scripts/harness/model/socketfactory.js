@@ -1,7 +1,7 @@
 define(
 [
-   "harness/model/entities/socket",
-   "harness/model/entities/sockettype"
+   "harness/model/entities/Socket",
+   "harness/model/entities/SocketType"
 ],
 function(Socket, SocketType) {
 

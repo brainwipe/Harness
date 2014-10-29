@@ -1,7 +1,7 @@
 define(
 [
 	'harness/Harness',
-	'harness/model/blockfactory',
+	'harness/model/BlockFactory',
 	'harness/views/TemplateRender',
 	'text!harness/views/templates/blockbrowser.html',
 	'text!harness/views/templates/blockbrowseritem.html'

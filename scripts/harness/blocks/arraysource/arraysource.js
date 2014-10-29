@@ -1,8 +1,8 @@
 define(
 [
-   "harness/model/entities/block",
-   "harness/model/entities/sockettype",
-   "harness/blocks/arraysource/arraysourceview"
+   "harness/model/entities/Block",
+   "harness/model/entities/SocketType",
+   "harness/blocks/arraysource/ArraySourceView"
 ],
 
 function(Block, SocketType, ArraySourceView) {
