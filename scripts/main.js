@@ -20,7 +20,7 @@ require.config({
 
 		'exception': 'harness',
 		'psom' : 'algorithm/psom',
-		'PSOMD3EventHandler' : 'visualisations/PSOMD3EventHandler'
+		'psomd3eventhandler' : 'visualisations/psomd3eventhandler'
 
 	},
 	shim: {
@@ -53,8 +53,8 @@ require.config({
 			exports: 'd3'
 		},
 
-		'PSOMD3EventHandler' : {
-			exports: 'PSOMD3EventHandler'
+		'psomd3eventhandler' : {
+			exports: 'psomd3eventhandler'
 		}
 	}
 });

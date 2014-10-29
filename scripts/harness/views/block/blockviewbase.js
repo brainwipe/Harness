@@ -1,8 +1,8 @@
 define(
 [
-	"harness/model/entities/Block",
-	"harness/model/entities/Socket",
-	"harness/views/TemplateRender",
+	"harness/model/entities/block",
+	"harness/model/entities/socket",
+	"harness/views/templaterender",
 	"text!harness/views/templates/block/blockviewbase.html",
 	"stringlib"
 ],
