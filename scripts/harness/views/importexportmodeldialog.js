@@ -1,9 +1,9 @@
 define(
 [
-   'harness/engines/HarnessSerializer',
-   'harness/HarnessFactory',
-   'harness/views/TemplateRender',
-   'text!harness/views/templates/importxportdialog.html',
+   'harness/engines/harnessserializer',
+   'harness/harnessfactory',
+   'harness/views/templaterender',
+   'text!harness/views/templates/importexportdialog.html',
    'stringlib'
 ],
 

@@ -1,8 +1,7 @@
 define(
 [
-	'harness/views/block/BlockViewBase',
-	'harness/blocks/scalarsink/ScalarSinkPropertiesView'
-
+	'harness/views/block/blockviewbase',
+	'harness/blocks/scalarsink/scalarsinkpropertiesview'
 ],
 
 function(BlockViewBase, ScalarSinkPropertiesView) {

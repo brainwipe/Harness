@@ -1,8 +1,8 @@
 define(
 [
-   "harness/model/entities/Block",
-   "harness/model/entities/SocketType",
-   "harness/blocks/scalarsink/ScalarSinkView"
+   "harness/model/entities/block",
+   "harness/model/entities/sockettype",
+   "harness/blocks/scalarsink/scalarsinkview"
 ],
 
 function(Block, SocketType, ScalarSinkView) {

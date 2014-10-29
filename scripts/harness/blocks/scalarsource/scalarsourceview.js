@@ -1,7 +1,7 @@
 define(
 [
-	'harness/views/block/BlockViewBase',
-	'harness/blocks/scalarsource/ScalarSourcePropertiesView'
+	'harness/views/block/blockviewbase',
+	'harness/blocks/scalarsource/scalarsourcepropertiesview'
 ],
 
 function(BlockViewBase, ScalarSourcePropertiesView) {

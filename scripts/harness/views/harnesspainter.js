@@ -2,9 +2,9 @@ define(
 [
 	'jquery',
 	'jqueryui',
-	'harness/model/BlockFactory',
-	'harness/model/entities/Connector',
-	'harness/model/entities/BoundingBox'
+	'harness/model/blockfactory',
+	'harness/model/entities/connector',
+	'harness/model/entities/boundingbox'
 ],
 
 function($, jqueryui, BlockFactory, Connector, BoundingBox) {

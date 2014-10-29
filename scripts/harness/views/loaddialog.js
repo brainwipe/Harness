@@ -1,9 +1,9 @@
 define(
 [
-	'harness/HarnessFactory',
-	'harness/views/TemplateRender',
-	'text!harness/views/templates/LoadDialog.html',
-	'text!harness/views/templates/SavedModels.html',
+	'harness/harnessfactory',
+	'harness/views/templaterender',
+	'text!harness/views/templates/loaddialog.html',
+	'text!harness/views/templates/savedmodels.html',
 	'stringlib'
 ],
 
