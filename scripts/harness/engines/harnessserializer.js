@@ -38,6 +38,7 @@ function() {
 	};
 
 	HarnessSerializer.prototype.BlockToJSON = function(block, view) {
+		// TODO Convert to a model and then JSON.stringify
 		return '{' +
 				'"Id" : "' + block.Id + '",' +
 				'"Name" : "' + block.Name + '",' +
@@ -50,12 +51,14 @@ function() {
 
 	HarnessSerializer.prototype.ViewToJSON = function(view) {
 		var location = view.Element.offset();
-		return '{' +
-			'"Left" : "' + location.left + '",' +
-			'"Top" : "' +  location.top + '",' +
-			'"Width" : "' + view.Element.width() + '",' +
-			'"Height" : "' + view.Element.height() + '"' +
-		'}';
+		var jsonViewModel = {
+			Left : location.left,
+			Top : location.top,
+			Width : view.Element.width(),
+			Height : view.Element.height()
+		};
+
+		return JSON.stringify(jsonViewModel);
 	};
 
 	HarnessSerializer.prototype.ConnectorsToJSON = function(blocks) {

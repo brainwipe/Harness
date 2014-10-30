@@ -36,11 +36,11 @@ function(Block, SocketType, ArraySourceView) {
 
    ArraySource.prototype.Execute = function() {
       this.Data.CurrentIndex++;
-      this.Outputs.Vector.Data = this.CurrentData();
       if (this.Data.CurrentIndex > this.VectorSize() - 1)
       {
          this.Data.CurrentIndex = 0;
       }
+      this.Outputs.Vector.Data = this.CurrentData();
       this.Completed = true;
    };
 

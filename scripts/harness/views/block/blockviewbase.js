@@ -95,8 +95,9 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		var qualifiedSocketId =  socket.QualifiedId();
 
 		var socketClass = 'input';
+		var isInputSocket = (socket.IsInputSocket === true || socket.IsInputSocket === "true");
 
-		if (socket.IsInputSocket === false) {
+		if (isInputSocket == false) {
 			socketClass = 'output';
 		}
 
@@ -107,7 +108,7 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		blockElement.prepend(socketMarkup);
 		element = $("#" + qualifiedSocketId);
 
-		if (socket.IsInputSocket === true) {
+		if (isInputSocket) {
 			element.droppable({
 				tolerance: 'touch',
 				accept: '.socket',

@@ -40,16 +40,21 @@ function(Connector) {
 	Socket.prototype.Type = {};
 
 	Socket.prototype.ToJSON = function() {
-		return '{ "Id" : "' + this.Id + '", ' +
-		'"Name" : "' + this.Name + '", ' +
-		'"BlockId" : "' + this.BlockId + '", ' +
-		'"Type" : ' + JSON.stringify(this.Type) + ', ' +
-		'"CanBeDeleted" : "' + this.CanBeDeleted + '", ' +
-		'"IsMultiple" : "' + this.IsMultiple + '", ' +		
-		'"IsInputSocket" : "' + this.IsInputSocket + '", ' +
-		'"IsRequired" : "' + this.IsRequired + '", ' +
-		'"IsDataSocket" : "' + this.isDataSocket + '", ' + 
-		'"DataSocketPropertyId" : "' + this.DataSocketPropertyId + '" } ';
+		var jsonItems = 
+		{
+			Id : this.Id,
+			Name : this.Id,
+			BlockId : this.BlockId,
+			Type : this.Type,
+			CanBeDeleted : this.CanBeDeleted,
+			IsMultiple : this.IsMultiple,
+			IsInputSocket : this.IsInputSocket,
+			IsRequired : this.IsRequired,
+			IsDataSocket : this.IsDataSocket,
+			DataSocketPropertyId : this.DataSocketPropertyId
+		};
+
+		return JSON.stringify(jsonItems);
 	};
 
 	Socket.prototype.Connect = function(inputSocket) {

@@ -256,6 +256,7 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 				$(this).addClass('disabled');
 				$("#harness-engine-controls-tick").addClass('disabled');
 				$("#harness-engine-controls-stop").removeClass('disabled');
+				$('#harness-engine-controls-start').tooltip('hide');
 				harness.Start();
 			}
 		});

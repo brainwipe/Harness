@@ -40,7 +40,7 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" style="font-size:20px; cursor:pointer;">&Delta;</a>
+                <a class="dropdown-toggle" data-toggle="dropdown" style="font-size:20px; cursor:pointer;">Rob Lang's AI Harness</a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                   <li><a href="#loadDialog" data-toggle="modal">Load</a></li>
                   <li><a href="#saveDialog" data-toggle="modal">Save</a></li>
@@ -54,21 +54,29 @@
           </div>
 
   			<div id="harness-engine-controls" class="btn-group pull-right">
-          <a class="btn btn-primary disabled" id="harness-engine-controls-start">
+          <a class="btn btn-primary disabled" id="harness-engine-controls-start" title="Start the simulation" data-toggle="tooltip" >
             <i class="icon-play icon-white"></i>
           </a>
-          <a class="btn btn-danger disabled" id="harness-engine-controls-stop">
+          <a class="btn btn-danger disabled" id="harness-engine-controls-stop" title="Stop the simulation" data-toggle="tooltip" >
             <i class="icon-stop icon-white"></i>
           </a>
-  				<a class="btn disabled" id="harness-engine-controls-tick">
+  				<a class="btn disabled" id="harness-engine-controls-tick" data-toggle="tooltip" title="Step the simulation once" >
   					<i class="icon-step-forward icon-black"></i>
   				</a>
   			</div>
       </div>
     </div>
   </div>
-    <div id="harness" class="container">
-		  <canvas id="raih_bg" style=" z-index:0;" ></canvas>
+    
+
+    <div id="harness" class="container" style="display:none">
+		  <canvas id="raih_bg" style="z-index:0;" ></canvas>
+    </div>
+
+    <div class="hero-unit container" id="welcome">
+        <h1>Welcome, DeepMind!</h1>
+        This is Rob Lang's pet project, a technology demonstrator for his Plastic Self Organising Map. Here's a quick demo of the network clustering three simple clusters. To see it again, press F5!<br/>
+        <br/>
     </div>
 
 	<script type="text/javascript" src="vendor/requirejs/require.js" data-main="scripts/main"></script>
