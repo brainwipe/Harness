@@ -285,17 +285,24 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	HarnessPainter.prototype.BindManualEvents = function ()
 	{
 		$('#clearModel').on('click', function() {
-			window.bootbox.dialog(
-				"Are you sure you want to clear the model? This cannot be undone",
-				[{
-					"label" : "Cancel"
-				}, {
-					"label" : "Yes, Clear it",
-					"class" : "btn-danger",
-					"callback": function() {
-						harness.Reset();
+			theBootbox.dialog({
+				message : "Are you sure you want to clear the model? This cannot be undone",
+				title : "Confirm clear",
+				buttons : {
+					cancel : {
+						label : "Cancel",
+						className : "btn-default"
+					},
+					clear : {
+						label : "Yes, Clear it",
+						className : "btn-danger",
+						callback: function() {
+							harness.Reset();
+					
+						}
 					}
-			}]);
+				}
+			});
 		});
 
 		$("#raih_bg").mousemove(function(e) {harness.MouseMove(e);});

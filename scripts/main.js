@@ -1,3 +1,4 @@
+var theBootbox;
 var harness;
 var blockbrowser;
 var validationbrowser;
@@ -11,8 +12,8 @@ require.config({
 		'jquery': '../vendor/jquery/jquery.min',
 		'jqueryui' : '../vendor/jquery/jquery-ui-1.10.3/ui/minified/jquery-ui.min',
 		'underscore': '../vendor/underscore/underscore-min',
-		'bootstrap': '../vendor/bootstrap/scripts/bootstrap.min',
-		'bootbox' : '../vendor/bootstrap/scripts/bootbox.min',
+		'bootstrap': '../vendor/bootstrap/js/bootstrap.min',
+		'bootbox' : '../vendor/bootstrap/js/bootbox.min',
 		'stringlib': 'lib/stringlib',
 		'domReady': '../vendor/requirejs/domReady',
 		'text' : '../vendor/requirejs/text',
@@ -113,8 +114,10 @@ function($,
 
 		harness.ResizeCanvas();
 
+		theBootbox = bootbox;
+
 		/* Temporary welcome stuff for DeepMind below here */
-		$("#welcome").append('<button id="clickhere" type="button" class="btn btn-primary btn-large">Give it a go!</button>');
+		$("#welcome > div").append('<button id="clickhere" type="button" class="btn btn-primary btn-large">Give it a go!</button>');
 
 		$("#clickhere").click(function() {
 			$("#welcome").css("display","none");

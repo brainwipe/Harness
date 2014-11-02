@@ -16,7 +16,7 @@ function(HarnessSerializer, HarnessFactory, TemplateRender, ImportExportDialogTe
       harness.Element.append(
          new TemplateRender().Render(ImportExportDialogTemplate, {}));
 
-      $('#importExportModelDialog').on('show', function (e) {
+      $('#importExportModelDialog').on('show.bs.modal', function (e) {
          var serializer = new HarnessSerializer();
          $('#jsonImportExport').val(serializer.HarnessToJSON(harness));
       });

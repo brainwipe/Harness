@@ -1,7 +1,7 @@
 <legend>{{title}}</legend>
 <div class="control-group savedModelChooser">
    <div class="controls">
-      <select id="savedModelsChoice">
+      <select id="savedModelsChoice" class="form-control">
          {{# _.each(models, function(model, index) { }} <option>{{index}}</option> {{# }); }}
       </select>
    </div>
@@ -10,6 +10,6 @@
 <div class="control-group">
    <label class="control-label" for="newModelName">or choose a new name:</label>
       <div class="controls">
-         <input type="text" id="newModelName" placeholder="{{harnessName}}">
+         <input type="text" class="form-control" id="newModelName" placeholder="{{harnessName}}">
       </div>
 </div>

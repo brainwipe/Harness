@@ -47,7 +47,7 @@
 
 .d3psom .cursor {
   fill: none;
-  stroke: brown;
+  stroke: gray;
   pointer-events: none;
 }
 
