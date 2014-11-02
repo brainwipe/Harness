@@ -18,7 +18,7 @@ function psom(learn, distanceMetric, createNeuronWithRandomisedWeights, createNe
 	this.RemoveDeadNeurons = removeDeadNeurons;
 	this.CreateNodeGroup = createNodeGroup;
 	this.RemoveNeuron = RemoveNeuron;
-	this.Console = new PSOMConsole('debug');
+	this.Console = new PSOMConsole('fatal');
 
 	this.neurons = [];
 	this.links = [];
@@ -128,12 +128,19 @@ function PSOMConsole(level)
 	this.warninglevel = level;
 }
 PSOMConsole.prototype.warninglevel = 'debug';
+
+PSOMConsole.prototype.IsDebugMode = function()
+{
+	return this.warninglevel === 'debug';
+}
+
 PSOMConsole.prototype.debug = function(message)
 {
-	if (this.warninglevel === 'debug')
+	if (this.IsDebugMode())
 	{
 		console.info(message);
 	}
+	
 };
 PSOMConsole.prototype.error = function(message)
 {
@@ -141,11 +148,17 @@ PSOMConsole.prototype.error = function(message)
 };
 PSOMConsole.prototype.beginGroup = function(groupname)
 {
-	console.group(groupname);
+	if (this.IsDebugMode())
+	{
+		console.group(groupname);
+	}
 };
 PSOMConsole.prototype.endGroup = function()
 {
-	console.groupEnd();
+	if (this.IsDebugMode())
+	{
+		console.groupEnd();
+	}
 };
 
 
@@ -515,20 +528,20 @@ function UpdateNeighbourhood(focus, learningRate)
 			{
 				// Push away
 				pushOrPull = -1;
-				console.info("Pushing neuron '" + target.id + "' away from '" + focus.id + "'");
+				this.Console.debug("Pushing neuron '" + target.id + "' away from '" + focus.id + "'");
 			}
 			else
 			{
 				// Put toward
 				pushOrPull = 1;
-				console.info("Pulling neuron '" + target.id + "' toward '" + focus.id + "'");
+				this.Console.debug("Pulling neuron '" + target.id + "' toward '" + focus.id + "'");
 			}
 
-			console.info("distance before: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
+			this.Console.debug("distance before: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
 
 			this.UpdateNeuron(this.links[i].to, this.links[i].from, (pushOrPull * learningRate * this.links[i].value));
 
-			console.info("distance after: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
+			this.Console.debug("distance after: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
 		}
 	}
 }
