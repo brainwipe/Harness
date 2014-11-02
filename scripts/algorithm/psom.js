@@ -600,8 +600,8 @@ function CreateThreeNodeGroup(input)
 	this.AddLink(n3, n1, this.DistanceMetric(n3, n1.weights));
 
 	// Rely on the fact that the neurons are sorted in order
-	this.AddLink(n1, this.neurons[0], this.DistanceMetric(n1, this.neurons[0].weights));
-	this.AddLink(n1, this.neurons[1], this.DistanceMetric(n1, this.neurons[1].weights));
+	this.AddLink(n1, this.neurons[0], this.neurons[0].distanceFromInput);
+	this.AddLink(n1, this.neurons[1], this.neurons[1].distanceFromInput);
 }
 
 

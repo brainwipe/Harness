@@ -5,8 +5,8 @@
 .input {float:left; margin:0 0 0 -14px; clear:left;}
 .output {float:right; margin:0 -14px 0 0; clear:right;}
 .block_resizable {border:2px solid #999; border-radius: 5px; background:#fff;  }
-.options {background:#e0e0e0; text-align:center; padding:4px; cursor:hand; cursor:pointer; display:none; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;}
-.options:hover {background:#aaa; cursor:hand; cursor:pointer;}
+.options {text-align:center; padding:17px 10px 8px 10px; margin-top:-10px; cursor:hand; cursor:pointer; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;}
+.options:hover {cursor:hand; cursor:pointer;}
 .titlebar {height:20px; display:block; background:#e0e0e0; text-align:center; padding:4px; cursor:hand; cursor:pointer; border-top-right-radius: 5px; border-top-left-radius: 5px;}
 .hidden {display:none;}
 .chooser_blocklist {list-style:none;}

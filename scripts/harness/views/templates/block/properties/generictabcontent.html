@@ -1,14 +1,14 @@
 <form class="form-horizontal properties-generic">
       {{# _.each(properties, function(property, key) { }}
-         <div class="control-group">
-            <label class="control-label">
+         <div class="form-group">
+            <label class="control-label col-sm-6">
                {{property.text}}
             </label>
-            <div class="controls">
-               <div class="input-append">
-                  <input class="input-medium" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
-                  <div class="btn-group">
-                     <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <div class="col-sm-6">
+               <div class="input-group">
+                  <input class="form-control" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
+                  <div class="input-group-btn">
+                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                      </button>
                      <ul class="dropdown-menu">

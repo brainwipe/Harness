@@ -68,12 +68,6 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 				}
 			});
 
-		$('#harness .block').hover(function() {
-			$(this).children('.options').show( 'slide', {direction: 'up'}, 300);
-		},function() {
-			$(this).children('.options').hide( 'slide', {direction: 'up'}, 300);
-		});
-
 		$('#harness .block .options').click(function() {
 			var blockId = $(this).parent().attr('id');
 			harness.Views[blockId].UpdateProperties();

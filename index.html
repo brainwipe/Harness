@@ -41,13 +41,13 @@
 
         <div id="harness-engine-controls" class="navbar-form navbar-right">
           <div class="btn-group">
-            <a class="btn btn-primary disabled" id="harness-engine-controls-start" title="Start the simulation" data-toggle="tooltip" >
+            <a class="btn btn-primary" id="harness-engine-controls-start" title="Start the simulation">
               <i class="glyphicon glyphicon-play"></i>
             </a>
-            <a class="btn btn-danger disabled" id="harness-engine-controls-stop" title="Stop the simulation" data-toggle="tooltip" >
+            <a class="btn btn-danger disabled" id="harness-engine-controls-stop" title="Stop the simulation">
               <i class="glyphicon glyphicon-stop"></i>
             </a>
-            <a class="btn btn-default disabled" id="harness-engine-controls-tick" data-toggle="tooltip" title="Step the simulation once" >
+            <a class="btn btn-default" id="harness-engine-controls-tick" title="Step the simulation once" >
               <i class="glyphicon glyphicon-step-forward"></i>
             </a>
           </div>
@@ -56,8 +56,8 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" style="font-size:20px; cursor:pointer;">Rob Lang's AI Harness <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <a data-toggle="dropdown" class="dropdown-toggle" style="font-size:20px; cursor:pointer;">Rob Lang's AI Harness <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
                 <li><a data-toggle="modal" data-target="#loadDialog">Load</a></li>
                 <li><a data-toggle="modal" data-target="#saveDialog">Save</a></li>
                 <li><a data-toggle="modal" data-target="#importExportModelDialog" >Import / Export</a></li>
@@ -68,24 +68,21 @@
             <li><a data-toggle="modal" href="#validationModal" data-target="#validationModal" id="validationMenuItem">Validation</a></li>
           </ul>
         </div>
-
-			
     </div>
+
   </nav>
-    
+  <div id="harness" class="container" style="display:none">
+	  <canvas id="raih_bg" style="z-index:0;" ></canvas>
+  </div>
 
-    <div id="harness" class="container" style="display:none">
-		  <canvas id="raih_bg" style="z-index:0;" ></canvas>
-    </div>
-
-    <div class="jumbotron" id="welcome">
-      <div class="container">
-        <h1>Welcome, DeepMind!</h1>
-        This is Rob Lang's pet project, a technology demonstrator for his Plastic Self Organising Map.<br/>
-        To reset, press F5.<br/>
-        <br/>
-        </div>
-    </div>
+  <div class="jumbotron" id="welcome">
+    <div class="container">
+      <h1>Welcome, DeepMind!</h1>
+      This is Rob Lang's pet project, a technology demonstrator for his Plastic Self Organising Map neural network. It's a work in progress but I hope it demonstrates my work.<br/>
+      It's only javascript, so to reset press F5.<br/>
+      <br/>
+      </div>
+  </div>
 
 	<script type="text/javascript" src="vendor/requirejs/require.js" data-main="scripts/main"></script>
 

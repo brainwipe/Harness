@@ -30,16 +30,14 @@ function(PropertiesViewBase) {
 	ArraySourcePropertiesView.prototype.CreateDataTableTab = function() {
 
 		var arraySourceTableContent = '<form class="form-horizontal">'+
-            '<fieldset>'+
-               '<div class="control-group">'+
-                  '<label class="control-label">'+
-                     'Current Index'+
-                  '</label>'+
-                  '<div class="controls">'+
-                     '<input class="input-medium" id="{0}-datatable-currentindex" type="text" value="{1}"/>'.format(this.Id, this.Block.Data.CurrentIndex) +
-                  '<div>'+
-               '</div>'+
-            '</fieldset>'+
+           '<div class="form-group">'+
+              '<label class="control-label col-sm-3">'+
+                 'Current Index'+
+              '</label>'+
+              '<div class="col-sm-9">' + 
+                 '<input class="form-control" id="{0}-datatable-currentindex" type="text" value="{1}"/>'.format(this.Id, this.Block.Data.CurrentIndex) +
+               '</div>' +
+           '</div>'+
         '</form>';
 
 		arraySourceTableContent += '<table id="' + this.Id + '-datatable" class="table table-bordered table-striped"><thead><tr><th>Index</th>';
@@ -98,14 +96,14 @@ function(PropertiesViewBase) {
 	};
 
 	ArraySourcePropertiesView.prototype.CreateRawDataTab = function() {
-			var rawDataContent = '<form class="form-horizontal">'+
+			var rawDataContent = '<form>'+
 					'<fieldset>'+
-						'<div class="control-group">'+
-							'<label class="control-label">'+
+						'<div class="form-group">'+
+							'<label class="control-label col-sm-12">'+
 								'Raw Data'+
 							'</label>'+
-							'<div class="controls">'+
-								'<textarea id="{0}-rawdata-array" rows="10">{1}</textarea>'.format(this.Id, JSON.stringify(this.Block.Data)) +
+							'<div class="controls col-sm-12">'+
+								'<textarea id="{0}-rawdata-array" class="form-control" rows="10">{1}</textarea>'.format(this.Id, JSON.stringify(this.Block.Data)) +
 							'<div>'+
 						'</div>'+
 					'</fieldset>'+

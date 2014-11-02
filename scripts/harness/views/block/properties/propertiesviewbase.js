@@ -119,7 +119,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 
 	PropertiesViewBase.prototype.Update = function() {
 		// When deriving your own properties view, you MUST call update inputs or outputs
-		this.UpdateInputsAndOuputs();
+		this.UpdateInputsAndOutputs();
 	};
 
 	PropertiesViewBase.prototype.UpdateInputsAndOutputs = function() {
