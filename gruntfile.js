@@ -6,7 +6,7 @@ module.exports = function(grunt) {
             /* Libs are not requirejs, so we need to specify the location */
             src: './scripts/lib/*.js', 
             options: {
-                specs: './tests/unit/specs/*.spec.js',
+                specs: './tests/unit/specs/**/*.spec.js',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
                     requireConfigFile: './scripts/main.js',

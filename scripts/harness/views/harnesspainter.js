@@ -24,6 +24,10 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 	HarnessPainter.prototype.ConnectorBoundingBoxes = [];
 	HarnessPainter.prototype.BoundingBoxSize = 8;
 	HarnessPainter.prototype.HighlightedConnector = null;
+	HarnessPainter.prototype.SetWorkspaceSizeToWindow = function(width, height) {
+		this.Canvas.width = window.innerWidth;
+		this.Canvas.height = window.innerHeight;
+	};
 	HarnessPainter.prototype.FindMouseOverConnector = function(mouseX, mouseY) {
 		this.HighlightedConnector = null;
 		for (var i in this.ConnectorBoundingBoxes) {

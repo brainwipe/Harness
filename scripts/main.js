@@ -21,9 +21,7 @@ require.config({
 		'd3': '../vendor/d3/d3.min',
 
 		'exception': 'harness',
-		'psom' : './lib/psom',
-		'psomd3eventhandler' : './visualisations/psomd3eventhandler'
-
+		'psom' : './lib/psom'
 	},
 	shim: {
 		'jquery': {
@@ -96,6 +94,8 @@ function($,
 	domReady(function() {
 		theBootbox = bootbox;
 
+		validationbrowser = new ValidationBrowser();
+		
 		var harnessFactory = new HarnessFactory();
 		harness = harnessFactory.Build($("#harness"));
 
@@ -103,7 +103,6 @@ function($,
 		blockbrowser.CreateMarkup();
 		blockbrowser.GetBlocks();
 
-		validationbrowser = new ValidationBrowser(harness);
 		validationbrowser.CreateMarkup();
 
 		notify = new Notify();

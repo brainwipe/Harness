@@ -132,8 +132,7 @@ function() {
 		this.Update();
 	};
 	Harness.prototype.ResizeCanvas = function() {
-		this.Canvas.width = window.innerWidth;
-		this.Canvas.height = window.innerHeight;
+		this.Painter.SetWorkspaceSizeToWindow();
 		this.Update();
 	};
 	Harness.prototype.KeyDown = function(event) {
