@@ -10,4 +10,3 @@ before_install:
   - npm install grunt-contrib-jasmine
   - npm install grunt-template-jasmine-requirejs
 install: npm install
-before_script: grunt build
