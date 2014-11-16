@@ -13,8 +13,7 @@ module.exports = function(grunt) {
                     requireConfig: {
                       baseUrl: './scripts',
                       paths: {
-                        'mock' : '../tests/unit/mock',
-                        'psomd3eventhandler' : 'visualisations/psomd3eventhandler'
+                        'mock' : '../tests/unit/mock'
                       }   
                     }
                 }

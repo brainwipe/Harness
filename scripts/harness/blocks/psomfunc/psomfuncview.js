@@ -3,7 +3,7 @@ define(
    'harness/views/block/blockviewbase',
    'harness/blocks/psomfunc/psomfuncpropertiesview',
    'd3',
-   'visualisations/psomd3eventhandler'
+   'psomd3eventhandler'
 ],
 
 function(BlockViewBase, PSOMFuncPropertiesView, d3) {
