@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/brainwipe/Harness.svg?branch=master)](https://travis-ci.org/brainwipe/Harness)
+
 Harness
 =======
 Harness is a browser based toolbox playground for neural networks, currently in development. The user drags and drops computational blocks onto a workspace and then connects them together to move data between blocks. The simulation can be run to see data moving around the model.
