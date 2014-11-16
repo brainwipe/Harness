@@ -5,6 +5,9 @@ node_js:
   - "0.8"
   - "0.6"
 
-before_install: npm install -g grunt-cli
+before_install: 
+  - npm install -g grunt-cli
+  - npm install grunt-contrib-jasmine
+  - npm install grunt-template-jasmine-requirejs
 install: npm install
 before_script: grunt build
