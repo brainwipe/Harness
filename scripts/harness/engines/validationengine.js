@@ -5,13 +5,18 @@ define(
 
 function(ValidationException) {
 
-	function ValidationEngine() {
+	function ValidationEngine(harness, validationbrowser) {
+		this.ValidationBrowser = validationbrowser;
+		this.Harness = harness;
 	}
+
+	ValidationEngine.prototype.ValidationBrowser = null;
+	ValidationEngine.prototype.Harness = null;
 
 	ValidationEngine.prototype.Validate = function(blocks) {
 
-		validationbrowser.Clear();
-		harness.Painter.SwitchOnEngineControls();
+		this.ValidationBrowser.Clear();
+		this.Harness.Painter.SwitchOnEngineControls();
 
 		var blockCount = 0;
 		var errorCount = 0;
@@ -24,8 +29,8 @@ function(ValidationException) {
 
 			catch(errorMessage)
 			{
-				harness.Painter.SwitchOffEngineControls();
-				validationbrowser.AddMessage(errorMessage);
+				this.Harness.Painter.SwitchOffEngineControls();
+				this.ValidationBrowser.AddMessage(errorMessage);
 				errorCount += 1;
 			}
 
@@ -34,13 +39,13 @@ function(ValidationException) {
 
 		if (blockCount === 0)
 		{
-			validationbrowser.NoBlocksFound();
-			harness.Painter.SwitchOffEngineControls();
+			this.ValidationBrowser.NoBlocksFound();
+			this.Harness.Painter.SwitchOffEngineControls();
 			return true;
 		}
 		else if (errorCount === 0)
 		{
-			validationbrowser.NoErrorsFound();
+			this.ValidationBrowser.NoErrorsFound();
 			return true;
 		}
 

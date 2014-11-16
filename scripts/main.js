@@ -15,13 +15,13 @@ require.config({
 		'underscore': '../vendor/underscore/underscore-min',
 		'bootstrap': '../vendor/bootstrap/js/bootstrap.min',
 		'bootbox' : '../vendor/bootstrap/js/bootbox.min',
-		'stringlib': 'lib/stringlib',
+		'stringlib': './lib/stringlib',
 		'domReady': '../vendor/requirejs/domReady',
 		'text' : '../vendor/requirejs/text',
 		'd3': '../vendor/d3/d3.min',
 
 		'exception': 'harness',
-		'psom' : 'algorithm/psom',
+		'psom' : 'lib/psom',
 		'psomd3eventhandler' : 'visualisations/psomd3eventhandler'
 
 	},

@@ -6,8 +6,6 @@ function($) {
 
 	function HarnessPainterMock(harness) {
 		this.Harness = harness;
-		this.Context = harness.Context;
-		this.Canvas = this.Context.canvas;
 	}
 
 	HarnessPainterMock.prototype.Harness = null;

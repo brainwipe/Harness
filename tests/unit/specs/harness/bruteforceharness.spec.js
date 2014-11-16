@@ -1,7 +1,7 @@
 define(
 [
    "jquery",
-   "HarnessMockFactory",
+   "mock/harnessmockfactory",
    "harness/model/socketfactory",
    "harness/model/entities/socket",
    "harness/blocks/scalarsink/scalarsink",

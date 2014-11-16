@@ -1,14 +1,21 @@
 define(
 [
 	"jquery",
-	"harness/Harness",
-	"harness/engines/BruteForceEngine",
+	"harness/harness",
+	"harness/engines/bruteforceengine",
 	"harness/engines/validationengine",
 	"harness/model/blockfactory",
-	"HarnessPainterMock"
+	"mock/harnesspaintermock",
+	"mock/validationbrowsermock"
 
 ],
-function($, Harness, BruteForceEngine, ValidationEngine, BlockFactory, HarnessPainterMock) {
+function($, 
+	Harness, 
+	BruteForceEngine, 
+	ValidationEngine, 
+	BlockFactory, 
+	HarnessPainterMock, 
+	ValidationBrowserMock) {
 
 	function HarnessMockFactory() {}
 
@@ -17,7 +24,10 @@ function($, Harness, BruteForceEngine, ValidationEngine, BlockFactory, HarnessPa
 		harness.BlockFactory = new BlockFactory();
 		harness.Painter = new HarnessPainterMock(harness);
 		harness.Engine = new BruteForceEngine(harness);
-		harness.ValidationEngine = new ValidationEngine();
+		harness.ValidationEngine = 
+			new ValidationEngine(
+				harness,
+				new ValidationBrowserMock());
 		return harness;
 	};
 

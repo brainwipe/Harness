@@ -5,7 +5,7 @@ define(
    "harness/blocks/psomfunc/psomfuncview",
    "harness/blocks/psomfunc/helper/psomserializer",
    "harness/blocks/psomfunc/helper/psomdeserializer",
-   "algorithm/psom",
+   "lib/psom",
    "lib/math"
 ],
 

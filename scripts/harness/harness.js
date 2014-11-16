@@ -8,8 +8,6 @@ function() {
 		this.Blocks = {};
 		this.Views = {};
 		this.Element = containerElement;
-		this.Canvas = $("#raih_bg")[0];
-		this.Context = this.Canvas.getContext("2d");
 		this.NextBlockIdNumber = 0;
 		this.TickRunWait = 10;
 	}
@@ -18,8 +16,6 @@ function() {
 	Harness.prototype.Blocks = null;
 	Harness.prototype.View = null;
 	Harness.prototype.BlockFactory = null;
-	Harness.prototype.Canvas = null;
-	Harness.prototype.Context = null;
 	Harness.prototype.Element = null;
 	Harness.prototype.Engine = null;
 	Harness.prototype.Painter = null;

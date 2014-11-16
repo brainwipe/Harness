@@ -11,8 +11,8 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 
 	function HarnessPainter(harness)
 	{
-		this.Context = harness.Context;
-		this.Canvas = this.Context.canvas;
+		this.Canvas = $("#raih_bg")[0];
+		this.Context = this.Canvas.getContext("2d");
 		this.HarnessElement = harness.Element;
 		this.BindControlEvents();
 		this.BindManualEvents();

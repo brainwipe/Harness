@@ -20,13 +20,12 @@ The harness is a work in progress but it is possible to do some experimentation 
 - Incremental Souce (puts single value onto a single output and with each step will increment that value by one. Useful for simulation timers)
 - Array Source (holds an array of values, each step of the simulation, the values are )
 
+### Functions-
+Plastic Self Organising Map Neural Network
+
 ### Sinks
 
 - Scalar Sink
-
-### Being worked on
-
-- Plastic Self Organising Map Neural Network (you can add it onto your model but it doesn't do anything just yet!)
 
 ### Other features
 
@@ -39,3 +38,9 @@ A brief guide to using the harness
 A soure provides data, a sink collects it. All you can do is add simple scalar (single value) sources and sinks to the harness. A source has outputs, which are on the right hand side of the block. A sink has inputs, which are on the left hand side of the block. You join two blocks together by dragging an output onto an input. This makes a connection. You can delete the connection by hovering over it (it turns red) and pressing 'delete'. A function block has inputs and outputs. On the top right of the screen are the simulation controls, which are play, stop and step.
 
 When the simulation is stepped, the blocks runs some code and put the result of that code onto the output. If the block has inputs then it uses those inputs to do a task and change what goes onto the output.
+
+Running unit tests with grunt
+-----------------
+To run the unit test (via jasmine), ensure you have [nodejs](http://nodejs.org/) and [grunt](http://gruntjs.com/) installed then navigate to the harness root folder and type:
+
+    grunt jasmine

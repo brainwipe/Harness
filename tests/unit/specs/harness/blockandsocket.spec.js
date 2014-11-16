@@ -1,7 +1,7 @@
 define(
 [
    "jquery",
-   "HarnessMockFactory",
+   "mock/harnessmockfactory",
    "harness/model/socketfactory",
    "harness/model/entities/socket",
    "harness/model/entities/sockettype",
@@ -159,14 +159,6 @@ function($,
 
          // Act and Assert
          expect(outputSocket.HasConnectors()).toEqual(true);
-      });
-
-      it('will throw an exception on validation if a required input does not have a connection', function() {
-         var exception = new ValidationException(
-            "Block ScalarSink1 requires an input",
-            "The block called 'ScalarSink1' of type 'Scalar Sink' has an input called 'Value', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
-
-         expect(function() {scalarsink.ValidateRequiredInputs(); } ).toThrow(exception);
       });
 
       it('can delete all connections on a socket, removing the connectors from other sockets too', function() {
