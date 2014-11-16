@@ -55,6 +55,7 @@ require.config({
 		},
 
 		'psomd3eventhandler' : {
+			deps: ['d3', 'psom'],
 			exports: 'psomd3eventhandler'
 		}
 	}
