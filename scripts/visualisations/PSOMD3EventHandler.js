@@ -59,7 +59,7 @@ PSOMD3EventHandler.prototype.Build = function()
 
 function D3Node(myNeuronId) {
 	this.neuronId = myNeuronId;
-}
+};
 D3Node.prototype.x = null;
 D3Node.prototype.y = null;
 D3Node.prototype.neuronId = -1;
@@ -68,7 +68,7 @@ function D3Link(mysource, mytarget, myweight) {
 	this.source = mysource;
 	this.target = mytarget;
 	this.SetLength(myweight);
-}
+};
 D3Link.prototype.LongestLinkLength = 100;
 D3Link.prototype.SetLength = function (newLength)
 {
