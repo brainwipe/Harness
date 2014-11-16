@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "grunt jasmine -d"
+    "test": "grunt jasmine -v"
   },
   "repository": {
     "type": "git",
