@@ -2,11 +2,11 @@ define(
 [
    'harness/views/block/blockviewbase',
    'harness/blocks/psomfunc/psomfuncpropertiesview',
+   'harness/blocks/psomfunc/psomd3eventhandler',
    'd3',
-   'psomd3eventhandler'
 ],
 
-function(BlockViewBase, PSOMFuncPropertiesView, d3) {
+function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
 
    function PSOMFuncView(block) {
       BlockViewBase.call(this, block);

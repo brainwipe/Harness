@@ -21,8 +21,7 @@ require.config({
 		'd3': '../vendor/d3/d3.min',
 
 		'exception': 'harness',
-		'psom' : './lib/psom',
-		'psomd3eventhandler' : './visualisations/psomd3eventhandler'
+		'psom' : './lib/psom'
 	},
 	shim: {
 		'jquery': {
@@ -52,11 +51,6 @@ require.config({
 
 		'd3' : {
 			exports: 'd3'
-		},
-
-		'psomd3eventhandler' : {
-			deps: ['d3', 'psom'],
-			exports: 'psomd3eventhandler'
 		}
 	}
 });
