@@ -64,6 +64,11 @@
    text-align:center;
 }
 
+.ArraySource-properties .datatable-container {
+    max-height: 300px;
+    overflow-y:scroll;
+}
+
 .blockarraysource {
    background:url('../images/arraysource.png');
 }

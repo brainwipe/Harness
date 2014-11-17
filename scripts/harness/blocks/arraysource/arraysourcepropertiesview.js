@@ -40,7 +40,7 @@ function(PropertiesViewBase) {
            '</div>'+
         '</form>';
 
-		arraySourceTableContent += '<table id="' + this.Id + '-datatable" class="table table-bordered table-striped"><thead><tr><th>Index</th>';
+		arraySourceTableContent += '<div class="datatable-container"><table id="' + this.Id + '-datatable" class="table table-bordered table-striped"><thead><tr><th>Index</th>';
 
 		var vectorsize = this.Block.VectorSize();
 
@@ -49,7 +49,16 @@ function(PropertiesViewBase) {
 			arraySourceTableContent += '<th>' + i + '</th>';
 		}
 
-		arraySourceTableContent += '</tr></thead><tbody>';
+		arraySourceTableContent += '</tr></thead><tbody id="' + this.Id + '-datatable-body" class="datatable-body">';
+
+		arraySourceTableContent += this.DrawDataTableRow();
+
+		arraySourceTableContent += '</tbody></table></div>';
+		return arraySourceTableContent;
+	};
+
+	ArraySourcePropertiesView.prototype.DrawDataTableRow = function() {
+		var content = "";
 
 		for (var rowIndex in this.Block.Data.Values)
 		{
@@ -69,16 +78,15 @@ function(PropertiesViewBase) {
 			}
 
 			rowString += '</tr>';
-			arraySourceTableContent += rowString;
+			content += rowString;
 		}
-
-		arraySourceTableContent += '</tbody></table>';
-		return arraySourceTableContent;
+		return content;
 	};
 
 	ArraySourcePropertiesView.prototype.Update = function() {
 		this.UpdateInputsAndOutputs();
 		this.UpdateRawData();
+		this.UpdateDataTable();
 		this.UpdateDatatableCurrentIndex();
 	};
 
@@ -93,6 +101,11 @@ function(PropertiesViewBase) {
 	ArraySourcePropertiesView.prototype.UpdateRawData = function() {
 		var rawDataSelector = '#' + this.Id + '-rawdata-array';
 		$(rawDataSelector).val(JSON.stringify(this.Block.Data));
+	};
+
+	ArraySourcePropertiesView.prototype.UpdateDataTable = function() {
+		var tableRows = this.DrawDataTableRow();
+		$('#{0}-datatable-body'.format(this.Id)).html(tableRows);
 	};
 
 	ArraySourcePropertiesView.prototype.CreateRawDataTab = function() {
