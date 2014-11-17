@@ -26,12 +26,12 @@ function(PropertiesViewBase) {
 
       var scalarSourceContent = '<form class="form-horizontal">'+
             '<fieldset>'+
-               '<div class="control-group">'+
-                  '<label class="control-label">'+
+               '<div class="form-group">'+
+                  '<label class="col-sm-3 control-label">'+
                      'Value'+
                   '</label>'+
-                  '<div class="controls">'+
-                     '<input class="input-medium" id="{0}-configuration-value" type="text" value="{1}"/>'.format(this.Id, this.Block.Data) +
+                  '<div class="col-sm-9">'+
+                     '<input class="form-control" id="{0}-configuration-value" type="text" value="{1}"/>'.format(this.Id, this.Block.Data) +
                   '<div>'+
                '</div>'+
             '</fieldset>'+

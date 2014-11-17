@@ -38,6 +38,11 @@ function(TemplateRender, HelpDialogTemplate, GettingStartedTemplate, ExampleMode
 
 		this.SetContent(this.GetCurrentStep());
 
+		$("#help-close").click(function()
+		{
+			helpdialog.Hide();
+		});
+
 		$("#help-next").click(function() {
 			helpdialog.Next();
 		});
@@ -46,6 +51,9 @@ function(TemplateRender, HelpDialogTemplate, GettingStartedTemplate, ExampleMode
 			helpdialog.Previous();
 		});
 
+		$("#help-dialog-menuitem").click(function() {
+			helpdialog.Show();
+		});
 	};
 
 	HelpDialog.prototype.GetCurrentStep = function()
@@ -108,6 +116,16 @@ function(TemplateRender, HelpDialogTemplate, GettingStartedTemplate, ExampleMode
 		var step = this.GetCurrentStep();
 		this.SetContent(step);
 		this.SetButtonStates();
+	};
+
+	HelpDialog.prototype.Hide = function()
+	{
+		$("#help-dialog").hide();
+	};
+
+	HelpDialog.prototype.Show = function()
+	{
+		$("#help-dialog").show();
 	};
 
 	return (HelpDialog);
