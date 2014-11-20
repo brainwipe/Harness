@@ -4,7 +4,7 @@ define(
 	"harness/harness",
 	"harness/engines/bruteforceengine",
 	"harness/engines/validationengine",
-	"harness/model/blockfactory",
+	"harness/model/blockregistry",
 	"mock/harnesspaintermock",
 	"mock/validationbrowsermock"
 
@@ -13,7 +13,7 @@ function($,
 	Harness, 
 	BruteForceEngine, 
 	ValidationEngine, 
-	BlockFactory, 
+	BlockRegistry, 
 	HarnessPainterMock, 
 	ValidationBrowserMock) {
 
@@ -21,7 +21,7 @@ function($,
 
 	HarnessMockFactory.prototype.Build = function(container)	{
 		var harness = new Harness(container);
-		harness.BlockFactory = new BlockFactory();
+		harness.BlockRegistry = new BlockRegistry();
 		harness.Painter = new HarnessPainterMock(harness);
 		harness.Engine = new BruteForceEngine(harness);
 		harness.ValidationEngine = 

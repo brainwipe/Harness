@@ -1,13 +1,13 @@
 define(
 [
 	'harness/harness',
-	'harness/model/blockfactory',
+	'harness/model/blockregistry',
 	'harness/views/templaterender',
 	'text!harness/views/templates/blockbrowser.html',
 	'text!harness/views/templates/blockbrowseritem.html'
 ],
 
-function(Harness, BlockFactory, TemplateRender, BlockBrowserTemplate, BlockBrowserItemTemplate) {
+function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrowserItemTemplate) {
 
 	function BlockBrowser(harness) {
 		this.Harness = harness;
@@ -15,9 +15,9 @@ function(Harness, BlockFactory, TemplateRender, BlockBrowserTemplate, BlockBrows
 	BlockBrowser.prototype.Harness = null;
 	BlockBrowser.prototype.GetBlocks = function()
 	{
-		for (var i in this.Harness.BlockFactory.BlockDefinitions)
+		for (var i in this.Harness.BlockRegistry.BlockDefinitions)
 		{
-			var factory = new this.Harness.BlockFactory.BlockDefinitions[i]();
+			var factory = new this.Harness.BlockRegistry.BlockDefinitions[i]();
 
 			var block = "";
 			if (factory.Type === "Source")

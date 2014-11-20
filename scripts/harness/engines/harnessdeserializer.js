@@ -1,16 +1,16 @@
 define(
 [
-	'harness/model/blockfactory'
+	'harness/model/blockregistry'
 ],
 
-function(BlockFactory) {
+function(BlockRegistry) {
 
 	function HarnessDeSerializer() {
-		this.BlockFactory = new BlockFactory();
+		this.BlockRegistry = new BlockRegistry();
 		this.BlockIdMap = {};
 	}
 
-	HarnessDeSerializer.prototype.BlockFactory = null;
+	HarnessDeSerializer.prototype.BlockRegistry = null;
 	HarnessDeSerializer.prototype.BlockIdMap = null;
 
 	HarnessDeSerializer.prototype.JSONToHarness = function(harness, jsonString) {
@@ -32,7 +32,7 @@ function(BlockFactory) {
 		{
 			var blockJSON = blocks[key];
 
-			var block = this.BlockFactory.CreateBlockFromJSON(harness, blockJSON);
+			var block = this.BlockRegistry.CreateBlockFromJSON(harness, blockJSON);
 			this.MapBlockIds(blockJSON.Id, block.Id);
 		}
 	};

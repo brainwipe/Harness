@@ -9,13 +9,13 @@ define(
 
 function() {
 
-   function BlockFactory() {
+   function BlockRegistry() {
       this.BlockDefinitions = FindRequireJSModulesByObjectName("harness/blocks");
    }
 
-   BlockFactory.prototype.BlockDefinitions = {};
+   BlockRegistry.prototype.BlockDefinitions = {};
 
-   BlockFactory.prototype.CreateBlock = function(blockFactoryId, harness, viewOffsetLeft, viewOffsetTop)
+   BlockRegistry.prototype.CreateBlock = function(blockFactoryId, harness, viewOffsetLeft, viewOffsetTop)
    {
       var block = new this.BlockDefinitions[blockFactoryId](harness.GetNextBlockId());
 
@@ -35,7 +35,7 @@ function() {
       return {"NewBlock": block, "NewView": view};
    };
 
-   BlockFactory.prototype.CreateBlockFromJSON = function(harness, blockJSON)
+   BlockRegistry.prototype.CreateBlockFromJSON = function(harness, blockJSON)
    {
       var fullyQualifiedBlockName = "harness/blocks/" + blockJSON.Type.toLowerCase() + "/" + blockJSON.Type.toLowerCase();
 
@@ -65,7 +65,7 @@ function() {
       return block;
    };
 
-   BlockFactory.prototype.CreateInputsFromJSON = function(block, inputs)
+   BlockRegistry.prototype.CreateInputsFromJSON = function(block, inputs)
    {
       block.InputsCount = 0;
       block.Inputs = {};
@@ -77,7 +77,7 @@ function() {
       }
    };
 
-   BlockFactory.prototype.CreateOutputsFromJSON = function(block, outputs)
+   BlockRegistry.prototype.CreateOutputsFromJSON = function(block, outputs)
    {
       block.OutputsCount = 0;
       block.Outputs = {};
@@ -89,5 +89,5 @@ function() {
       }
    };
 
-   return(BlockFactory);
+   return(BlockRegistry);
 });

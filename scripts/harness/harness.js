@@ -15,7 +15,7 @@ function() {
 	Harness.prototype.Name = null;
 	Harness.prototype.Blocks = null;
 	Harness.prototype.View = null;
-	Harness.prototype.BlockFactory = null;
+	Harness.prototype.BlockRegistry = null;
 	Harness.prototype.Element = null;
 	Harness.prototype.Engine = null;
 	Harness.prototype.Painter = null;

@@ -2,12 +2,12 @@ define(
 [
 	'jquery',
 	'jqueryui',
-	'harness/model/blockfactory',
+	'harness/model/blockregistry',
 	'harness/model/entities/connector',
 	'harness/model/entities/boundingbox'
 ],
 
-function($, jqueryui, BlockFactory, Connector, BoundingBox) {
+function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 
 	function HarnessPainter(harness)
 	{
@@ -211,7 +211,7 @@ function($, jqueryui, BlockFactory, Connector, BoundingBox) {
 		if (eventElement)
 		{
 			var blockBuilderId = eventElement.value;
-			harness.BlockFactory.CreateBlock(blockBuilderId, harness, event.toElement.offsetLeft, event.toElement.offsetTop);
+			harness.BlockRegistry.CreateBlock(blockBuilderId, harness, event.toElement.offsetLeft, event.toElement.offsetTop);
 		}
 	};
 
