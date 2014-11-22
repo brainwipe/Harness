@@ -87,6 +87,28 @@ function($,
          expect(outputSocket.Name).toEqual('Value');
       });
 
+      it('can create a new output socket, even on an sink block', function() {
+
+         // Arrange
+         var newSocketContext = {
+            BlockId : scalarsink.Id,
+            Name : "MyNewSocket",
+            Type : new SocketType().BuildAny(),
+            IsInputSocket : false,
+            CanBeDeleted : true,
+            IsMultiple : false,
+            IsRequired : false
+         };
+
+         var newSocket = socketFactory.FromContext(newSocketContext);
+
+         // Act
+         scalarsink.AddOutput(newSocket);
+
+         // Assert
+         expect(scalarsink.Outputs["MyNewSocket"]).toBeDefined();
+      });
+
       it('can identify that there are no connections on a socket', function () {
          var outputSocket = scalarsource.Outputs.Value;
          expect(outputSocket.HasConnectors()).toEqual(false);
@@ -306,6 +328,85 @@ function($,
          expect(outputSocket.HasConnectors()).toEqual(true);
          expect(inputSocket.HasConnectors()).toEqual(true);
          expect(outputSocket.Connectors.length).toEqual(1);
+      });
+
+      it ('can get all input and output sockets together in one list', function() {
+
+         // Arrange
+         var newSocketContext = {
+            BlockId : scalarsink.Id,
+            Name : "NewOutputSocket",
+            Type : new SocketType().BuildScalar(),
+            IsInputSocket : false,
+            CanBeDeleted : true,
+            IsMultiple : false,
+            IsRequired : false
+         };
+
+         var newSocket = socketFactory.FromContext(newSocketContext);
+         scalarsink.AddOutput(newSocket);
+
+         // Act
+         var allSockets = scalarsink.GetAllSockets();
+
+         // Assert
+         expect(allSockets["NewOutputSocket"]).toBeDefined();
+         expect(allSockets["Value"]).toBeDefined();
+      });
+
+      it ('can delete an input data socket by its property id', function() {
+
+         // Arrange
+         scalarsink.Data = {
+            configurationtext : [] };
+         scalarsink.Data.configurationtext["TheDataPropertyId"] = "TheDataProperty Text";
+
+         var newDataSocket = socketFactory.InputFromData(scalarsink, "TheDataPropertyId");
+         scalarsink.AddInput(newDataSocket);
+         var originalQualifiedId = newDataSocket.QualifiedId();
+
+         // Act
+         var qualifiedId = scalarsink.DeleteDataSocketByPropertyId("TheDataPropertyId");
+
+         // Assert
+         expect(scalarsink.Inputs["TheDataPropertyId"]).not.toBeDefined();
+         expect(qualifiedId).toEqual(originalQualifiedId);
+      });
+
+      it ('can delete an output data socket by its property id', function() {
+
+         // Arrange
+         scalarsink.Data = {
+            configurationtext : [] };
+         scalarsink.Data.configurationtext["TheDataPropertyId"] = "TheDataProperty Text";
+
+         var newDataSocket = socketFactory.OutputFromData(scalarsink, "TheDataPropertyId");
+         scalarsink.AddOutput(newDataSocket);
+         var originalQualifiedId = newDataSocket.QualifiedId();
+
+         // Act
+         var qualifiedId = scalarsink.DeleteDataSocketByPropertyId("TheDataPropertyId");
+
+         // Assert
+         expect(scalarsink.Inputs["TheDataPropertyId"]).not.toBeDefined();
+         expect(qualifiedId).toEqual(originalQualifiedId);
+      });
+
+      it ('can give a list of the data sockets', function() {
+         
+         // Arrange 
+         scalarsink.Data = {
+            configurationtext : [] };
+         scalarsink.Data.configurationtext["TheDataPropertyId"] = "TheDataProperty Text";
+
+         var newDataSocket = socketFactory.InputFromData(scalarsink, "TheDataPropertyId");
+         scalarsink.AddInput(newDataSocket);
+
+         // Act
+         var dataSocketsOnly = scalarsink.GetDataSockets();
+
+         // Assert
+         expect(dataSocketsOnly["TheDataPropertyId"]).toBeDefined();
       });
 
    });

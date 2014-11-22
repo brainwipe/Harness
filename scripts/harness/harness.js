@@ -30,6 +30,11 @@ function() {
 		var parts = elementId.split('-');
 		return this.Blocks[parts[0]];
 	};
+	Harness.prototype.GetBlockViewFromAnyId = function(elementId) {
+		var block = this.GetBlockFromAnyId(elementId);
+		if (block === null) { return null; }
+		return this.Views[block.Id];
+	};
 	Harness.prototype.Reset = function() {
 		for (var block in this.Blocks)
 		{

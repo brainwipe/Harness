@@ -1,19 +1,25 @@
 <form class="form-horizontal properties-generic">
       {{# _.each(properties, function(property, key) { }}
-         <div class="form-group">
+         <div class="form-group has-feedback">
             <label class="control-label col-sm-6">
                {{property.text}}
             </label>
             <div class="col-sm-6">
                <div class="input-group">
-                  <input class="form-control" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
+                  <div style="position:relative">
+                     <input class="form-control" id="{{propertiesid}}-{{key}}-value" type="text" value="{{property.value}}"/>
+                  </div>
                   <div class="input-group-btn">
                      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                      </button>
                      <ul class="dropdown-menu">
-                        <li><a class="make-input-socket" data-properties-id="{{propertiesid}}" data-property-id="{{key}}">Make input socket</a></li>
-                        <li><a class="make-output-socket" data-properties-id="{{propertiesid}}" data-property-id="{{key}}">Make output socket</a></li>
+                        <li><a href="#" class="make-input-socket" data-properties-id="{{propertiesid}}" data-property-id="{{key}}">Make input socket
+                        {{# if (property.socket == "InputSocket") { }} <span class="glyphicon glyphicon-ok"></span> {{# }; }}
+                        </a></li>
+                        <li><a href="#" class="make-output-socket" data-properties-id="{{propertiesid}}" data-property-id="{{key}}">Make output socket
+                        {{# if (property.socket == "OutputSocket") { }} <span class="glyphicon glyphicon-ok"></span> {{# }; }}
+                        </a></li>
                      </ul>
                   </div>
                </div>

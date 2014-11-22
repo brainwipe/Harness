@@ -137,6 +137,11 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		}
 	};
 
+	BlockViewBase.prototype.RemoveSocketMarkup = function(socketId)
+	{
+		$("#" + socketId).remove();
+	};
+
 	BlockViewBase.prototype.UpdateProperties = function()
 	{
 		this.Properties.Update();

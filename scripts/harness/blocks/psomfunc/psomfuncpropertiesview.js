@@ -19,16 +19,17 @@ function(PropertiesViewBase, TemplateRender, GenericTabContent) {
       tabs.push({
          'Id' : this.Id + '-configuration',
          'Name': 'Configuration',
-         'Content': this.CreateConfigurationContent(this.Id + '-configuration')
+         'Content': this.CreateConfigurationContent(this.Id)
          });
 
       return tabs;
    };
-   PSOMFuncPropertiesView.prototype.CreateConfigurationContent = function(propid) {
+   PSOMFuncPropertiesView.prototype.CreateConfigurationContent = function(id) {
 
+      var propid = id + '-configuration';
       var data = {
-         "propertiesid" : propid,
-         "properties" : this.GetProperties(this.Block.Data.configuration, this.Block.Data.configurationtext)
+         propertiesid : propid,
+         properties : this.GetProperties(this.Block.Data.configuration, this.Block.Data.configurationtext)
       };
 
       return new TemplateRender().Render(GenericTabContent, data);
@@ -37,14 +38,23 @@ function(PropertiesViewBase, TemplateRender, GenericTabContent) {
    PSOMFuncPropertiesView.prototype.GetProperties = function(psomConfiguration, psomConfigurationText)
    {
       var properties = {};
+      var dataSockets = this.Block.GetDataSockets();
+
       for(var config in psomConfiguration)
       {
          properties[config] = {};
          properties[config].value = psomConfiguration[config];
          properties[config].text = psomConfigurationText[config];
+         properties[config].socket = dataSockets[config];
       }
 
       return properties;
+   };
+
+   PSOMFuncPropertiesView.prototype.SetDataSocketsOnConfiguration = function()
+   {
+      var dataSockets = this.Block.GetDataSockets();
+      
    };
 
    PSOMFuncPropertiesView.prototype.BindEvents = function() {

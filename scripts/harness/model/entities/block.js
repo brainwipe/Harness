@@ -1,10 +1,11 @@
 define(
 [
+	"jquery",
 	"harness/validationexception",
 	"harness/model/socketfactory"
 ],
 
-function(ValidationException, SocketFactory) {
+function($, ValidationException, SocketFactory) {
 
 	function Block (sequenceIdNumber, name)
 	{
@@ -95,6 +96,10 @@ function(ValidationException, SocketFactory) {
 		this.Execute();
 	};
 
+	Block.prototype.GetAllSockets = function() {
+		return $.extend({}, this.Inputs, this.Outputs);
+	};
+
 	Block.prototype.DeleteInput = function (inputSocket) {
 		this.Inputs = this.DeleteSocket(this.Inputs, inputSocket);
 	};
@@ -119,21 +124,13 @@ function(ValidationException, SocketFactory) {
 	};
 
 	Block.prototype.DeleteConnections = function () {
-		for (var i in this.Inputs)
+		var sockets = this.GetAllSockets();
+		for (var i in sockets)
 		{
-			var input = this.Inputs[i];
-			if (input.HasConnectors() === true)
+			var socket = sockets[i];
+			if (socket.HasConnectors() === true)
 			{
-				input.DeleteConnections();
-			}
-		}
-
-		for (var j in this.Outputs)
-		{
-			var output = this.Outputs[j];
-			if (output.HasConnectors() === true)
-			{
-				output.DeleteConnections();
+				socket.DeleteConnections();
 			}
 		}
 	};
@@ -143,8 +140,53 @@ function(ValidationException, SocketFactory) {
 	};
 
 	Block.prototype.JSONToData = function(jsonData) {
-      this.Data = jsonData;
-   };
+      	this.Data = jsonData;
+   	};
+
+	Block.prototype.DeleteDataSocketByPropertyId = function(propertyId) {
+		var sockets = this.GetAllSockets();
+		for (var i in sockets)
+		{
+			var socket = sockets[i];
+			if (socket.IsDataSocket === true && socket.DataSocketPropertyId == propertyId)
+			{
+				var socketQualifiedId  = socket.QualifiedId();
+				if (socket.IsInputSocket)
+				{
+					this.DeleteInput(socket);
+				}
+				else
+				{
+					this.DeleteOutput(socket);
+				}
+				return socketQualifiedId;
+			}
+		}
+		return null;
+	};
+
+   	Block.prototype.GetDataSockets = function() {
+   		var dataSockets = [];
+
+   		var sockets = this.GetAllSockets();
+		for (var i in sockets)
+		{
+			var socket = sockets[i];
+			if (socket.IsDataSocket === true)
+			{
+				if (socket.IsInputSocket)
+				{
+					dataSockets[socket.DataSocketPropertyId] = "InputSocket";
+				}
+				else
+				{
+					dataSockets[output.DataSocketPropertyId] = "OutputSocket";
+				}
+				
+			}
+		}
+		return dataSockets;
+   	};
 
 	return (Block);
 });

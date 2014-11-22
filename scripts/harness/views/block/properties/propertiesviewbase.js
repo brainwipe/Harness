@@ -38,7 +38,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 		$("#" + this.Id + "-outputs").append(this.BuildOutputs());
 
 		this.BindEvents();
-		this.BindMakeSocketEvents();
+		this.BindMakeDataSocketEvents();
 		return $("#" + this.Id);
 	};
 
@@ -78,13 +78,28 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 		this.BindEvents();
 	};
 
-	PropertiesViewBase.prototype.BindMakeSocketEvents = function() {
+	PropertiesViewBase.prototype.BindMakeDataSocketEvents = function() {
 
+		// TODO repetition below here, need to refactor out
 		$("#" + this.Id + " .make-input-socket").click(function () {
-
+			
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var block = harness.GetBlockFromAnyId(propertiesControlId);
 			var configurationPropertyId = $(this).attr("data-property-id");
+			var inputBoxId = "#" + propertiesControlId + "-" + configurationPropertyId + "-value";
+
+			var removedSocketQualifiedId = block.DeleteDataSocketByPropertyId(configurationPropertyId);
+			if (removedSocketQualifiedId !== null)
+			{
+				var view = harness.GetBlockViewFromAnyId(propertiesControlId);
+				view.RemoveSocketMarkup(removedSocketQualifiedId);
+				$(this).children(".glyphicon").remove();
+				$(inputBoxId).next(".glyphicon").remove();
+				return;
+			}
+
+			$(this).append('<span class="glyphicon glyphicon-ok"></span>');
+			$(inputBoxId).after('<i class="glyphicon glyphicon-log-in form-control-feedback"></i>');
 
 			var socket = block.SocketFactory.InputFromData(block, configurationPropertyId);
 
@@ -92,15 +107,29 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 
 			var view = harness.Views[block.Id];
 			view.CreateSocketMarkup(view.Element, socket);
-
+			
 			view.Properties.ReBuildInputs();
       	});
 
 	  	$("#" + this.Id + " .make-output-socket").click(function () {
-
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var block = harness.GetBlockFromAnyId(propertiesControlId);
 			var configurationPropertyId = $(this).attr("data-property-id");
+
+			var inputBoxId = "#" + propertiesControlId + "-" + configurationPropertyId + "-value";
+
+			var removedSocketQualifiedId = block.DeleteDataSocketByPropertyId(configurationPropertyId);
+			if (removedSocketQualifiedId !== null)
+			{
+				var view = harness.GetBlockViewFromAnyId(propertiesControlId);
+				view.RemoveSocketMarkup(removedSocketQualifiedId);
+				$(this).children(".glyphicon").remove();
+				$(inputBoxId).next(".glyphicon").remove();
+				return;
+			}
+
+			$(this).append('<span class="glyphicon glyphicon-ok"></span>');
+			$(inputBoxId).after('<i class="glyphicon glyphicon-log-out form-control-feedback"></i>');
 
 			var socket = block.SocketFactory.OutputFromData(block, configurationPropertyId);
 
@@ -111,7 +140,6 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 
 			view.Properties.ReBuildOutputs();
       	});
-		
 	};
 
 	PropertiesViewBase.prototype.BindEvents = function() {};
