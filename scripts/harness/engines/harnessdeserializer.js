@@ -21,7 +21,7 @@ function(BlockRegistry) {
 		this.BuildConnectors(harness, jsonParsed.Connectors);
 
 		harness.Validate();
-		harness.Update();
+		harness.Painter.JsPlumb.repaintEverything();
 
 		return harness;
 	};
@@ -45,15 +45,7 @@ function(BlockRegistry) {
 	{
 		for (var i in connectors) {
 			var connector = connectors[i];
-			var fromBlockAndSocket = harness.GetBlockAndSocketFromId(connector.from);
-			var toBlockAndSocket = harness.GetBlockAndSocketFromId(connector.to);
-
-			harness.ConnectSocketAndBlock(
-				this.BlockIdMap[fromBlockAndSocket.Block],
-				fromBlockAndSocket.Socket,
-				this.BlockIdMap[toBlockAndSocket.Block],
-				toBlockAndSocket.Socket
-				);
+			harness.Painter.ConnectSockets(connector.from, connector.to);
 		}
 	};
 

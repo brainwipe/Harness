@@ -5,16 +5,17 @@ define(
 	"harness/engines/bruteforceengine",
 	"harness/engines/validationengine",
 	"harness/model/blockregistry",
-	"harness/engines/harnessdeserializer"
+	"harness/engines/harnessdeserializer",
+	"jsplumb"
 ],
-function(Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockRegistry, HarnessDeserializer) {
+function(Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockRegistry, HarnessDeserializer, jsplumb) {
 
 	function HarnessFactory() { }
 
 	HarnessFactory.prototype.Build = function(containerElement)	{
 		var harness = new Harness(containerElement);
 		harness.BlockRegistry = new BlockRegistry();
-		harness.Painter = new HarnessPainter(harness);
+		harness.Painter = new HarnessPainter(harness, jsplumb);
 		harness.Engine = new BruteForceEngine(harness);
 		harness.ValidationEngine = new ValidationEngine(
 			harness,

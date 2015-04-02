@@ -54,8 +54,6 @@ function() {
 		delete this.Views[blockId];
 		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];
-		this.Painter.RebuildBoundingBoxes(this.Blocks);
-		this.Update();
 		this.Validate();
 	};
 	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
@@ -72,7 +70,6 @@ function() {
 		}
 
 		this.Validate();
-		this.Update();
 		return connector;
 	};
 	Harness.prototype.ConnectSocketAndBlock = function (outputBlockName, outputSocketName, inputBlockName, inputSocketName) {
@@ -80,7 +77,6 @@ function() {
 		var inputSocket = this.Blocks[inputBlockName].Inputs[inputSocketName];
 
 		var connector = outputSocket.Connect(inputSocket);
-		this.Painter.BuildBoundingBox(connector);
 		return connector;
 	};
 	Harness.prototype.GetBlockAndSocketFromId = function(socketId) {
@@ -109,9 +105,6 @@ function() {
 	Harness.prototype.Validate = function() {
 		return this.ValidationEngine.Validate(this.Blocks);
 	};
-	Harness.prototype.Update = function () {
-		this.Painter.Update(this.Views, this.Blocks);
-	};
 	Harness.prototype.Tick = function () {
 		this.Engine.Tick(this.BlockIds(), this.Blocks);
 		this.Painter.RedrawBlocks(this.Blocks, this.Views);
@@ -128,25 +121,6 @@ function() {
 	};
 	Harness.prototype.Stop = function() {
 		this.IsRunning = false;
-	};
-	Harness.prototype.MouseMove = function (event) {
-		this.Painter.Update(harness.Views, harness.Blocks, event.pageX, event.pageY);
-	};
-	Harness.prototype.BlocksMoved = function ()	{
-		this.Painter.RebuildBoundingBoxes(harness.Blocks);
-		this.Update();
-	};
-	Harness.prototype.ResizeCanvas = function() {
-		this.Painter.SetWorkspaceSizeToWindow();
-		this.Update();
-	};
-	Harness.prototype.KeyDown = function(event) {
-		if (event.which === 46 &&
-			this.Painter.HighlightedConnector != null)
-		{
-			this.RemoveConnector(this.Painter.HighlightedConnector);
-			this.Update();
-		}
 	};
 
 	return (Harness);

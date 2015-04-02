@@ -41,12 +41,15 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 
 		this.Element = $("#" + this.Block.Id);
 
+		this.CreateInputs();
+		this.CreateOutputs();
+
 		for(var i in this.Block.Inputs)	{
-			this.CreateSocketMarkup(this.Element, this.Block.Inputs[i]);
+			// this.CreateSocketMarkup(this.Element, this.Block.Inputs[i]);
 		}
 
 		for(var j in this.Block.Outputs) {
-			this.CreateSocketMarkup(this.Element, this.Block.Outputs[j]);
+			// this.CreateSocketMarkup(this.Element, this.Block.Outputs[j]);
 		}
 
 		$("#" + this.Block.Id).draggable({
@@ -61,10 +64,17 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 				}
 			});
 
+		harness.Painter.JsPlumb.draggable(this.Block.Id);
+
 		$('#harness .block_resizable').resizable({
+				resize: function ( event, ui )
+				{
+					harness.Painter.JsPlumb.repaintEverything();
+				},
 				stop: function(event, ui) {
 					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr('id'));
 					harness.Views[block.Id].Draw(block);
+					harness.Painter.JsPlumb.repaintEverything();
 				}
 			});
 
@@ -74,72 +84,49 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 			$('#' + blockId + '-properties').modal();
 		});
 
-		$('#' + this.Block.Id).bind( 'drag', function(event, ui) {
-			harness.Update();
-		});
-		$('#' + this.Block.Id).bind( 'dragstop', function(event, ui) {
-			harness.BlocksMoved();
-			harness.Update();
-		});
-
 		this.ElementProperties = this.Properties.Create();
 	};
 
-	BlockViewBase.prototype.CreateSocketMarkup = function (blockElement, socket)	{
-		var qualifiedSocketId =  socket.QualifiedId();
+	BlockViewBase.prototype.CreateInputs = function()
+	{
+		var exampleGreyEndpointOptions = {
+		  endpoint:"Dot",
+		  anchor:[ 0, 0.5, -1, 0, 0, 0],
+		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
+		  isSource:false,
+		  isTarget:true
+		};
 
-		var socketClass = 'input';
-		var isInputSocket = (socket.IsInputSocket === true || socket.IsInputSocket === "true");
-
-		if (isInputSocket == false) {
-			socketClass = 'output';
-		}
-
-		var socketMarkup = '<div class="socket ' + socketClass +
-			'" id="' + qualifiedSocketId +
-			'" title="' + socket.Name +
-			' (' + socket.Type.Key + ')"></div>';
-		blockElement.prepend(socketMarkup);
-		element = $("#" + qualifiedSocketId);
-
-		if (isInputSocket) {
-			element.droppable({
-				tolerance: 'touch',
-				accept: '.socket',
-				drop: function( event, ui ) {
-					harness.ConnectSockets(ui.draggable.attr('id'), $(this).attr('id'));
-					harness.Update();
-				}
-			});
-		}
-		else {
-			element.draggable({
-				helper:'clone',
-				appendTo: 'body',
-				containment: 'document',
-				zIndex: 1500,
-				drag: function(event, ui) {
-					function Pos() {}
-					Pos.prototype.left = 0;
-					Pos.prototype.top = 0;
-
-					harness.Update();
-
-					var original = new Pos();
-					original.left = ui.originalPosition.left + ui.helper.width() - 5;
-					original.top = ui.originalPosition.top + (ui.helper.height() / 2);
-					var dragged = new Pos();
-					dragged.top = ui.position.top + (ui.helper.height() / 2);
-					dragged.left = ui.position.left + 5;
-					harness.Painter.DrawConnector(original, dragged);
-				}
-			});
-		}
+		for(var i in this.Block.Inputs)	{
+			var endpoint = harness.Painter.JsPlumb.addEndpoint(
+				this.Block.Id, 
+				{
+					uuid: this.Block.Inputs[i].QualifiedId()
+				},
+				exampleGreyEndpointOptions);
+		};
 	};
 
-	BlockViewBase.prototype.RemoveSocketMarkup = function(socketId)
+	BlockViewBase.prototype.CreateOutputs = function()
 	{
-		$("#" + socketId).remove();
+
+		var exampleGreyEndpointOptions = {
+		  endpoint:"Dot",
+		  anchor:[ 1, 0.5, 1, 0, 0, 0],
+		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
+		  isSource:true,
+		  connectorStyle : { strokeStyle:"#aaa ", lineWidth:6 },
+		  isTarget:false
+		};
+
+		for(var i in this.Block.Outputs) {
+			var endpoint = harness.Painter.JsPlumb.addEndpoint(
+				this.Block.Id, 
+				{
+					uuid: this.Block.Outputs[i].QualifiedId()
+				},
+				exampleGreyEndpointOptions);
+		};
 	};
 
 	BlockViewBase.prototype.UpdateProperties = function()

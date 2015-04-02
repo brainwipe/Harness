@@ -19,6 +19,7 @@ require.config({
 		'domReady': '../vendor/requirejs/domReady',
 		'text' : '../vendor/requirejs/text',
 		'd3': '../vendor/d3/d3.min',
+		'jsplumb': '../vendor/jsplumb/js/dom.jsPlumb-1.7.2-min',
 
 		'exception': 'harness',
 		'psom' : './lib/psom'
@@ -51,7 +52,11 @@ require.config({
 
 		'd3' : {
 			exports: 'd3'
-		}
+		},
+
+		'jsplumb' : {
+			exports: 'jsplumb'
+		},
 	}
 });
 
@@ -115,9 +120,7 @@ function($,
 		helpdialog = new HelpDialog();
 		helpdialog.CreateMarkup();
 
-		harness.ResizeCanvas();
-
-		/* Temporary welcome stuff for DeepMind below here */
+		/* Temporary welcome stuff below here */
 		$("#welcome > div").append('<button id="clickhere" type="button" class="btn btn-primary btn-large">Give it a go!</button>');
 
 		$("#clickhere").click(function() {
