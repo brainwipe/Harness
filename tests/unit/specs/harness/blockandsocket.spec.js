@@ -150,7 +150,7 @@ function($,
          expect(inputSocket.Connectors[0]).toEqual(connector);
 
          // Act
-         expect(inputSocket.Disconnect(connector)).toEqual(true);
+         expect(inputSocket.Disconnect(connector.To.Id)).toEqual(true);
 
          // Assert
          expect(outputSocket.Connectors[0]).toEqual(connector);
@@ -166,10 +166,10 @@ function($,
 
          expect(outputSocket.Connectors[0]).toEqual(connector);
          expect(inputSocket.Connectors[0]).toEqual(connector);
-         expect(inputSocket.Disconnect(connector)).toEqual(true);
+         expect(inputSocket.Disconnect(connector.To.Id)).toEqual(true);
 
          // Act and Assert
-         expect(function() {inputSocket.Disconnect(connector);}).toThrow('This connector is not connected to this socket and cannot be disconnected');
+         expect(function() {inputSocket.Disconnect(connector.To.Id);}).toThrow('This connector is not connected to this socket and cannot be disconnected');
       });
 
       it('can tell you that it has connections', function() {

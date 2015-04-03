@@ -26,9 +26,15 @@ function() {
 		return ++this.NextBlockIdNumber;
 	};
 	Harness.prototype.GetBlockFromAnyId = function(elementId) {
-		if (elementId === undefined || elementId.length === 0) { return null; }
 		var parts = elementId.split('-');
-		return this.Blocks[parts[0]];
+		var blockId = parts[0];
+
+		if (!this.Blocks.hasOwnProperty(blockId))
+		{
+			throw "Block with the id '" + blockId + "' in the elementId '" + elementId + "' could not be found.";
+		}
+
+		return this.Blocks[blockId];
 	};
 	Harness.prototype.GetBlockViewFromAnyId = function(elementId) {
 		var block = this.GetBlockFromAnyId(elementId);
@@ -57,12 +63,12 @@ function() {
 		this.Validate();
 	};
 	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
-		var outputInfo = this.GetBlockAndSocketFromId(outputSocketId);
-		var inputInfo = this.GetBlockAndSocketFromId(inputSocketId);
+		var outputInfo = this.GetBlockAndOutputSocketFromId(outputSocketId);
+		var inputInfo = this.GetBlockAndInputSocketFromId(inputSocketId);
 		var connector = null;
 		try
 		{
-			connector = this.ConnectSocketAndBlock(outputInfo.Block, outputInfo.Socket, inputInfo.Block, inputInfo.Socket);
+			connector = outputInfo.Socket.Connect(inputInfo.Socket);
 		}
 		catch (message)
 		{
@@ -72,23 +78,27 @@ function() {
 		this.Validate();
 		return connector;
 	};
-	Harness.prototype.ConnectSocketAndBlock = function (outputBlockName, outputSocketName, inputBlockName, inputSocketName) {
-		var outputSocket = this.Blocks[outputBlockName].Outputs[outputSocketName];
-		var inputSocket = this.Blocks[inputBlockName].Inputs[inputSocketName];
-
-		var connector = outputSocket.Connect(inputSocket);
-		return connector;
-	};
-	Harness.prototype.GetBlockAndSocketFromId = function(socketId) {
-		var parts = socketId.split('-');
-		return { "Block" : parts[0], "Socket" : parts[3] };
+	
+	Harness.prototype.GetBlockAndInputSocketFromId = function(fullyQualifiedSocketId) {
+		var block = this.GetBlockFromAnyId(fullyQualifiedSocketId);
+		var parts = fullyQualifiedSocketId.split('-');
+		return { "Block" : block, "Socket" : block.Inputs[parts[3]] };
 	};
 
-	Harness.prototype.RemoveConnector = function(connectorToRemove) {
-		connectorToRemove.From.Disconnect(connectorToRemove);
-		connectorToRemove.To.Disconnect(connectorToRemove);
-		connectorToRemove = null;
+	Harness.prototype.GetBlockAndOutputSocketFromId = function(fullyQualifiedSocketId) {
+		var block = this.GetBlockFromAnyId(fullyQualifiedSocketId);
+		var parts = fullyQualifiedSocketId.split('-');
+		return { "Block" : block, "Socket" : block.Outputs[parts[3]] };
+	};
 
+	Harness.prototype.RemoveConnector = function(outputSocketId, inputSocketId) {
+
+		var outputInfo = this.GetBlockAndOutputSocketFromId(outputSocketId);
+		var inputInfo = this.GetBlockAndInputSocketFromId(inputSocketId);
+
+		outputInfo.Socket.Disconnect(inputInfo.Socket.Id);
+		inputInfo.Socket.Disconnect(outputInfo.Socket.Id);
+		
 		this.Validate();
 	};
 	Harness.prototype.BlockIds = function() {

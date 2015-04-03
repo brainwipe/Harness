@@ -31,6 +31,9 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		this.JsPlumb.bind("connection", function(info) {
 			harness.ConnectSockets(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
 		});
+		this.JsPlumb.bind("connectionDetached", function(info) {
+			harness.RemoveConnector(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
+		});
 	
 	}
 

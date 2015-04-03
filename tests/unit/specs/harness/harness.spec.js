@@ -50,6 +50,29 @@ function($,
 				expect(harness.Blocks.ScalarSource1).toBeDefined();
 			});
 
+			it ('can retrieve a block and socket from a fully qualified socket Id', function() {
+				// Arrange
+				harness.AddBlock(scalarsink);
+				var block = scalarsink;
+				var socket = scalarsink.Inputs["Value"];
+				var fullyQualifiedSocketId = socket.QualifiedId();
+				
+				// Act
+				var result = harness.GetBlockAndInputSocketFromId(fullyQualifiedSocketId);
+
+				// Assert
+				expect(result.Block).toEqual(block);
+				expect(result.Socket).toEqual(socket);
+			});
+
+			it ('throws an exception when trying to retrieve a block that does not exist', function() {
+				// Arrange
+				var nonExistentBlockId = "This-Block-Id-Does-Not-Exist";
+
+				// Act
+				expect(function(){ harness.GetBlockFromAnyId(nonExistentBlockId); } ).toThrow('Block with the id \'This\' in the elementId \'This-Block-Id-Does-Not-Exist\' could not be found.');
+			});
+
 			it('can connect two blocks together by names', function() {
 				// Arrange
 				harness.AddBlock(scalarsource, scalarsourceview);
@@ -79,7 +102,7 @@ function($,
 				var connector = harness.ConnectSockets(outputSocket.QualifiedId(),
 								inputSocket.QualifiedId());
 
-				harness.RemoveConnector(connector);
+				harness.RemoveConnector(connector.From.QualifiedId(), connector.To.QualifiedId());
 
 				expect(outputSocket.Connectors.length).toEqual(0);
 				expect(outputSocket.HasConnectors()).toEqual(false);

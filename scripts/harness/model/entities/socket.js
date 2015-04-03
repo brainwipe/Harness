@@ -78,12 +78,20 @@ function(Connector) {
 		return connector;
 	};
 
-	Socket.prototype.Disconnect = function(connectorToRemove) {
-		var connectorIndex = this.Connectors.indexOf(connectorToRemove);
+	Socket.prototype.Disconnect = function(otherSocketId) {
+		var connectorIndex = -1;
+
+		for (var i in this.Connectors)
+		{
+			if (this.Connectors[i].To.Id == otherSocketId || this.Connectors[i].From.Id == otherSocketId)
+			{
+				connectorIndex = i;
+			}
+		}
+		
 		if (connectorIndex === -1) {
 			throw 'This connector is not connected to this socket and cannot be disconnected';
 		}
-
 		this.Connectors.splice(connectorIndex,1);
 		return true;
 	};
@@ -97,12 +105,12 @@ function(Connector) {
 		{
 			var connector = this.Connectors[i];
 			if (this.IsInputSocket === true) {
-				connector.From.Disconnect(connector);
+				connector.From.Disconnect(connector.To.Id);
 
 			}
 			else
 			{
-				connector.To.Disconnect(connector);
+				connector.To.Disconnect(connector.From.Id);
 			}
 		}
 		this.Connectors = [];
