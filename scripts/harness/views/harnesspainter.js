@@ -34,7 +34,6 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		this.JsPlumb.bind("connectionDetached", function(info) {
 			harness.RemoveConnector(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
 		});
-	
 	}
 
 	HarnessPainter.prototype.DroppableHandler = function(event, ui) {
@@ -139,6 +138,18 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 	{
 		this.JsPlumb.connect({uuids: [fromBlockAndSocketId, toBlockAndSocketId]});
 	};
+
+	HarnessPainter.prototype.DeleteConnections = function(inputSockets, outputSockets)
+	{
+		for (var i in inputSockets)
+		{
+			this.JsPlumb.deleteEndpoint(inputSockets[i].QualifiedId());
+		}
+		for (var i in outputSockets)
+		{
+			this.JsPlumb.deleteEndpoint(outputSockets[i].QualifiedId());
+		}
+	}
 
 	return(HarnessPainter);
 });

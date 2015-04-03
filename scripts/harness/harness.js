@@ -58,6 +58,8 @@ function() {
 	Harness.prototype.DeleteBlock = function(blockId) {
 		this.Views[blockId].Element.remove();
 		delete this.Views[blockId];
+		
+		this.Painter.DeleteConnections(this.Blocks[blockId].Inputs, this.Blocks[blockId].Outputs);
 		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];
 		this.Validate();
