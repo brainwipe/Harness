@@ -32,5 +32,6 @@ function($) {
 	HarnessPainterMock.prototype.Update = function (Blocks, mouseX, mouseY) {};
 	HarnessPainterMock.prototype.SwitchOffEngineControls = function(event, ui) {};
 	HarnessPainterMock.prototype.SwitchOnEngineControls = function(event, ui) {};
+	HarnessPainterMock.prototype.Repaint = function() {};
 	return (HarnessPainterMock);
 });
