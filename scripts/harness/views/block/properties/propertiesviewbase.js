@@ -80,66 +80,49 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 
 	PropertiesViewBase.prototype.BindMakeDataSocketEvents = function() {
 
-		// TODO repetition below here, need to refactor out
 		$("#" + this.Id + " .make-input-socket").click(function () {
 			
 			var propertiesControlId = $(this).attr("data-properties-id");
-			var block = harness.GetBlockFromAnyId(propertiesControlId);
-			var configurationPropertyId = $(this).attr("data-property-id");
-			var inputBoxId = "#" + propertiesControlId + "-" + configurationPropertyId + "-value";
+			var view = harness.GetBlockViewFromAnyId(propertiesControlId);
 
-			var removedSocketQualifiedId = block.DeleteDataSocketByPropertyId(configurationPropertyId);
-			if (removedSocketQualifiedId !== null)
-			{
-				var view = harness.GetBlockViewFromAnyId(propertiesControlId);
-				harness.Painter.DeleteSocket(removedSocketQualifiedId);
-				$(this).children(".glyphicon").remove();
-				$(inputBoxId).next(".glyphicon").remove();
-				return;
-			}
-
-			$(this).append('<span class="glyphicon glyphicon-ok"></span>');
-			$(inputBoxId).after('<i class="glyphicon glyphicon-log-in form-control-feedback"></i>');
-
-			var socket = block.SocketFactory.InputFromData(block, configurationPropertyId);
-
-			block.AddInput(socket);
-
-			var view = harness.Views[block.Id];
-			harness.Painter.CreateInputSocket(block, socket.QualifiedId());
-			
-			view.Properties.ReBuildInputs();
       	});
 
 	  	$("#" + this.Id + " .make-output-socket").click(function () {
 			var propertiesControlId = $(this).attr("data-properties-id");
-			var block = harness.GetBlockFromAnyId(propertiesControlId);
-			var configurationPropertyId = $(this).attr("data-property-id");
+			var view = harness.GetBlockViewFromAnyId(propertiesControlId);
 
-			var inputBoxId = "#" + propertiesControlId + "-" + configurationPropertyId + "-value";
-
-			var removedSocketQualifiedId = block.DeleteDataSocketByPropertyId(configurationPropertyId);
-			if (removedSocketQualifiedId !== null)
-			{
-				var view = harness.GetBlockViewFromAnyId(propertiesControlId);
-				harness.Painter.DeleteSocket(removedSocketQualifiedId);
-				$(this).children(".glyphicon").remove();
-				$(inputBoxId).next(".glyphicon").remove();
-				return;
-			}
-
-			$(this).append('<span class="glyphicon glyphicon-ok"></span>');
-			$(inputBoxId).after('<i class="glyphicon glyphicon-log-out form-control-feedback"></i>');
-
-			var socket = block.SocketFactory.OutputFromData(block, configurationPropertyId);
-
-			block.AddOutput(socket);
-
-			var view = harness.Views[block.Id];
-			harness.Painter.CreateOutputSocket(block, socket.QualifiedId());
-
-			view.Properties.ReBuildOutputs();
       	});
+	};
+
+	PropertiesViewBase.prototype.ToggleDataSocket = function(isInput, makeDataSocketControl, propertiesControlId) {
+
+		var inputBoxId = "#" + propertiesControlId + "-" + configurationPropertyId + "-value";
+		var configurationPropertyId = makeDataSocketControl.attr("data-property-id");
+
+		var removedSocketQualifiedId = this.Block.DeleteDataSocketByPropertyId(configurationPropertyId);
+		if (removedSocketQualifiedId !== null)
+		{
+			harness.Painter.DeleteSocket(removedSocketQualifiedId);
+			$(this).children(".glyphicon").remove();
+			$(inputBoxId).next(".glyphicon").remove();
+			return;
+		}
+
+		makeDataSocketControl.append('<span class="glyphicon glyphicon-ok"></span>');
+
+		if (isInput)
+		{
+			$(inputBoxId).after('<i class="glyphicon glyphicon-log-in form-control-feedback"></i>');
+			var socket = this.Block.SocketFactory.InputFromData(this.Block, configurationPropertyId);
+			this.Block.AddInput(socket);
+		}
+		else
+		{
+			$(inputBoxId).after('<i class="glyphicon glyphicon-log-out form-control-feedback"></i>');
+			var socket = this.Block.SocketFactory.OutputFromData(this.Block, configurationPropertyId);
+			this.Block.AddOutput(socket);	
+		}
+			
 	};
 
 	PropertiesViewBase.prototype.BindEvents = function() {};

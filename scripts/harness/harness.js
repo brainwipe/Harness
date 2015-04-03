@@ -53,7 +53,7 @@ function() {
 		this.Views[block.Id] = view;
 		this.Blocks[block.Id] = block;
 		this.Validate();
-		harness.Painter.JsPlumb.repaintEverything();
+		this.Painter.Repaint();
 		return block;
 	};
 	Harness.prototype.DeleteBlock = function(blockId) {

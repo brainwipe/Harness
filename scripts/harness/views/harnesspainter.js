@@ -61,14 +61,6 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		}
 	};
 
-	HarnessPainter.prototype.RedrawBlocks = function (Blocks, Views) {
-		for(var i in Blocks)
-		{
-			var block = Blocks[i];
-			Views[block.Id].Draw();
-		}
-	};
-
 	HarnessPainter.prototype.BindControlEvents = function()
 	{
 		$('#harness-engine-controls-tick').on('click', function () {
@@ -172,29 +164,47 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		this.JsPlumb.deleteEndpoint(qualifiedSocketId);
 	};
 
-	HarnessPainter.prototype.CreateInputSocket = function(block, qualifiedSocketId)
+	HarnessPainter.prototype.CreateInputSocket = function(block, qualifiedSocketId, socketName)
 	{
 		this.InputSocketSettings.anchor = [0, (0.1 * block.InputsCount), -1, 0, 0, 0];
-		this.JsPlumb.addEndpoint(
+		var endPoint = this.JsPlumb.addEndpoint(
 			block.Id, 
 			{
 				uuid: qualifiedSocketId
 			},
 			this.InputSocketSettings);
-		harness.Painter.JsPlumb.repaintEverything();
+		endPoint.canvas.setAttribute("title",socketName);
+		this.Repaint();
 	};
 
-	HarnessPainter.prototype.CreateOutputSocket = function(block, qualifiedSocketId)
+	HarnessPainter.prototype.CreateOutputSocket = function(block, qualifiedSocketId, socketName)
 	{
 		this.OutputSocketSettings.anchor = [1, (0.1 * block.OutputsCount), 1, 0, 0, 0];
 
-		this.JsPlumb.addEndpoint(
+		var endPoint = this.JsPlumb.addEndpoint(
 			block.Id, 
 			{
 				uuid: qualifiedSocketId
 			},
 			this.OutputSocketSettings);
-		harness.Painter.JsPlumb.repaintEverything();
+		endPoint.canvas.setAttribute("title",socketName);
+		this.Repaint();
+	};
+
+	HarnessPainter.prototype.RedrawBlocks = function (Blocks, Views) {
+		for(var i in Blocks)
+		{
+			var block = Blocks[i];
+			Views[block.Id].Draw();
+		}
+	};
+
+	HarnessPainter.prototype.Repaint = function() {
+		this.JsPlumb.repaintEverything();
+	};
+
+	HarnessPainter.prototype.MakeBlockDraggable = function(blockId) {
+		this.JsPlumb.draggable(blockId);
 	};
 
 	return(HarnessPainter);

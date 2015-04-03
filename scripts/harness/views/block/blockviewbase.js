@@ -56,17 +56,17 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 				}
 			});
 
-		harness.Painter.JsPlumb.draggable(this.Block.Id);
+		harness.Painter.MakeBlockDraggable(this.Block.Id);
 
 		$('#harness .block_resizable').resizable({
 				resize: function ( event, ui )
 				{
-					harness.Painter.JsPlumb.repaintEverything();
+					harness.Painter.Repaint();
 				},
 				stop: function(event, ui) {
 					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr('id'));
 					harness.Views[block.Id].Draw(block);
-					harness.Painter.JsPlumb.repaintEverything();
+					harness.Painter.Repaint();
 				}
 			});
 
@@ -82,14 +82,20 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 	BlockViewBase.prototype.CreateInputs = function()
 	{
 		for(var i in this.Block.Inputs)	{
-			harness.Painter.CreateInputSocket(this.Block, this.Block.Inputs[i].QualifiedId());
+			harness.Painter.CreateInputSocket(
+				this.Block, 
+				this.Block.Inputs[i].QualifiedId(),
+				this.Block.Inputs[i].Name);
 		};
 	};
 
 	BlockViewBase.prototype.CreateOutputs = function()
 	{
 		for(var i in this.Block.Outputs) {
-			harness.Painter.CreateOutputSocket(this.Block, this.Block.Outputs[i].QualifiedId());
+			harness.Painter.CreateOutputSocket(
+				this.Block, 
+				this.Block.Outputs[i].QualifiedId(),
+				this.Block.Outputs[i].Name);
 		};
 	};
 

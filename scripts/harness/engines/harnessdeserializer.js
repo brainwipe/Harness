@@ -21,7 +21,7 @@ function(BlockRegistry) {
 		this.BuildConnectors(harness, jsonParsed.Connectors);
 
 		harness.Validate();
-		harness.Painter.JsPlumb.repaintEverything();
+		harness.Painter.Repaint();
 
 		return harness;
 	};
