@@ -1,14 +1,10 @@
 #harness {
-    width: 100%;
-    height: 100%;
-}
-#raih_bg {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0px;
+	position: absolute;
+	top: 0px;
     left: 0px;
     z-index: 0;
+    width: 100%;
+    height: 100%;
 }
 #harness .block {
     position: absolute;

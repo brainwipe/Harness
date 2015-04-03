@@ -14,7 +14,7 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		this.HarnessElement = harness.Element;
 		this.JsPlumb = jsplumb;
 		this.BindControlEvents();
-		this.BindManualEvents();
+		this.BindManualEvents(harness);
 		this.BindJsPlumb();
 		this.PaintBlockBin();
 	}
@@ -25,6 +25,22 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 	HarnessPainter.prototype.BoundingBoxSize = 8;
 	HarnessPainter.prototype.HighlightedConnector = null;
 	HarnessPainter.prototype.JsPlumb = null;
+	HarnessPainter.prototype.InputSocketSettings = {
+		  endpoint:"Dot",
+		  anchor: [ 0, 0.5, -1, 0, 0, 0],
+		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
+		  isSource:false,
+		  isTarget:true
+		};
+
+	HarnessPainter.prototype.OutputSocketSettings = {
+		  endpoint:"Dot",
+		  anchor:[ 1, 0.5, 1, 0, 0, 0],
+		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
+		  isSource:true,
+		  connectorStyle : { strokeStyle:"#aaa ", lineWidth:6 },
+		  isTarget:false
+		};
 
 	HarnessPainter.prototype.BindJsPlumb = function()
 	{
@@ -94,7 +110,7 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		$('#harness-engine-controls').children().addClass('disabled');
 	};
 
-	HarnessPainter.prototype.BindManualEvents = function ()
+	HarnessPainter.prototype.BindManualEvents = function (harness)
 	{
 		$('#clearModel').on('click', function() {
 			theBootbox.dialog({
@@ -117,7 +133,7 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 			});
 		});
 
-		$("#raih_bg").droppable({drop: function(e,u) {
+		harness.Element.droppable({drop: function(e,u) {
 			harness.Painter.DroppableHandler(e,u);}
 		});
 	};
@@ -149,7 +165,37 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		{
 			this.JsPlumb.deleteEndpoint(outputSockets[i].QualifiedId());
 		}
-	}
+	};
+
+	HarnessPainter.prototype.DeleteSocket = function(qualifiedSocketId)
+	{
+		this.JsPlumb.deleteEndpoint(qualifiedSocketId);
+	};
+
+	HarnessPainter.prototype.CreateInputSocket = function(block, qualifiedSocketId)
+	{
+		this.InputSocketSettings.anchor = [0, (0.1 * block.InputsCount), -1, 0, 0, 0];
+		this.JsPlumb.addEndpoint(
+			block.Id, 
+			{
+				uuid: qualifiedSocketId
+			},
+			this.InputSocketSettings);
+		harness.Painter.JsPlumb.repaintEverything();
+	};
+
+	HarnessPainter.prototype.CreateOutputSocket = function(block, qualifiedSocketId)
+	{
+		this.OutputSocketSettings.anchor = [1, (0.1 * block.OutputsCount), 1, 0, 0, 0];
+
+		this.JsPlumb.addEndpoint(
+			block.Id, 
+			{
+				uuid: qualifiedSocketId
+			},
+			this.OutputSocketSettings);
+		harness.Painter.JsPlumb.repaintEverything();
+	};
 
 	return(HarnessPainter);
 });

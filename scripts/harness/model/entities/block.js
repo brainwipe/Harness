@@ -17,15 +17,15 @@ function($, ValidationException, SocketFactory) {
 		this.Outputs = {};
 		this.Data = {};
 		this.Completed = false;
-		this.InputsCount = 0;
-		this.OutputsCount = 0;
 	}
 
 	Block.prototype.Initialise = function(view) {};
 	Block.prototype.Id = null;
 	Block.prototype.Name = null;
 	Block.prototype.Inputs = null;
+	Block.prototype.InputsCount = 0;
 	Block.prototype.Outputs = null;
+	Block.prototype.OutputsCount = 0;
 	Block.prototype.Data = null;
 	Block.prototype.Completed = false;
 	Block.prototype.Execute = null;
@@ -102,10 +102,12 @@ function($, ValidationException, SocketFactory) {
 
 	Block.prototype.DeleteInput = function (inputSocket) {
 		this.Inputs = this.DeleteSocket(this.Inputs, inputSocket);
+		this.InputsCount--;
 	};
 
 	Block.prototype.DeleteOutput = function (outputSocket) {
 		this.Outputs = this.DeleteSocket(this.Outputs, outputSocket);
+		this.OutputsCount--;
 	};
 
 	Block.prototype.DeleteSocket = function (socketArray, socket) {

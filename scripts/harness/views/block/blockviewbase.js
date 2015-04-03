@@ -44,14 +44,6 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		this.CreateInputs();
 		this.CreateOutputs();
 
-		for(var i in this.Block.Inputs)	{
-			// this.CreateSocketMarkup(this.Element, this.Block.Inputs[i]);
-		}
-
-		for(var j in this.Block.Outputs) {
-			// this.CreateSocketMarkup(this.Element, this.Block.Outputs[j]);
-		}
-
 		$("#" + this.Block.Id).draggable({
 			cursor: 'move',
 			start: function() {
@@ -89,43 +81,15 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 
 	BlockViewBase.prototype.CreateInputs = function()
 	{
-		var exampleGreyEndpointOptions = {
-		  endpoint:"Dot",
-		  anchor:[ 0, 0.5, -1, 0, 0, 0],
-		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
-		  isSource:false,
-		  isTarget:true
-		};
-
 		for(var i in this.Block.Inputs)	{
-			var endpoint = harness.Painter.JsPlumb.addEndpoint(
-				this.Block.Id, 
-				{
-					uuid: this.Block.Inputs[i].QualifiedId()
-				},
-				exampleGreyEndpointOptions);
+			harness.Painter.CreateInputSocket(this.Block, this.Block.Inputs[i].QualifiedId());
 		};
 	};
 
 	BlockViewBase.prototype.CreateOutputs = function()
 	{
-
-		var exampleGreyEndpointOptions = {
-		  endpoint:"Dot",
-		  anchor:[ 1, 0.5, 1, 0, 0, 0],
-		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
-		  isSource:true,
-		  connectorStyle : { strokeStyle:"#aaa ", lineWidth:6 },
-		  isTarget:false
-		};
-
 		for(var i in this.Block.Outputs) {
-			var endpoint = harness.Painter.JsPlumb.addEndpoint(
-				this.Block.Id, 
-				{
-					uuid: this.Block.Outputs[i].QualifiedId()
-				},
-				exampleGreyEndpointOptions);
+			harness.Painter.CreateOutputSocket(this.Block, this.Block.Outputs[i].QualifiedId());
 		};
 	};
 

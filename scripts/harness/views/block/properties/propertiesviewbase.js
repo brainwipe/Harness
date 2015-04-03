@@ -92,7 +92,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			if (removedSocketQualifiedId !== null)
 			{
 				var view = harness.GetBlockViewFromAnyId(propertiesControlId);
-				view.RemoveSocketMarkup(removedSocketQualifiedId);
+				harness.Painter.DeleteSocket(removedSocketQualifiedId);
 				$(this).children(".glyphicon").remove();
 				$(inputBoxId).next(".glyphicon").remove();
 				return;
@@ -106,7 +106,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			block.AddInput(socket);
 
 			var view = harness.Views[block.Id];
-			view.CreateSocketMarkup(view.Element, socket);
+			harness.Painter.CreateInputSocket(block, socket.QualifiedId());
 			
 			view.Properties.ReBuildInputs();
       	});
@@ -122,7 +122,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			if (removedSocketQualifiedId !== null)
 			{
 				var view = harness.GetBlockViewFromAnyId(propertiesControlId);
-				view.RemoveSocketMarkup(removedSocketQualifiedId);
+				harness.Painter.DeleteSocket(removedSocketQualifiedId);
 				$(this).children(".glyphicon").remove();
 				$(inputBoxId).next(".glyphicon").remove();
 				return;
@@ -136,7 +136,7 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			block.AddOutput(socket);
 
 			var view = harness.Views[block.Id];
-			view.CreateSocketMarkup(view.Element, socket);
+			harness.Painter.CreateOutputSocket(block, socket.QualifiedId());
 
 			view.Properties.ReBuildOutputs();
       	});

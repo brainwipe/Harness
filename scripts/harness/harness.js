@@ -53,12 +53,13 @@ function() {
 		this.Views[block.Id] = view;
 		this.Blocks[block.Id] = block;
 		this.Validate();
+		harness.Painter.JsPlumb.repaintEverything();
 		return block;
 	};
 	Harness.prototype.DeleteBlock = function(blockId) {
 		this.Views[blockId].Element.remove();
 		delete this.Views[blockId];
-		
+
 		this.Painter.DeleteConnections(this.Blocks[blockId].Inputs, this.Blocks[blockId].Outputs);
 		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];

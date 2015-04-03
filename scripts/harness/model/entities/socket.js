@@ -106,7 +106,6 @@ function(Connector) {
 			var connector = this.Connectors[i];
 			if (this.IsInputSocket === true) {
 				connector.From.Disconnect(connector.To.Id);
-
 			}
 			else
 			{
