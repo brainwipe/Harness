@@ -85,12 +85,14 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var view = harness.GetBlockViewFromAnyId(propertiesControlId);
 
+			view.Properties.ToggleDataSocket(true, $(this), propertiesControlId);
       	});
 
 	  	$("#" + this.Id + " .make-output-socket").click(function () {
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var view = harness.GetBlockViewFromAnyId(propertiesControlId);
 
+			view.Properties.ToggleDataSocket(false, $(this), propertiesControlId);
       	});
 	};
 
@@ -115,14 +117,17 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			$(inputBoxId).after('<i class="glyphicon glyphicon-log-in form-control-feedback"></i>');
 			var socket = this.Block.SocketFactory.InputFromData(this.Block, configurationPropertyId);
 			this.Block.AddInput(socket);
+			harness.Painter.CreateInputSocket(this.Block, socket.QualifiedId(), socket.Name);
 		}
 		else
 		{
 			$(inputBoxId).after('<i class="glyphicon glyphicon-log-out form-control-feedback"></i>');
 			var socket = this.Block.SocketFactory.OutputFromData(this.Block, configurationPropertyId);
 			this.Block.AddOutput(socket);	
+			harness.Painter.CreateOutputSocket(this.Block, socket.QualifiedId(), socket.Name);
 		}
 			
+		this.ReBuildInputs();
 	};
 
 	PropertiesViewBase.prototype.BindEvents = function() {};

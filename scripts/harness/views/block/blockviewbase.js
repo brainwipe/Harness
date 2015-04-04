@@ -22,6 +22,7 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 	BlockViewBase.prototype.Properties = null;
 	BlockViewBase.prototype.DefaultWidth = 200;
 	BlockViewBase.prototype.DefaultHeight = 200;
+	BlockViewBase.prototype.BlocksRelativePath = "./scripts/harness/blocks/";
 
 	BlockViewBase.prototype.CreateMarkup = function(element)
 	{
@@ -43,6 +44,8 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 
 		this.CreateInputs();
 		this.CreateOutputs();
+
+		this.LoadCSS();
 
 		$("#" + this.Block.Id).draggable({
 			cursor: 'move',
@@ -77,6 +80,17 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		});
 
 		this.ElementProperties = this.Properties.Create();
+	};
+
+	BlockViewBase.prototype.LoadCSS = function()
+	{
+		var blockFunctionName = this.Block.constructor.name.toLowerCase();
+
+		$("<link/>", {
+   			rel: "stylesheet",
+   			type: "text/css",
+   			href: this.BlocksRelativePath + "" + blockFunctionName + "/style.css"
+			}).appendTo("head");
 	};
 
 	BlockViewBase.prototype.CreateInputs = function()
