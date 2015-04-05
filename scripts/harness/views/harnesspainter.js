@@ -57,7 +57,7 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		if (eventElement)
 		{
 			var blockBuilderId = eventElement.value;
-			harness.BlockRegistry.CreateBlock(blockBuilderId, harness, event.toElement.offsetLeft, event.toElement.offsetTop);
+			harness.BlockRegistry.CreateBlock(blockBuilderId, harness, event.originalEvent.clientX, event.originalEvent.clientY);
 		}
 	};
 

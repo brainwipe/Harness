@@ -93,6 +93,13 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 			}).appendTo("head");
 	};
 
+	BlockViewBase.prototype.GetIconPath = function()
+	{
+		var blockFunctionName = this.Block.constructor.name.toLowerCase();
+
+		return this.BlocksRelativePath + "" + blockFunctionName + "/icon.svg#" + blockFunctionName + "-icon";
+	}
+
 	BlockViewBase.prototype.CreateInputs = function()
 	{
 		for(var i in this.Block.Inputs)	{

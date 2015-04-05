@@ -1,0 +1,14 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<symbol id="psomfunc-icon" viewBox="0 0 222 222">
+		<path fill="#f89509" d="M222,212.6c0,5.2-4.2,9.4-9.4,9.4H9.4c-5.2,0-9.4-4.2-9.4-9.4V9.4 C0,4.2,4.2,0,9.4,0h203.2c5.2,0,9.4,4.2,9.4,9.4V212.6z"/>
+		<circle fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" cx="44.9" cy="44.5" r="25.3"/>
+		<circle fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" cx="136.3" cy="64.6" r="25.3"/>
+		<circle fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" cx="61.5" cy="115.3" r="25.3"/>
+		<circle fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" cx="175.7" cy="181.4" r="25.3"/>
+		<line fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" x1="151.4" y1="174.1" x2="80.5" y2="132"/>
+		<line fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" x1="80.5" y1="98.6" x2="116.2" y2="79.9"/>
+		<line fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" x1="116" y1="49.6" x2="70.2" y2="44.5"/>
+		<line fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" x1="50.8" y1="69.1" x2="54.2" y2="91"/>
+	</symbol>
+</svg>
+

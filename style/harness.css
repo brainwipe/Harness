@@ -61,15 +61,13 @@
     display: none;
 }
 .chooser_blocklist {
-    list-style: none;
+    margin-top:10px;
 }
 .chooser_block {
-    float: left;
+    display:inline-block;
     width: 50px;
     height: 50px;
     margin: 4px;
-    list-style: none;
-    border-radius: 8px;
 }
 .block-content {
     width: 100%;

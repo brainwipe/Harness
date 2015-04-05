@@ -47,11 +47,14 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 
 	BlockBrowser.prototype.BlockListItem = function(id, blockBuilder)
 	{
+		var iconPath = blockBuilder.GetView().GetIconPath();
+
 		var data = {
 			"CssClass": blockBuilder.CssClass,
 			"FriendlyName": blockBuilder.FriendlyName,
 			"BlockType": blockBuilder.Type,
-			"BlockId" : id
+			"BlockId" : id,
+			"IconPath" : iconPath
 		};
 
 		return new TemplateRender().Render(BlockBrowserItemTemplate, data);
