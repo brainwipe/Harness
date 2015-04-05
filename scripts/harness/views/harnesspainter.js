@@ -35,6 +35,8 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 
 	HarnessPainter.prototype.OutputSocketSettings = {
 		  endpoint:"Dot",
+		  maxConnections:-1, 
+		  setDragAllowedWhenFull:true,
 		  anchor:[ 1, 0.5, 1, 0, 0, 0],
 		  paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
 		  isSource:true,
