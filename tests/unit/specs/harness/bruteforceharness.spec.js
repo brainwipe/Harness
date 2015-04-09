@@ -38,10 +38,10 @@ function($,
          var idnumber = 1;
 
          scalarsink = new ScalarSinkBlock(idnumber);
-         scalarsinkview = scalarsink.GetView();
+         scalarsinkview = scalarsink.CreateView();
 
          scalarsource = new ScalarSourceBlock(idnumber++);
-         scalarsourceview = scalarsource.GetView();
+         scalarsourceview = scalarsource.CreateView();
       });
 
       it('can tell if inputs are ready on a scalar source block (they always are)', function() {
@@ -127,8 +127,8 @@ function($,
 
          var scalarsink2 = new ScalarSinkBlock(3);
          var scalarsource2 = new ScalarSourceBlock(4);
-         var scalarsinkview2 = scalarsink2.GetView();
-         var scalarsourceview2 = scalarsource2.GetView();
+         var scalarsinkview2 = scalarsink2.CreateView();
+         var scalarsourceview2 = scalarsource2.CreateView();
 
          harness.AddBlock(scalarsource, scalarsourceview);
          harness.AddBlock(scalarsink, scalarsinkview);

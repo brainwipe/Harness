@@ -68,7 +68,7 @@ function(Block, SocketType, ArraySourceView) {
       }
    };
 
-   ArraySource.prototype.GetView = function()
+   ArraySource.prototype.CreateView = function()
    {
       return new ArraySourceView(this);
    };

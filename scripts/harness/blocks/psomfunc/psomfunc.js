@@ -66,7 +66,7 @@ function(Block, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
       view.Initialise();
    };
 
-   PSOMFunc.prototype.GetView = function()
+   PSOMFunc.prototype.CreateView = function()
    {
       return new PSOMFuncView(this);
    };

@@ -19,7 +19,7 @@ function() {
    {
       var block = new this.BlockDefinitions[blockFactoryId](harness.GetNextBlockId());
 
-      var view = block.GetView();
+      var view = block.CreateView();
       view.CreateMarkup(harness.Element);
       view.Element.offset({
          left: viewOffsetLeft,
@@ -46,7 +46,7 @@ function() {
       this.CreateInputsFromJSON(block, blockJSON.Sockets.Inputs);
       this.CreateOutputsFromJSON(block, blockJSON.Sockets.Outputs);
 
-      var view = block.GetView(block);
+      var view = block.CreateView(block);
       view.CreateMarkup(harness.Element);
       view.Element.offset({
          left: blockJSON.View.Left,

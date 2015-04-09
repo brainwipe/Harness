@@ -46,7 +46,7 @@ function(Block, SocketType, ScalarSourceView) {
       return '"' + this.Data + '"';
    };
 
-   ScalarSource.prototype.GetView = function()
+   ScalarSource.prototype.CreateView = function()
    {
       return new ScalarSourceView(this);
    };

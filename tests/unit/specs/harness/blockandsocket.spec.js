@@ -40,16 +40,16 @@ function($,
 
          harness = harnessFactory.Build($("#harnessContainer"));
          scalarsink = new ScalarSinkBlock(1);
-         scalarsinkview = scalarsink.GetView();
+         scalarsinkview = scalarsink.CreateView();
 
          scalarsinktwo = new ScalarSinkBlock(2);
-         scalarsinkviewtwo = scalarsink.GetView();
+         scalarsinkviewtwo = scalarsink.CreateView();
 
          scalarsource = new ScalarSourceBlock(3);
-         scalarsourceview = scalarsource.GetView();
+         scalarsourceview = scalarsource.CreateView();
 
          scalarsourcetwo = new ScalarSourceBlock(4);
-         scalarsourceviewtwo = scalarsource.GetView();
+         scalarsourceviewtwo = scalarsource.CreateView();
       });
 
       it('can create a scalar sink builder', function() {
@@ -217,7 +217,7 @@ function($,
 
       it('will get a block given the long id of a sub control', function() {
          // Arrange
-         var scalarSinkView = scalarsink.GetView()
+         var scalarSinkView = scalarsink.CreateView()
          harness.AddBlock(scalarsink, scalarSinkView);
 
          // Act

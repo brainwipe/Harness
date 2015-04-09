@@ -45,7 +45,7 @@ function(Block, SocketType, ScalarSinkView) {
       return '"' + this.Data + '"';
    };
 
-   ScalarSink.prototype.GetView = function()
+   ScalarSink.prototype.CreateView = function()
    {
       return new ScalarSinkView(this);
    };

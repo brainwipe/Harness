@@ -34,10 +34,10 @@ function($,
 				harness = harnessFactory.Build($("#harnessContainer"));
 				var idnumber = 1;
 				scalarsink = new ScalarSinkBlock(idnumber);
-				scalarsinkview = scalarsink.GetView();
+				scalarsinkview = scalarsink.CreateView();
 
 				scalarsource = new ScalarSourceBlock(idnumber++);
-				scalarsourceview = scalarsource.GetView();
+				scalarsourceview = scalarsource.CreateView();
 			});
 
 			it('can increment the block id number on each get', function() {

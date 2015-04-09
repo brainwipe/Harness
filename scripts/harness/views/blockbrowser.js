@@ -45,9 +45,16 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 							});
 	};
 
+	BlockBrowser.prototype.GetIconPath = function(block)
+	{
+		var blockFunctionName = block.constructor.name.toLowerCase();
+
+		return this.BlocksRelativePath + blockFunctionName + "/icon.svg#" + blockFunctionName + "-icon";
+	}
+
 	BlockBrowser.prototype.BlockListItem = function(id, blockBuilder)
 	{
-		var iconPath = blockBuilder.GetView().GetIconPath();
+		var iconPath = this.GetIconPath(blockBuilder);
 
 		var data = {
 			"CssClass": blockBuilder.CssClass,

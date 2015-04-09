@@ -28,7 +28,7 @@ function(Block, SocketType, IncrementalSourceView) {
    IncrementalSource.prototype.Type = 'Source';
    IncrementalSource.prototype.Description = 'This source provides a single integer, that is increased by 1 on each execution. Used for a system clock.';
 
-   IncrementalSource.prototype.GetView = function()
+   IncrementalSource.prototype.CreateView = function()
    {
       return new IncrementalSourceView(this);
    };
