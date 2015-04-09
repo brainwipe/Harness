@@ -1,0 +1,10 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	 <symbol id="linegraphsink-icon" viewBox="0 0 222 222">
+		<path fill="#46a546" d="M222,212.6c0,5.2-4.2,9.4-9.4,9.4H9.4c-5.2,0-9.4-4.2-9.4-9.4V9.4
+			C0,4.2,4.2,0,9.4,0h203.2c5.2,0,9.4,4.2,9.4,9.4V212.6z"/>
+		<line fill="none" stroke="#FFFFFF" stroke-width="8" stroke-miterlimit="10" x1="26.5" y1="16.1" x2="26.5" y2="203.1"/>
+		<line fill="none" stroke="#FFFFFF" stroke-width="8" stroke-miterlimit="10" x1="26.5" y1="203.1" x2="204.2" y2="203.1"/>
+		<polyline fill="none" stroke="#FFFFFF" stroke-width="8" stroke-miterlimit="10" points="26.5,201.4 49.2,55.1 67.9,178.7 
+			77.9,124.7 100.9,176.7 141.5,38.1 164.9,171.7 185.5,149.1 "/>
+	</symbol>	
+</svg>

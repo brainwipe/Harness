@@ -4,7 +4,8 @@ define(
    "harness/blocks/incrementalsource/incrementalsource",
    "harness/blocks/psomfunc/psomfunc",
    "harness/blocks/scalarsource/scalarsource",
-   "harness/blocks/scalarsink/scalarsink"
+   "harness/blocks/scalarsink/scalarsink",
+   "harness/blocks/linegraphsink/linegraphsink"
 ],
 
 function() {
