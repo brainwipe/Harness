@@ -23,11 +23,18 @@ rect {
 
 </style>
 <body>
+    <script>
+      var PSOMD3EventHandler;
+      function define(arr, func)
+      {
+        PSOMD3EventHandler = new func();
+      }
+    </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script src="../../scripts/lib/math.js"></script>
     <script src="../../scripts/lib/stringlib.js"></script>
     <script src="../../scripts/lib/psom.js"></script>
-    <script src="../../scripts/visualisations/PSOMD3EventHandler.js"></script>
+    <script src="../../scripts/harness/blocks/psomfunc/PSOMD3EventHandler.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
@@ -101,7 +108,6 @@ console.log("PSOM set, now restart");
 restart();
 
 function tick() {
-  console.log("Tick");
 
   link.attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })

@@ -26,7 +26,6 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
    PSOMFuncView.prototype.Nodes = null;
    PSOMFuncView.prototype.Node = null;
    PSOMFuncView.prototype.Link = null;
-   PSOMFuncView.prototype.Force = null;
 
    PSOMFuncView.prototype.CreateContentMarkup = function ()
    {
