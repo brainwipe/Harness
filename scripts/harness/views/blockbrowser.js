@@ -13,6 +13,7 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 		this.Harness = harness;
 	}
 	BlockBrowser.prototype.Harness = null;
+	BlockBrowser.prototype.BlocksRelativePath = "./scripts/harness/blocks/";
 	BlockBrowser.prototype.GetBlocks = function()
 	{
 		for (var i in this.Harness.BlockRegistry.BlockDefinitions)

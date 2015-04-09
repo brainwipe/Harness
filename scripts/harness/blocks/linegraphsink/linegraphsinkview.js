@@ -17,7 +17,7 @@ function(BlockViewBase, LineGraphSinkPropertiesView) {
 	LineGraphSinkView.prototype.CreateContentMarkup = function ()
 	{
 		return '<div class="block-content">' +
-					"d3 here" +
+					"TODO! This block is<br/> not ready for use." +
 					'</div>';
 	};
 

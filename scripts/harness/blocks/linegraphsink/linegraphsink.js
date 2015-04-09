@@ -45,7 +45,7 @@ function(Block, SocketType, LineGraphSinkView) {
       return '"' + this.Data + '"';
    };
 
-   LineGraphSink.prototype.GetView = function()
+   LineGraphSink.prototype.CreateView = function()
    {
       return new LineGraphSinkView(this);
    };
