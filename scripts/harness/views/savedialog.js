@@ -9,8 +9,13 @@ define(
 
 function(HarnessSerializer, TemplateRender, SaveDialogTemplate, SavedModelsTemplate) {
 
-	function SaveDialog() {	}
+	function SaveDialog(loadDiag) 
+	{	
+		this.LoadDialog = loadDiag;
+	}
 
+	SaveDialog.prototype.LoadDialog = null;
+	SaveDialog.prototype.ModelNameSelector = "#saveDialog .modelNameInput"
 	SaveDialog.prototype.CreateMarkup = function() {
 
 		harness.Element.append(
@@ -18,11 +23,7 @@ function(HarnessSerializer, TemplateRender, SaveDialogTemplate, SavedModelsTempl
 
 		this.ApplySavedModelsToDialog();
 
-		$("#saveModel").click(function() {
-			savedialog.SaveModel();
-			savedialog.ApplySavedModelsToDialog();
-			loaddialog.ApplySavedModelsToDialog();
-		});
+		$("#saveModel").on("click", $.proxy(this.SaveModel, this));
 	};
 
 	SaveDialog.prototype.SaveModel = function() {
@@ -44,6 +45,9 @@ function(HarnessSerializer, TemplateRender, SaveDialogTemplate, SavedModelsTempl
 
 		var serializer = new HarnessSerializer();
 		localStorage["model-" + saveKey] = serializer.HarnessToJSON(harness);
+
+		this.ApplySavedModelsToDialog();
+		this.LoadDialog.ApplySavedModelsToDialog();
 	};
 
 	SaveDialog.prototype.GetSavedModels = function() {
@@ -78,25 +82,25 @@ function(HarnessSerializer, TemplateRender, SaveDialogTemplate, SavedModelsTempl
 	};
 
 	SaveDialog.prototype.ApplySavedModelsToDialog = function() {
-		$('#savedModelsPlaceholder').html("");
-		$('#savedModelsPlaceholder').append(
+		$('#saveDialog .savedModelsPlaceholder').html("");
+		$('#saveDialog .savedModelsPlaceholder').append(
 			this.GetSavedModelsInList()
 		);
 
 		$('#newModelName').on('change', function() {
 			if ($(this).val())
 			{
-				$('#savedModelsChoice').attr('disabled', 'disabled');
+				$('#saveDialog #savedModelsChoice').attr('disabled', 'disabled');
 			}
 			else
 			{
-				$('#savedModelsChoice').removeAttr('disabled');
+				$('#saveDialog #savedModelsChoice').removeAttr('disabled');
 			}
 		});
 
 		$('#newModelName').on('focus', function() {
 			$(this).val($(this).attr('placeholder'));
-			$('#savedModelsChoice').attr('disabled', 'disabled');
+			$('#saveDialog #savedModelsChoice').attr('disabled', 'disabled');
 		});
 	};
 

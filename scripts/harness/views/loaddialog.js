@@ -11,15 +11,14 @@ function(HarnessFactory, TemplateRender, LoadDialogTemplate, SavedModelsTemplate
 
 	function LoadDialog() {	}
 
+	LoadDialog.prototype.ModelNameSelector = "#loadDialog .modelNameInput"
 	LoadDialog.prototype.CreateMarkup = function()
 	{
 		harness.Element.append(new TemplateRender().Render(LoadDialogTemplate));
 
 		this.ApplySavedModelsToDialog();
 
-		$('#loadModel').click(function() {
-			loaddialog.LoadModel();
-		});
+		$('#loadModel').on("click", $.proxy(this.LoadModel, this));
 	};
 
 	LoadDialog.prototype.LoadModel = function ()

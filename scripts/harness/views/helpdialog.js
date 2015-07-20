@@ -38,22 +38,10 @@ function(TemplateRender, HelpDialogTemplate, GettingStartedTemplate, ExampleMode
 
 		this.SetContent(this.GetCurrentStep());
 
-		$("#help-close").click(function()
-		{
-			helpdialog.Hide();
-		});
-
-		$("#help-next").click(function() {
-			helpdialog.Next();
-		});
-
-		$("#help-previous").click(function() {
-			helpdialog.Previous();
-		});
-
-		$("#help-dialog-menuitem").click(function() {
-			helpdialog.Show();
-		});
+		$("#help-close").on("click", $.proxy(this.Hide, this));
+		$("#help-next").on("click", $.proxy(this.Next, this));
+		$("#help-previous").on("click", $.proxy(this.Previous, this));
+		$("#help-dialog-menuitem").on("click", $.proxy(this.Show, this));
 	};
 
 	HelpDialog.prototype.GetCurrentStep = function()

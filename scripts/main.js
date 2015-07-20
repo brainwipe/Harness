@@ -3,11 +3,7 @@ var harness;
 var blockbrowser;
 var validationbrowser;
 var notify;
-var savedialog;
-var loaddialog;
 var importexportmodeldialog;
-var helpdialog;
-var welcome;
 
 require.config({
 	paths: {
@@ -111,19 +107,20 @@ function($,
 
 		notify = new Notify();
 
-		savedialog = new SaveDialog();
+		var loaddialog = new LoadDialog();
+		loaddialog.CreateMarkup();
+
+		var savedialog = new SaveDialog(loaddialog);
 		savedialog.CreateMarkup();
 
-		loaddialog = new LoadDialog();
-		loaddialog.CreateMarkup();
 
 		importexportmodeldialog = new ImportExportModelDialog();
 		importexportmodeldialog.CreateMarkup();
 
-		helpdialog = new HelpDialog();
+		var helpdialog = new HelpDialog();
 		helpdialog.CreateMarkup();
 
-		welcome = new Welcome(harnessFactory, helpdialog);
+		var welcome = new Welcome(harnessFactory, helpdialog);
 		welcome.CreateMarkup();
 	});
 });
