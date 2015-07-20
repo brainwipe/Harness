@@ -16,7 +16,7 @@ function(Block, SocketType, LineGraphSinkView) {
             "Value",
             new SocketType().BuildScalar()));
 
-      this.Data = 'Empty';
+      this.Data = [];
    }
 
    LineGraphSink.prototype = Object.create( Block.prototype );
@@ -26,9 +26,10 @@ function(Block, SocketType, LineGraphSinkView) {
    LineGraphSink.prototype.CssClass = 'blocklinegraphsink';
    LineGraphSink.prototype.Type = 'Sink';
    LineGraphSink.prototype.Description = 'This block takes in a single number and shows it as a line.';
+   LineGraphSink.prototype.XAxisRange = 40;
 
    LineGraphSink.prototype.Execute = function() {
-      this.Data = this.Inputs.Value.Data;
+      this.Data.push(this.Inputs.Value.Data); 
       this.Completed = true;
    };
 

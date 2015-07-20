@@ -2,3 +2,16 @@
    line-height:normal;
    text-align:center;
 }
+
+.linegraphsink-svg .line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.linegraphsink-svg .axis path,
+.linegraphsink-svg .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
