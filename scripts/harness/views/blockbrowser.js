@@ -69,7 +69,7 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 	};
 
 	BlockBrowser.prototype.CreateMarkup = function() {
-		harness.Element.append(
+		$("body").append(
 			new TemplateRender().Render(BlockBrowserTemplate, {}));
 	};
 

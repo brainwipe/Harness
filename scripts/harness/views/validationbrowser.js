@@ -15,7 +15,7 @@ function (Harness, TemplateRender, ValidationBrowserTemplate) {
 	ValidationBrowser.prototype.MessageCount = 0;
 	ValidationBrowser.prototype.CreateMarkup = function() {
 
-		harness.Element.append(new TemplateRender().Render(ValidationBrowserTemplate, {}));
+		$("body").append(new TemplateRender().Render(ValidationBrowserTemplate, {}));
 
 		this.MessagesElement = $('#validationMessages');
 		this.MenuItemElement = $('#validationMenuItem');

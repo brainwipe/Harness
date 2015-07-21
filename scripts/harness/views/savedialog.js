@@ -17,7 +17,7 @@ function(HarnessSerializer, TemplateRender, SaveDialogTemplate, SavedModelsTempl
 	SaveDialog.prototype.LoadDialog = null;
 	SaveDialog.prototype.CreateMarkup = function() {
 
-		harness.Element.append(
+		$("body").append(
 			new TemplateRender().Render(SaveDialogTemplate, {"harnessName": harness.Name}));
 
 		this.ApplySavedModelsToDialog();

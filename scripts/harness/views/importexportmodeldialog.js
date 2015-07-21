@@ -13,7 +13,7 @@ function(HarnessSerializer, HarnessFactory, TemplateRender, ImportExportDialogTe
 
    ImportExportModelDialog.prototype.CreateMarkup = function() {
 
-      harness.Element.append(
+      $("body").append(
          new TemplateRender().Render(ImportExportDialogTemplate, {}));
 
       $('#importExportModelDialog').on('show.bs.modal', function (e) {

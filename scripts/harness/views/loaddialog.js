@@ -14,7 +14,7 @@ function(HarnessFactory, TemplateRender, LoadDialogTemplate, SavedModelsTemplate
 	LoadDialog.prototype.ModelNameSelector = "#loadDialog .modelNameInput"
 	LoadDialog.prototype.CreateMarkup = function()
 	{
-		harness.Element.append(new TemplateRender().Render(LoadDialogTemplate));
+		$("body").append(new TemplateRender().Render(LoadDialogTemplate));
 
 		this.ApplySavedModelsToDialog();
 
