@@ -8,7 +8,7 @@ define(
 function(Block, SocketType, ScalarSinkView) {
 
    function ScalarSink(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, this.FriendlyName);
+      Block.call(this, idSequenceNumber, ScalarSink.FriendlyName);
 
       this.AddInput(
          this.SocketFactory.InputSingleFixedRequired(
@@ -22,9 +22,9 @@ function(Block, SocketType, ScalarSinkView) {
    ScalarSink.prototype = Object.create( Block.prototype );
    ScalarSink.prototype.constructor = ScalarSink;
 
-   ScalarSink.prototype.FriendlyName = 'Scalar Sink';
-   ScalarSink.prototype.CssClass = 'blockscalarsink';
-   ScalarSink.prototype.Type = 'Sink';
+   ScalarSink.FriendlyName = 'Scalar Sink';
+   ScalarSink.CssClass = 'blockscalarsink';
+   ScalarSink.Type = 'Sink';
    ScalarSink.prototype.Description = 'This sink acts as a way of viewing a single number. It does not keep history, as the simulation runs, the single number will be overwritten.';
 
    ScalarSink.prototype.Execute = function() {

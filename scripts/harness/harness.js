@@ -4,7 +4,7 @@ function() {
 
 	function Harness (containerElement)
 	{
-		this.Name = "Test Harness " + new Date().getTime();
+		this.Name = "Model " + new Date().getTime();
 		this.Blocks = {};
 		this.Views = {};
 		this.Element = containerElement;
@@ -42,12 +42,14 @@ function() {
 		return this.Views[block.Id];
 	};
 	Harness.prototype.Reset = function() {
+		this.Painter.Reset();
 		for (var block in this.Blocks)
 		{
 			this.DeleteBlock(block);
 		}
+
 		this.NextBlockIdNumber = 0;
-		this.Name = "Test Harness " + new Date().getTime();
+		this.Name = "Model " + new Date().getTime();
 	};
 	Harness.prototype.AddBlock = function (block, view) {
 		this.Views[block.Id] = view;
@@ -57,7 +59,7 @@ function() {
 		return block;
 	};
 	Harness.prototype.DeleteBlock = function(blockId) {
-		this.Views[blockId].Element.remove();
+		this.Views[blockId].Remove();
 		delete this.Views[blockId];
 
 		this.Painter.DeleteConnections(this.Blocks[blockId].Inputs, this.Blocks[blockId].Outputs);

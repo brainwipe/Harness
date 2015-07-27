@@ -12,7 +12,7 @@ define(
 function(Block, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
 
    function PSOMFunc(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, this.FriendlyName);
+      Block.call(this, idSequenceNumber, PSOMFunc.FriendlyName);
 
       this.Data = psom.BuildStandard();
       this.Data.InitialiseNodeStructure();
@@ -33,9 +33,9 @@ function(Block, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
    PSOMFunc.prototype = Object.create( Block.prototype );
    PSOMFunc.prototype.constructor = PSOMFunc;
 
-   PSOMFunc.prototype.FriendlyName = 'PSOM';
-   PSOMFunc.prototype.CssClass = 'blockpsomfunc';
-   PSOMFunc.prototype.Type = 'Function';
+   PSOMFunc.FriendlyName = 'PSOM';
+   PSOMFunc.CssClass = 'blockpsomfunc';
+   PSOMFunc.Type = 'Function';
    PSOMFunc.prototype.Description = 'This is the plastic self organising map neural network function block.';
 
    PSOMFunc.prototype.Execute = function() {

@@ -8,7 +8,7 @@ define(
 function(Block, SocketType, ArraySourceView) {
 
    function ArraySource(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, this.FriendlyName);
+      Block.call(this, idSequenceNumber, ArraySource.FriendlyName);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(
@@ -29,9 +29,9 @@ function(Block, SocketType, ArraySourceView) {
    ArraySource.prototype = Object.create( Block.prototype );
    ArraySource.prototype.constructor = ArraySource;
 
-   ArraySource.prototype.FriendlyName = 'Array Source';
-   ArraySource.prototype.CssClass = 'blockarraysource';
-   ArraySource.prototype.Type = 'Source';
+   ArraySource.FriendlyName = 'Array Source';
+   ArraySource.CssClass = 'blockarraysource';
+   ArraySource.Type = 'Source';
    ArraySource.prototype.Description = 'On each tick, this block puts a vector on its output.';
 
    ArraySource.prototype.Execute = function() {

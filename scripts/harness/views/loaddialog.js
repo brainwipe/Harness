@@ -30,7 +30,6 @@ function(HarnessFactory, TemplateRender, LoadDialogTemplate, SavedModelsTemplate
 			modelJSON = models[chosenModelToLoad];
 
 			var harnessFactory = new HarnessFactory();
-			console.log(modelJSON);
 			harnessFactory.BuildFromJSON(harness, modelJSON);
 		}
 	};

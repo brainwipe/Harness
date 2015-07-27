@@ -18,7 +18,7 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 	{
 		for (var i in this.Harness.BlockRegistry.BlockDefinitions)
 		{
-			var factory = new this.Harness.BlockRegistry.BlockDefinitions[i]();
+			var factory = this.Harness.BlockRegistry.BlockDefinitions[i];
 
 			var block = "";
 			if (factory.Type === "Source")
@@ -48,7 +48,7 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 
 	BlockBrowser.prototype.GetIconPath = function(block)
 	{
-		var blockFunctionName = block.constructor.name.toLowerCase();
+		var blockFunctionName = block.name.toLowerCase();
 
 		return this.BlocksRelativePath + blockFunctionName + "/icon.svg#" + blockFunctionName + "-icon";
 	}

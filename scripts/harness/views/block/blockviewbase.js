@@ -118,5 +118,11 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		this.Properties.Update();
 	};
 
+	BlockViewBase.prototype.Remove = function()
+	{
+		this.Element.remove();
+		$("#" + this.Properties.Id).remove();
+	};
+
 	return (BlockViewBase);
 });

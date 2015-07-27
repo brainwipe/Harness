@@ -8,7 +8,7 @@ define(
 function(Block, SocketType, ScalarSourceView) {
 
    function ScalarSource(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, this.FriendlyName);
+      Block.call(this, idSequenceNumber, ScalarSource.FriendlyName);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(
@@ -23,9 +23,9 @@ function(Block, SocketType, ScalarSourceView) {
    ScalarSource.prototype = Object.create( Block.prototype );
    ScalarSource.prototype.constructor = ScalarSource;
 
-   ScalarSource.prototype.FriendlyName = 'Scalar Source';
-   ScalarSource.prototype.CssClass = 'blockscalarsource';
-   ScalarSource.prototype.Type = 'Source';
+   ScalarSource.FriendlyName = 'Scalar Source';
+   ScalarSource.CssClass = 'blockscalarsource';
+   ScalarSource.Type = 'Source';
    ScalarSource.prototype.Description = 'This source provides a single real number, such as 123.4. This useful for biases, offsets, providing paramters for functions or simple mathematics.';
 
    ScalarSource.prototype.Execute = function() {

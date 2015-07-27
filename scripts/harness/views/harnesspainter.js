@@ -44,6 +44,11 @@ function($, jqueryui, BlockRegistry, Connector, BoundingBox) {
 		  isTarget:false
 		};
 
+	HarnessPainter.prototype.Reset = function() {
+		this.JsPlumb.deleteEveryEndpoint();
+	}
+
+
 	HarnessPainter.prototype.BindJsPlumb = function()
 	{
 		this.JsPlumb.bind("connection", function(info) {

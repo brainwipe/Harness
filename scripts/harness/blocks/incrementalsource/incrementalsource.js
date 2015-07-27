@@ -8,7 +8,7 @@ define(
 function(Block, SocketType, IncrementalSourceView) {
 
    function IncrementalSource(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, this.FriendlyName);
+      Block.call(this, idSequenceNumber, IncrementalSource.FriendlyName);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(
@@ -23,9 +23,9 @@ function(Block, SocketType, IncrementalSourceView) {
    IncrementalSource.prototype = Object.create( Block.prototype );
    IncrementalSource.prototype.constructor = IncrementalSource;
 
-   IncrementalSource.prototype.FriendlyName = 'Incremental Source';
-   IncrementalSource.prototype.CssClass = 'blockincrementalsource';
-   IncrementalSource.prototype.Type = 'Source';
+   IncrementalSource.FriendlyName = 'Incremental Source';
+   IncrementalSource.CssClass = 'blockincrementalsource';
+   IncrementalSource.Type = 'Source';
    IncrementalSource.prototype.Description = 'This source provides a single integer, that is increased by 1 on each execution. Used for a system clock.';
 
    IncrementalSource.prototype.CreateView = function()

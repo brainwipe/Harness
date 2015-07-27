@@ -26,7 +26,6 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
    PSOMFuncView.prototype.Nodes = null;
    PSOMFuncView.prototype.Node = null;
    PSOMFuncView.prototype.Link = null;
-
    PSOMFuncView.prototype.CreateContentMarkup = function ()
    {
       return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
@@ -113,6 +112,12 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
 
       this.Node.attr("cx", function(d) { return d.x; })
          .attr("cy", function(d) { return d.y; });
+   };
+
+   PSOMFuncView.prototype.Remove = function()
+   {
+      BlockViewBase.prototype.Remove.call(this);
+      delete this.PSOMD3EventHandler;
    };
 
    return (PSOMFuncView);

@@ -8,7 +8,7 @@ define(
 function(Block, SocketType, LineGraphSinkView) {
 
    function LineGraphSink(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, this.FriendlyName);
+      Block.call(this, idSequenceNumber, LineGraphSink.FriendlyName);
 
       this.AddInput(
          this.SocketFactory.InputSingleFixedRequired(
@@ -22,9 +22,9 @@ function(Block, SocketType, LineGraphSinkView) {
    LineGraphSink.prototype = Object.create( Block.prototype );
    LineGraphSink.prototype.constructor = LineGraphSink;
 
-   LineGraphSink.prototype.FriendlyName = 'Line Graph Sink';
-   LineGraphSink.prototype.CssClass = 'blocklinegraphsink';
-   LineGraphSink.prototype.Type = 'Sink';
+   LineGraphSink.FriendlyName = 'Line Graph Sink';
+   LineGraphSink.CssClass = 'blocklinegraphsink';
+   LineGraphSink.Type = 'Sink';
    LineGraphSink.prototype.Description = 'This block takes in a single number and shows it as a line.';
    LineGraphSink.prototype.XAxisRange = 40;
 
