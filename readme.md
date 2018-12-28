@@ -7,9 +7,13 @@ Harness is a browser based toolbox playground for neural networks, currently in 
 How to get Harness running
 ------------------
 
-- Download the source.
-- Point your favourite local web server (Apache, IIS or similar) to the index.html page
-- Surf to the index.html page.
+- Download the source
+- Open Powershell, navigate to the repository root
+- `.\Start-Webserver.ps1`
+- If warned about script execution, use `[R]` to run once.
+- Surf to localhost:8080/index.html
+
+If you have your own webserver then you can just point a virtual host or virtual directory at the repo root; it's only html and js.
 
 What's here so far
 -----------------
