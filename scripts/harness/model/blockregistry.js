@@ -1,25 +1,21 @@
-define(
-[
-   "harness/blocks/arraysource/arraysource",
-   "harness/blocks/incrementalsource/incrementalsource",
-   "harness/blocks/psomfunc/psomfunc",
-   "harness/blocks/scalarsource/scalarsource",
-   "harness/blocks/scalarsink/scalarsink",
-   "harness/blocks/linegraphsink/linegraphsink"
-],
-
-function() {
-
-   function BlockRegistry() {
-      this.BlockDefinitions = FindRequireJSModulesByObjectName("harness/blocks");
+export default class {
+   constructor()
+   {
+      this.BlockDefinitions = {
+         // TODO ROLA - Put blocks in here
+         // ArraySource,
+         // IncrementalSource,
+         // PSOMFunc,
+         // ScalarSource,
+         // ScalarSink,
+         // LineGraphSink,
+      }
    }
 
-   BlockRegistry.prototype.BlockDefinitions = {};
-
-   BlockRegistry.prototype.CreateBlock = function(blockFactoryId, harness, viewOffsetLeft, viewOffsetTop)
-   {
+   CreateBlock(blockFactoryId, harness, viewOffsetLeft, viewOffsetTop) {
       var block = new this.BlockDefinitions[blockFactoryId](harness.GetNextBlockId());
 
+      // TODO ROLA - these lines are factory methods, not a registry concern
       var view = block.CreateView();
       view.CreateMarkup(harness.Element);
       view.Element.offset({
@@ -36,11 +32,8 @@ function() {
       return {"NewBlock": block, "NewView": view};
    };
 
-   BlockRegistry.prototype.CreateBlockFromJSON = function(harness, blockJSON)
-   {
-      var fullyQualifiedBlockName = "harness/blocks/" + blockJSON.Type.toLowerCase() + "/" + blockJSON.Type.toLowerCase();
-
-      var block = new this.BlockDefinitions[fullyQualifiedBlockName](harness.GetNextBlockId());
+   CreateBlockFromJSON(harness, blockJSON) {
+      var block = new this.BlockDefinitions[blockJSON.Type.toLowerCase()](harness.GetNextBlockId());
 
       block.Name = blockJSON.Name;
       block.JSONToData(blockJSON.Data);
@@ -64,9 +57,9 @@ function() {
       view.Draw();
 
       return block;
-   };
+   }
 
-   BlockRegistry.prototype.CreateInputsFromJSON = function(block, inputs)
+   CreateInputsFromJSON(block, inputs)
    {
       block.InputsCount = 0;
       block.Inputs = {};
@@ -76,9 +69,9 @@ function() {
          var jsonSocket = inputs[i];
          block.AddInput(block.SocketFactory.FromJSON(jsonSocket));
       }
-   };
+   }
 
-   BlockRegistry.prototype.CreateOutputsFromJSON = function(block, outputs)
+   CreateOutputsFromJSON(block, outputs)
    {
       block.OutputsCount = 0;
       block.Outputs = {};
@@ -88,7 +81,5 @@ function() {
          var jsonSocket = outputs[i];
          block.AddOutput(block.SocketFactory.FromJSON(jsonSocket));
       }
-   };
-
-   return(BlockRegistry);
-});
+   }
+}

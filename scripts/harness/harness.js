@@ -1,12 +1,13 @@
 export default class {
-	constructor(containerElement)
+	constructor(containerElement, blockRegistry)
 	{
 		this.Name = "Model " + new Date().getTime();
 		this.Element = containerElement;
 
 		this.Blocks = []
 		this.Views = []
-		this.BlockRegistry = {}
+		// TODO ROLA - Extract, Harness doesn't need the registry, only blocks once created
+		this.BlockRegistry = blockRegistry;
 		this.Engine = {}
 		this.Painter = {}
 		this.ValidationEngine = {}

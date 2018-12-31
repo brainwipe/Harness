@@ -91,21 +91,3 @@ function RemoveFromArray(thearray, object) {
 		return undefined;
 	}
 }
-
-function FindRequireJSModulesByObjectName(namespace) {
-	var definedFunctions = require.s.contexts._.defined;
-	var outputModules = {};
-	for(var key in definedFunctions)
-	{
-		if (key.indexOf(namespace) !== -1)
-		{
-			var fullKey = key.replace("harness/blocks" + "/", "");
-			var parts = fullKey.split("/");
-			if (parts.length == 2 && parts[0] == parts[1])
-			{
-				outputModules[key] = definedFunctions[key];
-			}
-		}
-	}
-	return outputModules;
-}
