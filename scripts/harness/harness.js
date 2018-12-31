@@ -1,5 +1,5 @@
 export default class {
-	constructor(containerElement, blockRegistry)
+	constructor(containerElement, blockRegistry, engine)
 	{
 		this.Name = "Model " + new Date().getTime();
 		this.Element = containerElement;
@@ -8,8 +8,7 @@ export default class {
 		this.Views = []
 		// TODO ROLA - Extract, Harness doesn't need the registry, only blocks once created
 		this.BlockRegistry = blockRegistry;
-		this.Engine = {}
-		this.Painter = {}
+		this.Engine = engine;
 		this.ValidationEngine = {}
 
 		this.IsRunning = false;
@@ -120,7 +119,7 @@ export default class {
 		return this.ValidationEngine.Validate(this.Blocks);
 	}
 
-	Tick () {
+	Tick() {
 		this.Engine.Tick(this.BlockIds(), this.Blocks);
 		this.Painter.RedrawBlocks(this.Blocks, this.Views);
 	}
@@ -128,7 +127,7 @@ export default class {
 	TickAndContinue ()	{
 		this.Tick();
 		if (this.IsRunning) {
-			setTimeout(this.TickAndContinue,	this.TickRunWait);
+			setTimeout(this.TickAndContinue.bind(this),	this.TickRunWait);
 		}
 	}
 

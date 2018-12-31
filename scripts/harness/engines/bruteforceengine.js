@@ -1,18 +1,15 @@
-define(
-[
-	"harness/model/entities/block",
-	"harness/model/entities/socket"
-],
-
-function(Block, Socket) {
-
-	function BruteForceEngine() {}
-
-	BruteForceEngine.prototype.Tick = function(keys, blocks) {
+export default class {
+	Tick(keys, blocks) {
 		var blocksComplete = false;
 		var index = 0;
 		var blockCount = keys.length;
 		var completedCount = 0;
+
+		if (blockCount === 0)
+		{
+			console.log("Brute Force Engine won't run, there are no blocks")
+			return;
+		}
 
 		this.ResetSockets(blocks);
 		this.ResetBlocks(blocks);
@@ -48,15 +45,13 @@ function(Block, Socket) {
 				index++;
 			}
 		}
-	};
+	}
 
-	BruteForceEngine.prototype.ResetBlocks = function(blocks) {
-		for(var i in blocks) {
-			blocks[i].Reset();
-		}
-	};
+	ResetBlocks(blocks) {
+		blocks.map(b => b.Reset());
+	}
 
-	BruteForceEngine.prototype.ResetSockets = function(blocks)
+	ResetSockets(blocks)
 	{
 		for(var i in blocks) {
 			var block = blocks[i];
@@ -67,7 +62,7 @@ function(Block, Socket) {
 		}
 	}
 
-	BruteForceEngine.prototype.AreInputSocketsReady = function(block) {
+	AreInputSocketsReady(block) {
 		for(var i in block.Inputs) {
 			var input = block.Inputs[i];
 
@@ -78,9 +73,9 @@ function(Block, Socket) {
 			}
 		}
 		return true;
-	};
+	}
 
-	BruteForceEngine.prototype.PropagateOutputs = function(block) {
+	PropagateOutputs(block) {
 		for(var i in block.Outputs) {
 			var output = block.Outputs[i];
 
@@ -90,8 +85,5 @@ function(Block, Socket) {
 				connector.To.IsReady = true;
 			}
 		}
-	};
-
-	return (BruteForceEngine);
-
-});
+	}
+}

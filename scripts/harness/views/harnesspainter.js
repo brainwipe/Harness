@@ -12,6 +12,7 @@ export default class {
 	constructor(harness)
 	{
 		this.Harness = harness;
+		this.Harness.Painter = this;
 		this.HarnessElement = harness.Element;
 		this.JsPlumb = jsPlumb.getInstance();
 		this.BindControlEvents();
