@@ -1,5 +1,7 @@
 import HarnessFactory from "./harness/harnessfactory.js"
+import * as jQuery from "/vendor/jquery/jquery-3.3.1.min.js"
 
-let container = document.getElementById("harness");
-let harness = HarnessFactory.Build(container);
+console.log($("#harness"));
+
+let harness = HarnessFactory.Build($("#harness"));
 console.log(harness.Name);
