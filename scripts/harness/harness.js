@@ -1,31 +1,26 @@
-define(
-[],
-function() {
-
-	function Harness (containerElement)
+export default class {
+	constructor(containerElement)
 	{
 		this.Name = "Model " + new Date().getTime();
-		this.Blocks = {};
-		this.Views = {};
 		this.Element = containerElement;
+
+		this.Blocks = []
+		this.Views = []
+		this.BlockRegistry = {}
+		this.Engine = {}
+		this.Painter = {}
+		this.ValidationEngine = {}
+
+		this.IsRunning = false;
 		this.NextBlockIdNumber = 0;
 		this.TickRunWait = 10;
 	}
 
-	Harness.prototype.Name = null;
-	Harness.prototype.Blocks = null;
-	Harness.prototype.View = null;
-	Harness.prototype.BlockRegistry = null;
-	Harness.prototype.Element = null;
-	Harness.prototype.Engine = null;
-	Harness.prototype.Painter = null;
-	Harness.prototype.ValidationEngine = null;
-	Harness.prototype.IsRunning = false;
-	Harness.prototype.TickRunWait = 0;
-	Harness.prototype.GetNextBlockId = function() {
+	GetNextBlockId() {
 		return ++this.NextBlockIdNumber;
-	};
-	Harness.prototype.GetBlockFromAnyId = function(elementId) {
+	}
+
+	GetBlockFromAnyId(elementId) {
 		var parts = elementId.split('-');
 		var blockId = parts[0];
 
@@ -35,30 +30,30 @@ function() {
 		}
 
 		return this.Blocks[blockId];
-	};
-	Harness.prototype.GetBlockViewFromAnyId = function(elementId) {
+	}
+
+	GetBlockViewFromAnyId(elementId) {
 		var block = this.GetBlockFromAnyId(elementId);
 		if (block === null) { return null; }
 		return this.Views[block.Id];
-	};
-	Harness.prototype.Reset = function() {
-		this.Painter.Reset();
-		for (var block in this.Blocks)
-		{
-			this.DeleteBlock(block);
-		}
+	}
 
+	Reset() {
+		this.Painter.Reset();
+		this.Blocks = this.Blocks.map(b => this.DeleteBlock(b));
 		this.NextBlockIdNumber = 0;
 		this.Name = "Model " + new Date().getTime();
-	};
-	Harness.prototype.AddBlock = function (block, view) {
+	}
+
+	AddBlock(block, view) {
 		this.Views[block.Id] = view;
 		this.Blocks[block.Id] = block;
 		this.Validate();
 		this.Painter.Repaint();
 		return block;
-	};
-	Harness.prototype.DeleteBlock = function(blockId) {
+	}
+
+	DeleteBlock(blockId) {
 		this.Views[blockId].Remove();
 		delete this.Views[blockId];
 
@@ -66,11 +61,12 @@ function() {
 		this.Blocks[blockId].DeleteConnections();
 		delete this.Blocks[blockId];
 		this.Validate();
-	};
-	Harness.prototype.ConnectSockets = function (outputSocketId, inputSocketId)	{
+	}
+
+	ConnectSockets (outputSocketId, inputSocketId)	{
 		var outputInfo = this.GetBlockAndOutputSocketFromId(outputSocketId);
 		var inputInfo = this.GetBlockAndInputSocketFromId(inputSocketId);
-		var connector = null;
+		var connector;
 		try
 		{
 			connector = outputInfo.Socket.Connect(inputInfo.Socket);
@@ -82,21 +78,21 @@ function() {
 
 		this.Validate();
 		return connector;
-	};
-	
-	Harness.prototype.GetBlockAndInputSocketFromId = function(fullyQualifiedSocketId) {
+	}
+
+	GetBlockAndInputSocketFromId(fullyQualifiedSocketId) {
 		var block = this.GetBlockFromAnyId(fullyQualifiedSocketId);
 		var parts = fullyQualifiedSocketId.split('-');
-		return { "Block" : block, "Socket" : block.Inputs[parts[3]] };
-	};
+		return { "Block" : block, "Socket" : block.Inputs[parts[3]] }
+	}
 
-	Harness.prototype.GetBlockAndOutputSocketFromId = function(fullyQualifiedSocketId) {
+	GetBlockAndOutputSocketFromId(fullyQualifiedSocketId) {
 		var block = this.GetBlockFromAnyId(fullyQualifiedSocketId);
 		var parts = fullyQualifiedSocketId.split('-');
-		return { "Block" : block, "Socket" : block.Outputs[parts[3]] };
-	};
+		return { "Block" : block, "Socket" : block.Outputs[parts[3]] }
+	}
 
-	Harness.prototype.RemoveConnector = function(outputSocketId, inputSocketId) {
+	RemoveConnector(outputSocketId, inputSocketId) {
 
 		var outputInfo = this.GetBlockAndOutputSocketFromId(outputSocketId);
 		var inputInfo = this.GetBlockAndInputSocketFromId(inputSocketId);
@@ -105,8 +101,9 @@ function() {
 		inputInfo.Socket.Disconnect(outputInfo.Socket.Id);
 		
 		this.Validate();
-	};
-	Harness.prototype.BlockIds = function() {
+	}
+
+	BlockIds() {
 		var ids = [];
 		var blocks = this.Blocks;
 		for(var id in blocks)
@@ -116,31 +113,31 @@ function() {
 			}
 		}
 		return ids;
-	};
-	Harness.prototype.Validate = function() {
+	}
+
+	Validate() {
 		return this.ValidationEngine.Validate(this.Blocks);
-	};
-	Harness.prototype.Tick = function () {
+	}
+
+	Tick () {
 		this.Engine.Tick(this.BlockIds(), this.Blocks);
 		this.Painter.RedrawBlocks(this.Blocks, this.Views);
-	};
-	Harness.prototype.TickAndContinue = function ()	{
-		harness.Tick();
-		if (harness.IsRunning) {
-			setTimeout(harness.TickAndContinue,	harness.TickRunWait);
+	}
+
+	TickAndContinue ()	{
+		this.Tick();
+		if (this.IsRunning) {
+			setTimeout(this.TickAndContinue,	this.TickRunWait);
 		}
-	};
-	Harness.prototype.Start = function() {
+	}
+
+	Start() {
 		this.IsRunning = true;
 		this.TickAndContinue();
-	};
-	Harness.prototype.Stop = function() {
+	}
+	
+	Stop() {
 		this.IsRunning = false;
-	};
+	}
 
-	return (Harness);
-});
-
-
-
-
+}
