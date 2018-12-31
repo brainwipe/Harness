@@ -1,19 +1,14 @@
-define(
-[
-	"harness/validationexception"
-],
+import ValidationBrowser from "/scripts/harness/views/validationbrowser.js"
 
-function(ValidationException) {
+export default class {
 
-	function ValidationEngine(harness, validationbrowser) {
-		this.ValidationBrowser = validationbrowser;
+	constructor(harness) {
 		this.Harness = harness;
+		this.ValidationBrowser = new ValidationBrowser(this.Harness);
+		this.ValidationBrowser.CreateMarkup();
 	}
 
-	ValidationEngine.prototype.ValidationBrowser = null;
-	ValidationEngine.prototype.Harness = null;
-
-	ValidationEngine.prototype.Validate = function(blocks) {
+	Validate(blocks) {
 
 		this.ValidationBrowser.Clear();
 		this.Harness.Painter.SwitchOnEngineControls();
@@ -50,8 +45,5 @@ function(ValidationException) {
 		}
 
 		return false;
-	};
-
-	return(ValidationEngine);
-
-});
+	}
+}

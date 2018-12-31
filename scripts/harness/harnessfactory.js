@@ -2,6 +2,7 @@ import Harness from "./harness.js"
 import BlockRegistry from "./model/blockregistry.js"
 import HarnessPainter from "./views/harnesspainter.js"
 import BruteForceEngine from "./engines/bruteforceengine.js"
+import ValidationEngine from "./engines/validationengine.js"
 
 export default class {
 	static Build(containerElement)	{
@@ -9,16 +10,12 @@ export default class {
 		let engine = new BruteForceEngine();
 		
 		let harness = new Harness(containerElement, blockRegistry, engine);
+
+		// TODO ROLA - nasty circular references here, Harness is aggregate and should
+		// own its children
 		let harnessPainter = new HarnessPainter(harness);
+		harness.ValidationEngine = new ValidationEngine(harness);
 		
-		/*
-		These are the piece that the harness needs, turn into ES6 one by one and add
-		to harness constructor
-		
-		harness.ValidationEngine = new ValidationEngine(
-			harness,
-			validationbrowser);
-			*/
 		return harness;
 	}
 

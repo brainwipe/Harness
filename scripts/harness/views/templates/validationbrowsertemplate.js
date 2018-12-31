@@ -1,3 +1,5 @@
+let ValidationBrowserTemplate;
+export default ValidationBrowserTemplate = `
 <div class="modal fade" id="validationModal" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -16,3 +18,4 @@
     </div>
     </div>
 </div>
+`;
