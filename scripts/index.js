@@ -1,5 +1,5 @@
-import Harness from "./harness/harness.js"
+import HarnessFactory from "./harness/harnessfactory.js"
 
 let container = document.getElementById("harness");
-let harness = new Harness(container);
+let harness = HarnessFactory.Build(container);
 console.log(harness.Name);

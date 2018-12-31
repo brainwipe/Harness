@@ -1,34 +1,26 @@
-define(
-[
-	"harness/harness",
-	"harness/views/harnesspainter",
-	"harness/engines/bruteforceengine",
-	"harness/engines/validationengine",
-	"harness/model/blockregistry",
-	"harness/engines/harnessdeserializer",
-	"jsplumb"
-],
-function(Harness, HarnessPainter, BruteForceEngine, ValidationEngine, BlockRegistry, HarnessDeserializer, jsplumb) {
+import Harness from "./harness.js"
 
-	function HarnessFactory() { }
+export default class {
+	static Build(containerElement)	{
+		let harness = new Harness(containerElement);
+		/*
+		These are the piece that the harness needs, turn into ES6 one by one and add
+		to harness constructor
 
-	HarnessFactory.prototype.Build = function(containerElement)	{
-		var harness = new Harness(containerElement);
 		harness.BlockRegistry = new BlockRegistry();
 		harness.Painter = new HarnessPainter(harness, jsplumb);
 		harness.Engine = new BruteForceEngine(harness);
 		harness.ValidationEngine = new ValidationEngine(
 			harness,
 			validationbrowser);
-		return harness;
-	};
+			*/
+			return harness;
+	}
 
-	HarnessFactory.prototype.BuildFromJSON = function(harness, jsonString) {
+	static BuildFromJSON(harness, jsonString) {
 		var deserializer = new HarnessDeserializer();
 		harness = deserializer.JSONToHarness(harness, jsonString);
 
 		return harness;
-	};
-
-	return(HarnessFactory);
-});
+	}
+}
