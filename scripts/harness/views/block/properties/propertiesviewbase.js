@@ -11,7 +11,7 @@ export default class {
 	constructor(block) {
 		this.Block = block;
 		this.Id = this.Block.Id + '-properties';
-		this.CssClass = block.Name.replace(/ /g, '') + '-properties';
+		this.CssClass = block.constructor.CssClass + '-properties';
 	}
 	
 	Create() {

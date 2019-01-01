@@ -1,3 +1,5 @@
+let HelpDialog;
+export default HelpDialog = `
 <div class="col-sm-3 col-sm-offset-9" id="help-dialog" role="dialog">
 	<div class="panel panel-info" style="margin-top:80px;">
 	  <div class="panel-heading">
@@ -20,4 +22,4 @@
 	  	<div class="clearfix"></div>	
 	  </div>
 	</div>
-</div>	
+</div>`

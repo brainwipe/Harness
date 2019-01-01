@@ -7,11 +7,10 @@ export default class {
 */
 	constructor(block)	{
 		this.Block = block;
-		this.CssClass = block.Name.replace(/ /g, '');
+		this.CssClass = block.constructor.CssClass;
 		this.Element = null;
 		this.ElementContent = null;
 		this.ElementProperties = null;
-		this.CreateContentMarkup  = null;
 		this.Properties = null;
 		this.DefaultWidth = 200;
 		this.DefaultHeight = 200;

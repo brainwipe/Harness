@@ -1,12 +1,7 @@
 import Block from "/scripts/harness/model/entities/block.js"
 import ScalarSourceView from "./scalarsourceview.js"
+import SocketType from "/scripts/harness/model/entities/sockettype.js"
 
-/*define(
-[
-   "harness/model/entities/block",
-   "harness/model/entities/sockettype",
-   "harness/blocks/scalarsource/scalarsourceview"
-],*/
 export default class extends Block {
 
    constructor(idSequenceNumber) {

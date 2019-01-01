@@ -2,7 +2,7 @@
 
 export default class extends PropertiesViewBase {
 	constructor(block) {
-		PropertiesViewBase.call(this, block);
+		super(block);
 	}
 
 	CreateTabs() {

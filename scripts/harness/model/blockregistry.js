@@ -35,6 +35,7 @@ export default class {
    };
 
    CreateBlockFromJSON(harness, blockJSON) {
+      console.log(harness);
       var block = new this.BlockDefinitions[blockJSON.Type.toLowerCase()](harness.GetNextBlockId());
 
       block.Name = blockJSON.Name;

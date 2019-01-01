@@ -16,7 +16,7 @@ export default class {
 		this.HarnessElement = harness.Element;
 		this.JsPlumb = jsPlumb.getInstance();
 		this.BindControlEvents();
-		this.BindManualEvents(harness);
+		this.BindManualEvents();
 		this.BindJsPlumb();
 		this.PaintBlockBin();
 
@@ -106,13 +106,14 @@ export default class {
 		$('#harness-engine-controls').children().addClass('disabled');
 	}
 
-	BindManualEvents (harness) {
+	BindManualEvents () {
 		$('#clearModel').on('click', this.Harness, function(event) {
 			event.data.Reset();
 		});
 
-		harness.Element.droppable({drop: function(e,u) {
-			this.Harness.Painter.DroppableHandler(e,u);}
+		this.Harness.Element.droppable({drop: function(e,u) {
+			// Anti-pattern due to jquery UI restriction of data passing
+			window.harness.Painter.DroppableHandler(e,u);}
 		});
 	}
 
@@ -122,7 +123,8 @@ export default class {
 		$('.block-bin').droppable({
 			drop: function(event ,ui) {
 				var blockId = ui.draggable.attr('id');
-				this.Harness.DeleteBlock(blockId);
+				// Anti-pattern due to jquery UI restriction of data passing
+				window.harness.DeleteBlock(blockId);
 				$('.block-bin').hide('slide');
 		}});
 	}

@@ -1,19 +1,12 @@
-define(
-[
-	'harness/model/blockregistry'
-],
+import BlockRegistry from "/scripts/harness/model/blockregistry.js"
 
-function(BlockRegistry) {
-
-	function HarnessDeSerializer() {
+export default class {
+	constructor() {
 		this.BlockRegistry = new BlockRegistry();
-		this.BlockIdMap = {};
+		this.BlockIdMap = {}
 	}
 
-	HarnessDeSerializer.prototype.BlockRegistry = null;
-	HarnessDeSerializer.prototype.BlockIdMap = null;
-
-	HarnessDeSerializer.prototype.JSONToHarness = function(harness, jsonString) {
+	JSONToHarness(harness, jsonString) {
 		var jsonParsed = JSON.parse(jsonString);
 
 		harness.Name = jsonParsed.Name;
@@ -24,9 +17,9 @@ function(BlockRegistry) {
 		harness.Painter.Repaint();
 
 		return harness;
-	};
+	}
 
-	HarnessDeSerializer.prototype.BuildBlocks = function(harness, blocks) {
+	BuildBlocks(harness, blocks) {
 
 		for (var key in blocks)
 		{
@@ -35,19 +28,17 @@ function(BlockRegistry) {
 			var block = this.BlockRegistry.CreateBlockFromJSON(harness, blockJSON);
 			this.MapBlockIds(blockJSON.Id, block.Id);
 		}
-	};
+	}
 
-	HarnessDeSerializer.prototype.MapBlockIds = function(oldBlockId, newBlockId) {
+	MapBlockIds(oldBlockId, newBlockId) {
 		this.BlockIdMap[oldBlockId] = newBlockId;
-	};
+	}
 
-	HarnessDeSerializer.prototype.BuildConnectors = function(harness, connectors)
+	BuildConnectors(harness, connectors)
 	{
 		for (var i in connectors) {
 			var connector = connectors[i];
 			harness.Painter.ConnectSockets(connector.from, connector.to);
 		}
-	};
-
-	return (HarnessDeSerializer);
-});
+	}
+}

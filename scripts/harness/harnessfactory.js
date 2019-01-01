@@ -3,6 +3,7 @@ import BlockRegistry from "./model/blockregistry.js"
 import HarnessPainter from "./views/harnesspainter.js"
 import BruteForceEngine from "./engines/bruteforceengine.js"
 import ValidationEngine from "./engines/validationengine.js"
+import HarnessDeserializer from "./engines/harnessdeserializer.js"
 
 export default class {
 	static Build(containerElement)	{

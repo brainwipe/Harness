@@ -15,8 +15,8 @@ export default function(data) {
 						 </li>`.trim()).join('')
 					}
 						 
-					${(inputsCount > 0) ? `<li><a href="#${data.id}-inputs" data-toggle="tab">Inputs</a></li>` : ``}
-					${(outputsCount > 0) ? `<li><a href="#${data.id}-outputs" data-toggle="tab">Outputs</a></li>` : ``}
+					${(data.inputsCount > 0) ? `<li><a href="#${data.id}-inputs" data-toggle="tab">Inputs</a></li>` : ``}
+					${(data.outputsCount > 0) ? `<li><a href="#${data.id}-outputs" data-toggle="tab">Outputs</a></li>` : ``}
 				</ul>
 
 				<div class="tab-content" style="padding-top:15px;">
@@ -25,8 +25,8 @@ export default function(data) {
 						`.trim()).join('')
 					}
 0
-					${inputsCount > 0 ? `<div class="tab-pane" id="${data.id}-inputs"></div>` : ``}
-					${outputsCount > 0 ? `<div class="tab-pane" id="${data.id}-outputs"></div>` : ``}
+					${data.inputsCount > 0 ? `<div class="tab-pane" id="${data.id}-inputs"></div>` : ``}
+					${data.outputsCount > 0 ? `<div class="tab-pane" id="${data.id}-outputs"></div>` : ``}
 				</div>
 			</div>
 			<div class="modal-footer">

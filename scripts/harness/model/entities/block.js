@@ -13,8 +13,8 @@ export default class {
         this.SocketFactory = new SocketFactory();
 
         this.Id = name.replace(/ /g, '') + sequenceIdNumber;
-        this.Inputs = {}
-        this.Outputs = {}
+        this.Inputs = []
+        this.Outputs = []
         this.Data = {}
         this.Completed = false;
         this.InputsCount = 0;

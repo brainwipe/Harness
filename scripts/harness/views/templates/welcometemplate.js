@@ -1,3 +1,5 @@
+let WelcomeTemplate;
+export default WelcomeTemplate = `
 <div class="jumbotron" id="welcome">
 	<div class="container">
 	  <h1>Welcome</h1>
@@ -6,4 +8,4 @@
 	  <br/>
 	  <button id="clickhere" type="button" class="btn btn-primary btn-large">Give it a go!</button>
 	</div>
-</div>
+</div>`

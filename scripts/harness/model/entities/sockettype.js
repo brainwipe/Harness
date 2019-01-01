@@ -5,14 +5,14 @@ export default class {
    }
 
    static BuildAny() {
-      return new SocketType("Harness.Socket.Type.Any","Will allow any type of connection.");
+      return new this("Harness.Socket.Type.Any","Will allow any type of connection.");
    }
 
    static BuildScalar() {
-      return new SocketType("Harness.Socket.Type.Scalar","A single value");
+      return new this("Harness.Socket.Type.Scalar","A single value");
    }
 
    static BuildVector() {
-      return new SocketType("Harness.Socket.Type.Vector","A 1 dimensional array of values");
+      return new this("Harness.Socket.Type.Vector","A 1 dimensional array of values");
    }
 }
