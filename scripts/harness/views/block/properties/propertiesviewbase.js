@@ -1,24 +1,20 @@
-﻿define(
-[
-	"harness/views/templaterender",
-	"text!harness/views/templates/block/properties/propertiesviewbase.html",
-	"text!harness/views/templates/block/properties/propertiesinputstemplate.html",
-	"text!harness/views/templates/block/properties/propertiesoutputstemplate.html",
+﻿import PropertiesViewBaseTemplate from "/scripts/harness/views/templates/block/properties/propertiesviewbasetemplate.js"
+import PropertiesInputsTemplate from "/scripts/harness/views/templates/block/properties/propertiesinputstemplate.js"
+import PropertiesOutputsTemplate from "/scripts/harness/views/templates/block/properties/propertiesoutputstemplate.js"
+
+/*
+// TODO ROLA - is this still used?
 	"stringlib"
-],
+*/
+export default class {
 
-function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, PropertiesOutputsTemplate) {
-
-	function PropertiesViewBase(block) {
+	constructor(block) {
 		this.Block = block;
 		this.Id = this.Block.Id + '-properties';
 		this.CssClass = block.Name.replace(/ /g, '') + '-properties';
 	}
-	PropertiesViewBase.prototype.Block = null;
-	PropertiesViewBase.prototype.Id = null;
-	PropertiesViewBase.prototype.CssClass = "";
-
-	PropertiesViewBase.prototype.Create = function() {
+	
+	Create() {
 		var tabs = this.CreateTabs();
 
 		var data = {
@@ -30,75 +26,66 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 			"tabs": tabs
 		};
 
-		harness.Element.append(
-			new TemplateRender().Render(PropertiesViewBaseTemplate, data)
-			);
-
+		harness.Element.append(PropertiesViewBaseTemplate(data));
+			
 		$("#" + this.Id + "-inputs").append(this.BuildInputs());
 		$("#" + this.Id + "-outputs").append(this.BuildOutputs());
 
 		this.BindEvents();
 		this.BindMakeDataSocketEvents();
 		return $("#" + this.Id);
-	};
+	}
 
-	PropertiesViewBase.prototype.BuildInputs = function() {
-
-		var data = {
+	BuildInputs() {
+		return PropertiesInputsTemplate({
 			"id" : this.Id,
 			"Inputs": this.Block.Inputs
-		};
+		});
+	}
 
-		return new TemplateRender().Render(PropertiesInputsTemplate, data);
-	};
-
-	PropertiesViewBase.prototype.BuildOutputs = function() {
-
-		var data = {
+	BuildOutputs() {
+		return PropertiesOutputsTemplate({
 			"id" : this.Id,
 			"Outputs": this.Block.Outputs
-		};
+		});
+	}
 
-		return new TemplateRender().Render(PropertiesOutputsTemplate, data);
-	};
-
-	PropertiesViewBase.prototype.ReBuildInputs = function()
+	ReBuildInputs()
 	{
-		var inputsContent = $("#" + this.Id + "-inputs");
+		var inputsContent = $(`#${this.Id}-inputs`);
 		inputsContent.html("");
 		inputsContent.append(this.BuildInputs());
 		this.BindEvents();
-	};
+	}
 
-	PropertiesViewBase.prototype.ReBuildOutputs = function()
+	ReBuildOutputs()
 	{
-		var outputsContent = $("#" + this.Id + "-outputs");
+		var outputsContent = $(`#${this.Id}-outputs`);
 		outputsContent.html("");
 		outputsContent.append(this.BuildOutputs());
 		this.BindEvents();
-	};
+	}
 
-	PropertiesViewBase.prototype.BindMakeDataSocketEvents = function() {
+	BindMakeDataSocketEvents() {
 
-		$("#" + this.Id + " .make-input-socket").click(function () {
-			
+		$(`#${this.Id} .make-input-socket`).click(function () {
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var view = harness.GetBlockViewFromAnyId(propertiesControlId);
 
 			view.Properties.ToggleDataSocket(true, $(this), propertiesControlId);
       	});
 
-	  	$("#" + this.Id + " .make-output-socket").click(function () {
+	  	$(`#${this.Id} .make-output-socket`).click(function () {
 			var propertiesControlId = $(this).attr("data-properties-id");
 			var view = harness.GetBlockViewFromAnyId(propertiesControlId);
 
 			view.Properties.ToggleDataSocket(false, $(this), propertiesControlId);
       	});
-	};
+	}
 
-	PropertiesViewBase.prototype.ToggleDataSocket = function(isInput, makeDataSocketControl, propertiesControlId) {
+	ToggleDataSocket(isInput, makeDataSocketControl, propertiesControlId) {
 
-		var inputBoxId = "#" + propertiesControlId + "-" + configurationPropertyId + "-value";
+		var inputBoxId = `#${propertiesControlId}-${configurationPropertyId}-value`;
 		var configurationPropertyId = makeDataSocketControl.attr("data-property-id");
 
 		var removedSocketQualifiedId = this.Block.DeleteDataSocketByPropertyId(configurationPropertyId);
@@ -128,30 +115,27 @@ function(TemplateRender, PropertiesViewBaseTemplate, PropertiesInputsTemplate, P
 		}
 			
 		this.ReBuildInputs();
-	};
+	}
 
-	PropertiesViewBase.prototype.BindEvents = function() {};
-	PropertiesViewBase.prototype.CreateTabs = function() {};
+	BindEvents() {};
+	CreateTabs() {};
 
-	PropertiesViewBase.prototype.Update = function() {
+	Update() {
 		// When deriving your own properties view, you MUST call update inputs or outputs
 		this.UpdateInputsAndOutputs();
-	};
+	}
 
-	PropertiesViewBase.prototype.UpdateInputsAndOutputs = function() {
+	UpdateInputsAndOutputs() {
 		for(var input in this.Block.Inputs) {
-			$('#' + this.Id + '-inputs-' + this.Block.Inputs[input].Id).val(
+			$(`#${this.Id}-inputs-${this.Block.Inputs[input].Id}`).val(
 				this.Block.Inputs[input].Data
 			);
 		}
 
 		for(var output in this.Block.Outputs) {
-			$('#' + this.Id + '-outputs-' + this.Block.Outputs[output].Id).val(
+			$(`#${this.Id}-outputs-${this.Block.Outputs[output].Id}`).val(
 				this.Block.Outputs[output].Data
 			);
 		}
-	};
-
-
-	return (PropertiesViewBase);
-});
+	}
+}

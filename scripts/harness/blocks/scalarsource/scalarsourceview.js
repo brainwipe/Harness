@@ -1,27 +1,20 @@
-define(
-[
-	'harness/views/block/blockviewbase',
-	'harness/blocks/scalarsource/scalarsourcepropertiesview'
-],
+import ScalarSourcePropertiesView from "./scalarsourcepropertiesview.js"
+import BlockViewBase from "/scripts/harness/views/block/blockviewbase.js"
 
-function(BlockViewBase, ScalarSourcePropertiesView) {
+export default class extends BlockViewBase {
 
-	function ScalarSourceView(block)	{
-		BlockViewBase.call(this, block);
+	constructor(block) {
+		super(block);
 		this.Properties = new ScalarSourcePropertiesView(block);
 	}
 
-	ScalarSourceView.prototype = Object.create( BlockViewBase.prototype );
-   ScalarSourceView.prototype.constructor = ScalarSourceView;
-
-	ScalarSourceView.prototype.CreateContentMarkup = function ()
-	{
+	CreateContentMarkup() {
 		return '<div class="block-content">' +
 					this.Block.Data +
 					'</div>';
 	};
 
-	ScalarSourceView.prototype.Draw = function() {
+	Draw() {
 		var elementContent = $("#" + this.Block.Id + "  .block-content");
 		elementContent.html(this.Block.Data);
 		var width = elementContent.width(),
@@ -38,6 +31,4 @@ function(BlockViewBase, ScalarSourcePropertiesView) {
 
 		elementContent.text( $(line).text() );
 	};
-
-	return (ScalarSourceView);
-});
+}

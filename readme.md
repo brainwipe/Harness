@@ -4,13 +4,15 @@ Harness
 =======
 Harness is a browser based toolbox playground for neural networks, currently in development. The user drags and drops computational blocks onto a workspace and then connects them together to move data between blocks. The simulation can be run to see data moving around the model.
 
+Hosting locally
+------------------
+You need to host the files on a local webserver, be it apache/IIS. Or if you're staying light, install [Node http server](https://www.npmjs.com/package/http-server), run the webserver in Powershell as given below.
+
 How to get Harness running
 ------------------
 
 - Download the source
-- Open Powershell, navigate to the repository root
-- `.\Start-Webserver.ps1`
-- If warned about script execution, use `[R]` to run once.
+- Run webserver using node `http-server`
 - Surf to localhost:8080/index.html
 
 If you have your own webserver then you can just point a virtual host or virtual directory at the repo root; it's only html and js.
@@ -30,7 +32,6 @@ The harness is a work in progress but it is possible to do some experimentation 
 Plastic Self Organising Map Neural Network
 
 ### Sinks
-
 - Scalar Sink
 
 ### Other features

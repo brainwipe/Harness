@@ -1,35 +1,28 @@
-define(
-[
-	"harness/model/entities/block",
-	"harness/model/entities/socket",
-	"harness/views/templaterender",
-	"text!harness/views/templates/block/blockviewbase.html",
+import BlockViewBaseTemplate from "/scripts/harness/views/templates/block/blockviewbasetemplate.js"
+
+export default class {
+/*
+// TODO ROLA still needed?
 	"stringlib"
-],
-
-function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
-
-	function BlockViewBase(block)	{
+*/
+	constructor(block)	{
 		this.Block = block;
 		this.CssClass = block.Name.replace(/ /g, '');
+		this.Element = null;
+		this.ElementContent = null;
+		this.ElementProperties = null;
+		this.CreateContentMarkup  = null;
+		this.Properties = null;
+		this.DefaultWidth = 200;
+		this.DefaultHeight = 200;
+		this.BlocksRelativePath = "./scripts/harness/blocks/";
+
 	}
-	BlockViewBase.prototype.Block = null;
-	BlockViewBase.prototype.Element = null;
-	BlockViewBase.prototype.ElementContent = null;
-	BlockViewBase.prototype.ElementProperties = null;
-	BlockViewBase.prototype.CssClass = null;
-	BlockViewBase.prototype.CreateContentMarkup  = null;
-	BlockViewBase.prototype.Properties = null;
-	BlockViewBase.prototype.DefaultWidth = 200;
-	BlockViewBase.prototype.DefaultHeight = 200;
-	BlockViewBase.prototype.BlocksRelativePath = "./scripts/harness/blocks/";
-
-	BlockViewBase.prototype.CreateMarkup = function(element)
-	{
+	CreateMarkup(element) {
 		this.CreateGenericMarkup(element);
-	};
+	}
 
-	BlockViewBase.prototype.CreateGenericMarkup = function (containerElement) {
+	CreateGenericMarkup (containerElement) {
 		var data = {
 			"blockName": this.Block.Name,
 			"blockClass": this.CssClass,
@@ -38,7 +31,7 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 			"defaultHeight": this.DefaultHeight,
 			"contentMarkup": this.CreateContentMarkup(this.Block)
 		};
-		containerElement.append(new TemplateRender().Render(BlockViewBaseTemplate, data));
+		containerElement.append(BlockViewBaseTemplate(data));
 
 		this.Element = $("#" + this.Block.Id);
 
@@ -80,20 +73,20 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 		});
 
 		this.ElementProperties = this.Properties.Create();
-	};
+	}
 
-	BlockViewBase.prototype.LoadCSS = function()
+	LoadCSS()
 	{
 		var blockFunctionName = this.Block.constructor.name.toLowerCase();
 
 		$("<link/>", {
    			rel: "stylesheet",
    			type: "text/css",
-   			href: this.BlocksRelativePath + "" + blockFunctionName + "/style.css"
+   			href: `${this.BlocksRelativePath}${blockFunctionName}/style.css`
 			}).appendTo("head");
-	};
+	}
 
-	BlockViewBase.prototype.CreateInputs = function()
+	CreateInputs()
 	{
 		for(var i in this.Block.Inputs)	{
 			harness.Painter.CreateInputSocket(
@@ -101,9 +94,9 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 				this.Block.Inputs[i].QualifiedId(),
 				this.Block.Inputs[i].Name);
 		};
-	};
+	}
 
-	BlockViewBase.prototype.CreateOutputs = function()
+	CreateOutputs()
 	{
 		for(var i in this.Block.Outputs) {
 			harness.Painter.CreateOutputSocket(
@@ -111,18 +104,16 @@ function(Block, Socket, TemplateRender, BlockViewBaseTemplate) {
 				this.Block.Outputs[i].QualifiedId(),
 				this.Block.Outputs[i].Name);
 		};
-	};
+	}
 
-	BlockViewBase.prototype.UpdateProperties = function()
+	UpdateProperties()
 	{
 		this.Properties.Update();
-	};
+	}
 
-	BlockViewBase.prototype.Remove = function()
+	Remove()
 	{
 		this.Element.remove();
-		$("#" + this.Properties.Id).remove();
-	};
-
-	return (BlockViewBase);
-});
+		$(`#${this.Properties.Id}`).remove();
+	}
+}

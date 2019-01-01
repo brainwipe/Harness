@@ -9,7 +9,6 @@ export default class {
 	}
 	
 	GetBlocks()	{
-		console.log(this.Harness.BlockRegistry);
 		for (var i in this.Harness.BlockRegistry.BlockDefinitions)
 		{
 			var factory = this.Harness.BlockRegistry.BlockDefinitions[i];
@@ -41,8 +40,7 @@ export default class {
 	}
 
 	GetIconPath(block) {
-		var blockFunctionName = block.name.toLowerCase();
-
+		var blockFunctionName = block.Name.toLowerCase();
 		return this.BlocksRelativePath + blockFunctionName + "/icon.svg#" + blockFunctionName + "-icon";
 	}
 

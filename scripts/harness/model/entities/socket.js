@@ -1,11 +1,7 @@
-define(
-[
-	"harness/model/entities/connector"
-],
+import Connector from "./connector.js"
 
-function(Connector) {
-
-	function Socket(blockId, name, type, isInput, canBeDeleted, isMultiple, isRequired, isDataSocket)
+export default class {
+	constructor(blockId, name, type, isInput, canBeDeleted, isMultiple, isRequired, isDataSocket)
 	{
 		this.Id = name.replace(/ /g, '');
 		this.Name = name;
@@ -17,29 +13,19 @@ function(Connector) {
 		this.IsInputSocket = isInput;
 		this.IsRequired = isRequired;
 		this.IsDataSocket = isDataSocket;
+		this.IsReady = false;
+		this.DataSocketPropertyId = null;
+		this.Data = null;
 	}
 
-	Socket.prototype.Id = null;
-	Socket.prototype.BlockId = null;
-	Socket.prototype.QualifiedId = function() {
+	QualifiedId() {
 		if (this.IsInputSocket)	{
 			return this.BlockId + '-socket-input-' + this.Id;
 		}
 		return this.BlockId + '-socket-output-' + this.Id;
-	};
-	Socket.prototype.Name = null;
-	Socket.prototype.Connectors = null;
-	Socket.prototype.Data = null;
-	Socket.prototype.IsInputSocket = false;
-	Socket.prototype.IsMultiple = false;
-	Socket.prototype.IsRequired = false;
-	Socket.prototype.IsReady = false;
-	Socket.prototype.CanBeDeleted = false;
-	Socket.prototype.IsDataSocket = false;
-	Socket.prototype.DataSocketPropertyId = null;
-	Socket.prototype.Type = {};
+	}
 
-	Socket.prototype.ToJSON = function() {
+	ToJSON() {
 		var jsonItems = 
 		{
 			Id : this.Id,
@@ -52,12 +38,12 @@ function(Connector) {
 			IsRequired : this.IsRequired,
 			IsDataSocket : this.IsDataSocket,
 			DataSocketPropertyId : this.DataSocketPropertyId
-		};
+		}
 
 		return JSON.stringify(jsonItems);
-	};
+	}
 
-	Socket.prototype.Connect = function(inputSocket) {
+	Connect(inputSocket) {
 		if (inputSocket.Type.Key !== this.Type.Key && this.Type.Key !== "Harness.Socket.Type.Any")
 		{
 			throw 'You are trying to connect a socket of type {0} to a socket of type {1}. Socket types must be compatible.'.format(inputSocket.Type.Key, this.Type.Key);
@@ -76,9 +62,9 @@ function(Connector) {
 		this.Connectors.push(connector);
 		inputSocket.Connectors.push(connector);
 		return connector;
-	};
+	}
 
-	Socket.prototype.Disconnect = function(otherSocketId) {
+	Disconnect(otherSocketId) {
 		var connectorIndex = -1;
 
 		for (var i in this.Connectors)
@@ -94,13 +80,13 @@ function(Connector) {
 		}
 		this.Connectors.splice(connectorIndex,1);
 		return true;
-	};
+	}
 
-	Socket.prototype.HasConnectors = function() {
+	HasConnectors() {
 		return this.Connectors.length > 0;
-	};
+	}
 
-	Socket.prototype.DeleteConnections = function() {
+	DeleteConnections() {
 		for(var i in this.Connectors)
 		{
 			var connector = this.Connectors[i];
@@ -113,7 +99,5 @@ function(Connector) {
 			}
 		}
 		this.Connectors = [];
-	};
-
-	return (Socket);
-});
+	}
+}

@@ -1,3 +1,5 @@
+import ScalarSource from "/scripts/harness/blocks/scalarsource/scalarsource.js"
+
 export default class {
    constructor()
    {
@@ -6,7 +8,7 @@ export default class {
          // ArraySource,
          // IncrementalSource,
          // PSOMFunc,
-         // ScalarSource,
+         ScalarSource,
          // ScalarSink,
          // LineGraphSink,
       }

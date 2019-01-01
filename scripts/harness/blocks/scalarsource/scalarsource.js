@@ -1,55 +1,62 @@
-define(
+import Block from "/scripts/harness/model/entities/block.js"
+import ScalarSourceView from "./scalarsourceview.js"
+
+/*define(
 [
    "harness/model/entities/block",
    "harness/model/entities/sockettype",
    "harness/blocks/scalarsource/scalarsourceview"
-],
+],*/
+export default class extends Block {
 
-function(Block, SocketType, ScalarSourceView) {
-
-   function ScalarSource(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, ScalarSource.FriendlyName);
+   constructor(idSequenceNumber) {
+      super(idSequenceNumber);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(
             this,
             "Value",
-            new SocketType().BuildScalar()
+            SocketType.BuildScalar()
             ));
 
       this.Data = 10;
    }
+   static get Name() {
+      return 'scalarsource';
+   }
 
-   ScalarSource.prototype = Object.create( Block.prototype );
-   ScalarSource.prototype.constructor = ScalarSource;
-
-   ScalarSource.FriendlyName = 'Scalar Source';
-   ScalarSource.CssClass = 'blockscalarsource';
-   ScalarSource.Type = 'Source';
-   ScalarSource.prototype.Description = 'This source provides a single real number, such as 123.4. This useful for biases, offsets, providing paramters for functions or simple mathematics.';
-
-   ScalarSource.prototype.Execute = function() {
+   static get Type() {
+      return 'Source'; 
+   }
+   
+   static get FriendlyName() {
+      return 'Scalar Source';
+   }
+   
+   static get CssClass() {
+      return 'blockscalarsource';
+   }
+    
+   static get Description() {
+      return 'This source provides a single real number, such as 123.4. This useful for biases, offsets, providing paramters for functions or simple mathematics.';
+   }
+     
+   Execute() {
       this.Outputs.Value.Data = this.Data;
       this.Completed = true;
-   };
+   }
 
-   ScalarSource.prototype.Reset = function() {
+   Reset() {
       this.Outputs.Value.Data = this.Data;
       this.Completed = false;
-   };
+   }
 
-   ScalarSource.prototype.Validate = function() {
+   Validate() {
       return true;
-   };
+   }
 
-   ScalarSource.prototype.DataToJSON = function() {
-      return '"' + this.Data + '"';
-   };
-
-   ScalarSource.prototype.CreateView = function()
+   CreateView()
    {
       return new ScalarSourceView(this);
-   };
-
-   return (ScalarSource);
-});
+   }
+}
