@@ -1,3 +1,5 @@
+let BlockBrowserTemplate;
+export default BlockBrowserTemplate = `
 <div class="modal fade noselect" id="blocksModal" role="dialog">
    <div class="modal-dialog">
       <div class="modal-content">
@@ -23,4 +25,4 @@
          </div>
       </div>
    </div>
-</div>
+</div>`

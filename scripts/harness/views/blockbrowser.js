@@ -1,21 +1,15 @@
-define(
-[
-	'harness/harness',
-	'harness/model/blockregistry',
-	'harness/views/templaterender',
-	'text!harness/views/templates/blockbrowser.html',
-	'text!harness/views/templates/blockbrowseritem.html'
-],
+import TemplateRender from "./templaterender.js"
+import BlockBrowserTemplate from "./templates/blockbrowsertemplate.js"
+import BlockBrowserItemTemplate from "./templates/blockbrowseritemtemplate.js"
 
-function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrowserItemTemplate) {
-
-	function BlockBrowser(harness) {
+export default class {
+	constructor(harness) {
 		this.Harness = harness;
+		this.BlocksRelativePath = "./scripts/harness/blocks/";
 	}
-	BlockBrowser.prototype.Harness = null;
-	BlockBrowser.prototype.BlocksRelativePath = "./scripts/harness/blocks/";
-	BlockBrowser.prototype.GetBlocks = function()
-	{
+	
+	GetBlocks()	{
+		console.log(this.Harness.BlockRegistry);
 		for (var i in this.Harness.BlockRegistry.BlockDefinitions)
 		{
 			var factory = this.Harness.BlockRegistry.BlockDefinitions[i];
@@ -44,35 +38,27 @@ function(Harness, BlockRegistry, TemplateRender, BlockBrowserTemplate, BlockBrow
 								containment: 'document',
 								zIndex: 1500
 							});
-	};
+	}
 
-	BlockBrowser.prototype.GetIconPath = function(block)
-	{
+	GetIconPath(block) {
 		var blockFunctionName = block.name.toLowerCase();
 
 		return this.BlocksRelativePath + blockFunctionName + "/icon.svg#" + blockFunctionName + "-icon";
 	}
 
-	BlockBrowser.prototype.BlockListItem = function(id, blockBuilder)
-	{
+	BlockListItem(id, blockBuilder)	{
 		var iconPath = this.GetIconPath(blockBuilder);
 
-		var data = {
-			"CssClass": blockBuilder.CssClass,
-			"FriendlyName": blockBuilder.FriendlyName,
-			"BlockType": blockBuilder.Type,
-			"BlockId" : id,
-			"IconPath" : iconPath
-		};
+		return BlockBrowserItemTemplate(
+			blockBuilder.CssClass, 
+			blockBuilder.Type, 
+			iconPath, 
+			blockBuilder.FriendlyName,
+			id);
+	}
 
-		return new TemplateRender().Render(BlockBrowserItemTemplate, data);
-	};
-
-	BlockBrowser.prototype.CreateMarkup = function() {
+	CreateMarkup() {
 		$("body").append(
 			new TemplateRender().Render(BlockBrowserTemplate, {}));
-	};
-
-	return (BlockBrowser);
-
-});
+	}
+}

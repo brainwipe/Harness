@@ -8,7 +8,6 @@ export default class {
 	static Build(containerElement)	{
 		let blockRegistry = new BlockRegistry();
 		let engine = new BruteForceEngine();
-		
 		let harness = new Harness(containerElement, blockRegistry, engine);
 
 		// TODO ROLA - nasty circular references here, Harness is aggregate and should
