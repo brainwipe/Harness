@@ -1,6 +1,6 @@
 export default function(data) {
 	return `
-<div class="modal fade ${data.propertiesCssClass}" id="${data.id}}">
+<div class="modal fade ${data.propertiesCssClass}" id="${data.id}">
    	<div class="modal-dialog">
       	<div class="modal-content">
 			<div class="modal-header">
@@ -24,7 +24,6 @@ export default function(data) {
 						<div class="tab-pane" id="${tab.Id}">${tab.Content}</div>
 						`.trim()).join('')
 					}
-0
 					${data.inputsCount > 0 ? `<div class="tab-pane" id="${data.id}-inputs"></div>` : ``}
 					${data.outputsCount > 0 ? `<div class="tab-pane" id="${data.id}-outputs"></div>` : ``}
 				</div>

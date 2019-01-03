@@ -76,7 +76,7 @@ export default class {
 
 	LoadCSS()
 	{
-		var blockFunctionName = this.Block.constructor.name.toLowerCase();
+		var blockFunctionName = this.Block.constructor.Name.toLowerCase();
 
 		$("<link/>", {
    			rel: "stylesheet",

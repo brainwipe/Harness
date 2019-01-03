@@ -19,7 +19,7 @@ export default class {
 
 		var data = {
 			"id": this.Id,
-			"blockName": this.Block.Name,
+			"blockName": this.Block.constructor.FriendlyName,
 			"propertiesCssClass": this.CssClass,
 			"inputsCount": this.Block.InputsCount,
 			"outputsCount": this.Block.OutputsCount,

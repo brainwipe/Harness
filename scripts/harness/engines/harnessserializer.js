@@ -42,7 +42,7 @@ function() {
 		return '{' +
 				'"Id" : "' + block.Id + '",' +
 				'"Name" : "' + block.Name + '",' +
-				'"Type" : "' + block.constructor.name + '",' +
+				'"Type" : "' + block.constructor.Type + '",' +
 				'"Data" : ' + block.DataToJSON() + ',' +
 				'"View" : ' + this.ViewToJSON(view) + ',' +
 				'"Sockets" : ' + this.SocketsToJSON(block) +
