@@ -9,9 +9,7 @@ export default class extends BlockViewBase {
 	}
 
 	CreateContentMarkup() {
-		return '<div class="block-content">' +
-					this.Block.Data +
-					'</div>';
+		return `<div class="block-content">${this.Block.Data}</div>`;
 	};
 
 	Draw() {

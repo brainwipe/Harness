@@ -1,55 +1,60 @@
-define(
-[
-   "harness/model/entities/block",
-   "harness/model/entities/sockettype",
-   "harness/blocks/scalarsink/scalarsinkview"
-],
+import Block from "/scripts/harness/model/entities/block.js"
+import ScalarSinkView from "./scalarsinkview.js"
+import SocketType from "/scripts/harness/model/entities/sockettype.js"
 
-function(Block, SocketType, ScalarSinkView) {
-
-   function ScalarSink(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, ScalarSink.FriendlyName);
+export default class extends Block {
+   constructor(idSequenceNumber) {
+      super(idSequenceNumber);
 
       this.AddInput(
          this.SocketFactory.InputSingleFixedRequired(
             this,
             "Value",
-            new SocketType().BuildScalar()));
+            SocketType.BuildScalar()));
 
       this.Data = 'Empty';
    }
 
-   ScalarSink.prototype = Object.create( Block.prototype );
-   ScalarSink.prototype.constructor = ScalarSink;
+   static get Name() {
+      return 'scalarsink';
+   }
 
-   ScalarSink.FriendlyName = 'Scalar Sink';
-   ScalarSink.CssClass = 'blockscalarsink';
-   ScalarSink.Type = 'Sink';
-   ScalarSink.prototype.Description = 'This sink acts as a way of viewing a single number. It does not keep history, as the simulation runs, the single number will be overwritten.';
+   static get Type() {
+      return 'Sink'; 
+   }
+   
+   static get FriendlyName() {
+      return 'Scalar Sink';
+   }
+   
+   static get CssClass() {
+      return 'blockscalarsink';
+   }
+    
+   static get Description() {
+      return 'This sink acts as a way of viewing a single number. It does not keep history, as the simulation runs, the single number will be overwritten.';
+   }
 
-   ScalarSink.prototype.Execute = function() {
+   Execute() {
       this.Data = this.Inputs.Value.Data;
       this.Completed = true;
-   };
+   }
 
-   ScalarSink.prototype.Reset = function() {
+   Reset() {
       this.Inputs.Value.Data = null;
       this.Completed = false;
-   };
+   }
 
-   ScalarSink.prototype.Validate = function() {
+   Validate() {
       return this.ValidateRequiredInputs();
-   };
+   }
 
-   ScalarSink.prototype.DataToJSON = function() {
-      return '"' + this.Data + '"';
-   };
+   DataToJSON() {
+      return `"${this.Data}"`;
+   }
 
-   ScalarSink.prototype.CreateView = function()
+   CreateView()
    {
       return new ScalarSinkView(this);
-   };
-
-   return (ScalarSink);
-
-});
+   }
+}

@@ -1,27 +1,18 @@
-define(
-[
-	'harness/views/block/blockviewbase',
-	'harness/blocks/scalarsink/scalarsinkpropertiesview'
-],
+import ScalarSinkPropertiesView from "./scalarsinkpropertiesview.js"
+import BlockViewBase from "/scripts/harness/views/block/blockviewbase.js"
 
-function(BlockViewBase, ScalarSinkPropertiesView) {
+export default class extends BlockViewBase {
 
-	function ScalarSinkView(block)	{
-		BlockViewBase.call(this, block);
+	constructor(block) {
+		super(block);
 		this.Properties = new ScalarSinkPropertiesView(block);
 	}
 
-	ScalarSinkView.prototype = Object.create( BlockViewBase.prototype );
-   ScalarSinkView.prototype.constructor = ScalarSinkView;
-
-	ScalarSinkView.prototype.CreateContentMarkup = function ()
-	{
-		return '<div class="block-content">' +
-					this.Block.Data +
-					'</div>';
+	CreateContentMarkup() {
+		return `<div class="block-content">${this.Block.Data}</div>`;
 	};
 
-	ScalarSinkView.prototype.Draw = function() {
+	Draw() {
 		var elementContent = $("#" + this.Block.Id + "  .block-content");
 		elementContent.html(this.Block.Data);
 		var width = elementContent.width(),
@@ -38,6 +29,4 @@ function(BlockViewBase, ScalarSinkPropertiesView) {
 
 		elementContent.text( $(line).text() );
 	};
-
-	return (ScalarSinkView);
-});
+}

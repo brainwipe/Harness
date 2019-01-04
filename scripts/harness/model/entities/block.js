@@ -1,10 +1,3 @@
-/*define(
-    [
-        "jquery",
-        "harness/validationexception",
-        "harness/model/socketfactory"
-    ],
-*/
 import ValidationException from "/scripts/harness/validationexception.js"
 import SocketFactory from "/scripts/harness/model/socketfactory.js"
 
@@ -59,14 +52,9 @@ export default class {
 
             if (input.IsRequired === true &&
                 input.HasConnectors() === false) {
-                throw new ValidationException("Block " + this.Id + " requires an input",
-                    "The block called '" +
-                    this.Id +
-                    "' of type '" +
-                    this.Name +
-                    "' has an input called '" +
-                    input.Name +
-                    "', which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether.");
+                throw new ValidationException(`Block ${this.Id} requires an input`,
+                    `The block called '${this.Id}' of type '${this.Name}' has an input called '${input.Name}',
+                    which is a required input. This means it needs an input connector. Connect this input to an output of another block or remove this block altogether`);
             }
         }
         return true;

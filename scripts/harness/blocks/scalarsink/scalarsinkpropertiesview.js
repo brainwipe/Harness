@@ -1,16 +1,13 @@
-﻿define(
-[
-	'harness/views/block/properties/propertiesviewbase'
-],
+﻿import PropertiesViewBase from "/scripts/harness/views/block/properties/propertiesviewbase.js"
 
-function(PropertiesViewBase) {
-
-	function ScalarSinkPropertiesView(block) {
-		PropertiesViewBase.call(this, block);
+export default class extends PropertiesViewBase {
+	constructor(block) {
+		super(block);
 	}
 
-	ScalarSinkPropertiesView.prototype = Object.create( PropertiesViewBase.prototype );
-   ScalarSinkPropertiesView.prototype.constructor = ScalarSinkPropertiesView;
+	CreateTabs() {
+		return [];
+	}
 
-	return (ScalarSinkPropertiesView);
-});
+	BindEvents() {}
+}

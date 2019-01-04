@@ -31,18 +31,9 @@ export default class {
 	}
 
 	AddMessage(ex) {
-		var template = '<div class="message">' +
-							'<h3>{0}</h3>' +
-							'{1}' +
-                     '</div>';
-		this.MessagesElement.append(
-			template.format(
-					ex.Name,
-					ex.Message
-				));
-
+		this.MessagesElement.append(`<div class="message"><h3>${ex.Name}</h3>${ex.Message}</div>`);
 		this.MessageCount++;
-		this.MenuItemElement.html('Validation ({0})'.format(this.MessageCount));
+		this.MenuItemElement.html(`Validation (${this.MessageCount})`);
 		this.MenuItemElement.addClass('navbar-warning');
 	}
 
