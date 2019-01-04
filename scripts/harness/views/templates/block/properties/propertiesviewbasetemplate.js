@@ -21,7 +21,7 @@ export default function(data) {
 
 				<div class="tab-content" style="padding-top:15px;">
 					${data.tabs.map((tab, i) => `
-						<div class="tab-pane" id="${tab.Id}">${tab.Content}</div>
+						<div class="tab-pane ${i === 0 ? `active` : ''}" id="${tab.Id}">${tab.Content}</div>
 						`.trim()).join('')
 					}
 					${data.inputsCount > 0 ? `<div class="tab-pane" id="${data.id}-inputs"></div>` : ``}
