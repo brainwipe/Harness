@@ -54,9 +54,11 @@ export default class {
 		harness.Painter.MakeBlockDraggable(this.Block.Id);
 
 		$('#harness .block_resizable').resizable({
+				handles: "se",
 				resize: function ( event, ui )
 				{
 					harness.Painter.Repaint();
+					event.stopImmediatePropagation();
 				},
 				stop: function(event, ui) {
 					var block = harness.GetBlockFromAnyId(ui.originalElement.parent().attr('id'));

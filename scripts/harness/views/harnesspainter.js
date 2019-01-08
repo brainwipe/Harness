@@ -29,7 +29,7 @@ export default class {
 		this.InputSocketSettings = {
 			endpoint:"Dot",
 			anchor: [ 0, 0.5, -1, 0, 0, 0],
-			paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
+			paintStyle:{ width:32, height:23, stroke:'#aaa', fill:'#fff', strokeWidth:4 },
 			isSource:false,
 			isTarget:true
 		}
@@ -39,9 +39,9 @@ export default class {
 			maxConnections:-1, 
 			setDragAllowedWhenFull:true,
 			anchor:[ 1, 0.5, 1, 0, 0, 0],
-			paintStyle:{ width:25, height:21, strokeStyle:'#aaa', fillStyle:'#fff', lineWidth:6 },
+			paintStyle:{ width:32, height:32, stroke:'#aaa', fill:'#fff', strokeWidth:4 },
 			isSource:true,
-			connectorStyle : { strokeStyle:"#aaa ", lineWidth:6 },
+			connectorStyle : { stroke:"#aaa", strokeWidth:4 },
 			isTarget:false
 		}
 	}
@@ -52,10 +52,10 @@ export default class {
 
 	BindJsPlumb() {
 		this.JsPlumb.bind("connection", function(info) {
-			this.Harness.ConnectSockets(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
+			window.harness.ConnectSockets(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
 		});
 		this.JsPlumb.bind("connectionDetached", function(info) {
-			this.Harness.RemoveConnector(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
+			window.harness.RemoveConnector(info.sourceEndpoint.getUuid(), info.targetEndpoint.getUuid());
 		});
 	}
 

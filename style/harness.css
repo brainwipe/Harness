@@ -116,9 +116,9 @@ body
     display: none;
     margin-bottom: 14px;
 }
-._jsPlumb_endpoint {
+.jtk-endpoint {
   z-index: 100;
 }
-._jsPlumb_connector {
+.jtk-connector {
   z-index:-100;
 }
