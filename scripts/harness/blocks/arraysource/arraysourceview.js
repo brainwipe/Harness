@@ -1,28 +1,22 @@
-define(
-[
-	'harness/views/block/blockviewbase',
-	'harness/blocks/arraysource/arraysourcepropertiesview'
-],
+import ArraySourcePropertiesView from "./arraysourcepropertiesview.js"
+import BlockViewBase from "/scripts/harness/views/block/blockviewbase.js"
 
-function(BlockViewBase, ArraySourcePropertiesView) {
+export default class extends BlockViewBase {
 
-	function ArraySourceView(block)	{
-		BlockViewBase.call(this, block);
+	constructor(block)	{
+		super(block);
 		this.Properties = new ArraySourcePropertiesView(block);
 	}
 
-	ArraySourceView.prototype = Object.create( BlockViewBase.prototype );
-   ArraySourceView.prototype.constructor = ArraySourceView;
-
-	ArraySourceView.prototype.CreateContentMarkup = function ()
+	CreateContentMarkup()
 	{
 		return '<div class="block-content">' +
 					this.Block.Data +
 					'</div>';
 	};
 
-	ArraySourceView.prototype.Draw = function() {
-		var elementContent = $("#" + this.Block.Id + "  .block-content");
+	Draw() {
+		var elementContent = $(`#${this.Block.Id} .block-content`);
 
 		if (this.Block.Data.CurrentIndex == -1)
 		{
@@ -47,6 +41,4 @@ function(BlockViewBase, ArraySourcePropertiesView) {
 
 		elementContent.text( $(line).text() );
 	};
-
-	return (ArraySourceView);
-});
+}

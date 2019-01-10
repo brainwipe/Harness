@@ -1,20 +1,17 @@
-define(
-[
-   "harness/model/entities/block",
-   "harness/model/entities/sockettype",
-   "harness/blocks/arraysource/arraysourceview"
-],
+import Block from "/scripts/harness/model/entities/block.js"
+import ArraySourceView from "./arraysourceview.js"
+import SocketType from "/scripts/harness/model/entities/sockettype.js"
 
-function(Block, SocketType, ArraySourceView) {
+export default class extends Block {
 
-   function ArraySource(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, ArraySource.FriendlyName);
+   constructor(idSequenceNumber) {
+      super(idSequenceNumber);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(
             this,
             "Vector",
-            new SocketType().BuildVector()));
+            SocketType.BuildVector()));
 
       this.Data = {
          "CurrentIndex" : -1,
@@ -23,18 +20,30 @@ function(Block, SocketType, ArraySourceView) {
                      [0,1,0],
                      [1,0,0]
                   ]
-      };
+      }
    }
 
-   ArraySource.prototype = Object.create( Block.prototype );
-   ArraySource.prototype.constructor = ArraySource;
+   static get Name() {
+      return 'arraysource';
+   }
 
-   ArraySource.FriendlyName = 'Array Source';
-   ArraySource.CssClass = 'blockarraysource';
-   ArraySource.Type = 'Source';
-   ArraySource.prototype.Description = 'On each tick, this block puts a vector on its output.';
-
-   ArraySource.prototype.Execute = function() {
+   static get Type() {
+      return 'Source'; 
+   }
+   
+   static get FriendlyName() {
+      return 'Array Source';
+   }
+   
+   static get CssClass() {
+      return 'blockarraysource';
+   }
+    
+   static get Description() {
+      return 'On each tick, this block puts a vector on its output.';
+   }
+     
+   Execute() {
       this.Data.CurrentIndex++;
       if (this.Data.CurrentIndex > this.VectorSize() - 1)
       {
@@ -42,36 +51,34 @@ function(Block, SocketType, ArraySourceView) {
       }
       this.Outputs.Vector.Data = this.CurrentData();
       this.Completed = true;
-   };
+   }
 
-   ArraySource.prototype.Reset = function() {
+   Reset() {
       this.Outputs.Vector.Data = this.Data;
       this.Completed = false;
-   };
+   }
 
-   ArraySource.prototype.Validate = function() {
+   Validate() {
       return true;
-   };
+   }
 
-   ArraySource.prototype.CurrentData = function() {
+   CurrentData() {
       return this.Data.Values[this.Data.CurrentIndex];
-   };
+   }
 
-   ArraySource.prototype.VectorSize = function() {
+   VectorSize() {
       return this.Data.Values.length;
-   };
+   }
 
-   ArraySource.prototype.ValidateData = function() {
+   ValidateData() {
       if (this.Data.CurrentIndex > this.Data.Values.length - 1)
       {
          this.Data.CurrentIndex = this.Data.Values.length - 1;
       }
-   };
+   }
 
-   ArraySource.prototype.CreateView = function()
+   CreateView()
    {
       return new ArraySourceView(this);
-   };
-
-   return(ArraySource);
-});
+   }
+}

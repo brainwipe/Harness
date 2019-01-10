@@ -1,4 +1,5 @@
 import ScalarSource from "/scripts/harness/blocks/scalarsource/scalarsource.js"
+import ArraySource from "/scripts/harness/blocks/arraysource/arraysource.js"
 import ScalarSink from "/scripts/harness/blocks/scalarsink/scalarsink.js"
 
 export default class {
@@ -6,7 +7,7 @@ export default class {
    {
       this.BlockDefinitions = {
          // TODO ROLA - Put blocks in here
-         // ArraySource,
+         ArraySource,
          // IncrementalSource,
          // PSOMFunc,
          ScalarSource,
