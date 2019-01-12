@@ -1,24 +1,17 @@
-define(
-[],
-function() {
+import {D3Node, D3Link} from './d3node.js'
 
-	function PSOMD3EventHandler(mypsom, myd3force) {
+export default class {
+
+	constructor(mypsom, myd3force) {
 		this.PSOM = mypsom;
 		this.D3Force = myd3force;
 		this.D3ForceNodes = myd3force.nodes();
 		this.D3ForceLinks = myd3force.links();
-
+		this.LongestLinkLength = 200;
 		this.AttachEventsToPSOM();
 	}
 
-	PSOMD3EventHandler.prototype.LongestLinkLength = 200;
-	PSOMD3EventHandler.prototype.PSOM = null;
-	PSOMD3EventHandler.prototype.D3Force = null;
-	PSOMD3EventHandler.prototype.D3ForceNodes = null;
-	PSOMD3EventHandler.prototype.D3ForceLinks = null;
-
-	PSOMD3EventHandler.prototype.AttachEventsToPSOM = function()
-	{
+	AttachEventsToPSOM() {
 		this.PSOM.on("AddNeuron", this, function(caller, eneuron) {
 			eneuron.D3Node = new D3Node(eneuron.id);
 			caller.D3ForceNodes.push(eneuron.D3Node);
@@ -42,43 +35,19 @@ function() {
 				context.links[i].D3Link.SetLength(context.links[i].value);
 			}
 		});
-	};
+	}
 
-	PSOMD3EventHandler.prototype.Build = function()
-	{
-		for (var neuronId in this.PSOM.neurons)
-		{
+	Build()	{
+		for (var neuronId in this.PSOM.neurons) {
 			var neuron = this.PSOM.neurons[neuronId];
 			neuron.D3Node = new D3Node(neuron.id);
 			this.D3ForceNodes.push(neuron.D3Node);
 		}
 
-		for (var linkId in this.PSOM.links)
-		{
+		for (var linkId in this.PSOM.links) {
 			var link = this.PSOM.links[linkId];
 			link.D3Link = new D3Link(link.from.D3Node, link.to.D3Node, link.value);
 			this.D3ForceLinks.push(link.D3Link);
 		}
-	};
-
-	function D3Node(myNeuronId) {
-		this.neuronId = myNeuronId;
-	};
-	D3Node.prototype.x = null;
-	D3Node.prototype.y = null;
-	D3Node.prototype.neuronId = -1;
-
-	function D3Link(mysource, mytarget, myweight) {
-		this.source = mysource;
-		this.target = mytarget;
-		this.SetLength(myweight);
-	};
-	D3Link.prototype.LongestLinkLength = 100;
-	D3Link.prototype.SetLength = function (newLength)
-	{
-		this.value = newLength * this.LongestLinkLength;
-		return this.value;
-	};
-
-	return (PSOMD3EventHandler);
-});
+	}
+}

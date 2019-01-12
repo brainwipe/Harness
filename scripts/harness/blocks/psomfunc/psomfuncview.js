@@ -1,38 +1,31 @@
-define(
-[
-   'harness/views/block/blockviewbase',
-   'harness/blocks/psomfunc/psomfuncpropertiesview',
-   'harness/blocks/psomfunc/psomd3eventhandler',
-   'd3',
-],
+import PSOMFuncPropertiesView from "./psomfuncpropertiesview.js"
+import PSOMD3EventHandler from "./psomd3eventhandler.js"
+import BlockViewBase from "/scripts/harness/views/block/blockviewbase.js"
 
-function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
+export default class extends BlockViewBase {
 
-   function PSOMFuncView(block) {
-      BlockViewBase.call(this, block);
+   constructor(block) {
+      super(block);
+
       this.DefaultWidth = 400;
       this.DefaultHeight = 400;
+      this.Force = null;
+      this.Links = null;
+      this.Nodes = null;
+      this.Node = null;
+      this.Link = null;
+      
       this.Properties = new PSOMFuncPropertiesView(block);
       this.SetupD3Force();
       this.PSOMD3EventHandler = new PSOMD3EventHandler(this.Block.Data, this.Force);
+      
    }
 
-   PSOMFuncView.prototype = Object.create( BlockViewBase.prototype );
-   PSOMFuncView.prototype.constructor = PSOMFuncView;
-
-   PSOMFuncView.prototype.Force = null;
-   PSOMFuncView.prototype.PSOMD3EventHandler = null;
-   PSOMFuncView.prototype.Links = null;
-   PSOMFuncView.prototype.Nodes = null;
-   PSOMFuncView.prototype.Node = null;
-   PSOMFuncView.prototype.Link = null;
-   PSOMFuncView.prototype.CreateContentMarkup = function ()
-   {
+   CreateContentMarkup() {
       return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
-   };
+   }
 
-   PSOMFuncView.prototype.Draw = function()
-   {
+   Draw() {
       this.Link = this.Link.data(this.Links);
 
       this.Link.enter().insert("line", ".node")
@@ -52,19 +45,17 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
       this.Node.exit().remove();
 
       this.Force.start();
-   };
+   }
 
-   PSOMFuncView.prototype.Initialise = function(view)
-   {
+   Initialise(view) {
       this.PSOMD3EventHandler.Build();
-   };
+   }
 
-   PSOMFuncView.prototype.SetupD3Force = function()
-   {
+   SetupD3Force() {
       var width = this.DefaultWidth; // Markup not created yet, so we can use the defaults
       var height = this.DefaultHeight;
 
-      this.Force = d3.layout.force()
+      this.Force = d3.forceSimulation()
          .size([width, height])
          .nodes([])
          .charge(-120)
@@ -76,9 +67,9 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
       this.Nodes = this.Force.nodes();
       this.Links = this.Force.links();
 
-   };
+   }
 
-   PSOMFuncView.prototype.CreateMarkup = function(element)
+   CreateMarkup(element)
    {
       this.CreateGenericMarkup(element);
 
@@ -101,10 +92,9 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
 
       this.Link = svg.selectAll(".link");
       this.Node = svg.selectAll(".node");
-   };
+   }
 
-   PSOMFuncView.prototype.Tick = function()
-   {
+   Tick() {
       this.Link.attr("x1", function(d) { return d.source.x; })
          .attr("y1", function(d) { return d.source.y; })
          .attr("x2", function(d) { return d.target.x; })
@@ -112,13 +102,10 @@ function(BlockViewBase, PSOMFuncPropertiesView, PSOMD3EventHandler, d3) {
 
       this.Node.attr("cx", function(d) { return d.x; })
          .attr("cy", function(d) { return d.y; });
-   };
+   }
 
-   PSOMFuncView.prototype.Remove = function()
-   {
+   Remove() {
       BlockViewBase.prototype.Remove.call(this);
       delete this.PSOMD3EventHandler;
-   };
-
-   return (PSOMFuncView);
-});
+   }
+}

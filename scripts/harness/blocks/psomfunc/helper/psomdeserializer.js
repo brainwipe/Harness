@@ -1,13 +1,5 @@
-define(
-[
-   'stringlib'
-],
-
-function() {
-
-   function PSOMDeserializer() { }
-
-   PSOMDeserializer.prototype.JSONToPSOM = function(psom, psomJSON) {
+export default class {
+   JSONToPSOM(psom, psomJSON) {
       psom.neurons = psomJSON.neurons;
 
       psom.links = this.Relink(psom.neurons, psomJSON.links);
@@ -15,9 +7,9 @@ function() {
       psom.configuration = psomJSON.configuration;
 
       return psom;
-   };
+   }
 
-   PSOMDeserializer.prototype.Relink = function(neurons, links) {
+   Relink(neurons, links) {
       var reLinkedLinks = [];
 
       for (var linkId in links)
@@ -33,8 +25,5 @@ function() {
       }
 
       return reLinkedLinks;
-   };
-
-   return PSOMDeserializer;
-
-});
+   }
+}

@@ -1,16 +1,5 @@
-define(
-[
-   'stringlib'
-],
-
-function() {
-
-   function PSOMSerializer() { }
-
-   PSOMSerializer.prototype.PSOMToJSON = function(psom) {
+export default class {
+   PSOMToJSON(psom) {
       return JSON.stringify(psom);
-   };
-
-   return PSOMSerializer;
-
-});
+   }
+}

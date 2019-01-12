@@ -1,7 +1,13 @@
-define(
+import Block from "/scripts/harness/model/entities/block.js"
+import PSOMFuncView from "./psomfuncview.js"
+import SocketType from "/scripts/harness/model/entities/sockettype.js"
+import PSOM from "/scripts/lib/psom.js"
+import PSOMSerializer from "./helper/psomserializer.js"
+import PSOMDeserializer from "./helper/psomdeserializer.js"
+
+/*define(
 [
    "harness/model/entities/block",
-   "harness/model/entities/sockettype",
    "harness/blocks/psomfunc/psomfuncview",
    "harness/blocks/psomfunc/helper/psomserializer",
    "harness/blocks/psomfunc/helper/psomdeserializer",
@@ -9,67 +15,77 @@ define(
    "lib/math"
 ],
 
-function(Block, SocketType, PSOMFuncView, PSOMSerializer, PSOMDeserializer) {
+*/
+export default class extends Block {
 
-   function PSOMFunc(idSequenceNumber) {
-      Block.call(this, idSequenceNumber, PSOMFunc.FriendlyName);
+   constructor(idSequenceNumber) {
+      super(idSequenceNumber);
 
-      this.Data = psom.BuildStandard();
-      this.Data.InitialiseNodeStructure();
+      this.Data = PSOM.BuildStandard();
+      this.Data.CreateThreeNodeNeuronNetwork();
 
       this.AddInput(
          this.SocketFactory.InputSingleFixedRequired(
             this,
             "InputPattern",
-            new SocketType().BuildVector()));
+            SocketType.BuildVector()));
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(
             this,
             "LastError",
-            new SocketType().BuildScalar()));
+            SocketType.BuildScalar()));
+   }
+   
+   static get Name() {
+      return 'psomfunc';
    }
 
-   PSOMFunc.prototype = Object.create( Block.prototype );
-   PSOMFunc.prototype.constructor = PSOMFunc;
+   static get Type() {
+      return 'Function'; 
+   }
+   
+   static get FriendlyName() {
+      return 'PSOM';
+   }
+   
+   static get CssClass() {
+      return 'blockpsomfunc';
+   }
+    
+   static get Description() {
+      return 'This is the plastic self organising map neural network function block.';
+   }
 
-   PSOMFunc.FriendlyName = 'PSOM';
-   PSOMFunc.CssClass = 'blockpsomfunc';
-   PSOMFunc.Type = 'Function';
-   PSOMFunc.prototype.Description = 'This is the plastic self organising map neural network function block.';
-
-   PSOMFunc.prototype.Execute = function() {
+   Execute() {
       this.Outputs.LastError.Data = this.Data.Learn(this.Inputs.InputPattern.Data);
       this.Completed = true;
-   };
+   }
 
-   PSOMFunc.prototype.Reset = function() {
+   Reset() {
       this.Outputs.LastError.Data = this.Data;
       this.Completed = false;
-   };
+   }
 
-   PSOMFunc.prototype.Validate = function() {
+   Validate() {
       return this.ValidateRequiredInputs();
-   };
+   }
 
-   PSOMFunc.prototype.DataToJSON = function() {
+   DataToJSON() {
       var serializer = new PSOMSerializer();
       return serializer.PSOMToJSON(this.Data);
-   };
+   }
 
-   PSOMFunc.prototype.JSONToData = function(jsonData) {
+   JSONToData(jsonData) {
       var deserializer = new PSOMDeserializer();
       this.Data = deserializer.JSONToPSOM(this.Data, jsonData);
-   };
+   }
 
-   PSOMFunc.prototype.Initialise = function(view) {
+   Initialise(view) {
       view.Initialise();
-   };
+   }
 
-   PSOMFunc.prototype.CreateView = function()
-   {
+   CreateView() {
       return new PSOMFuncView(this);
-   };
-
-   return (PSOMFunc);
-});
+   }
+}
