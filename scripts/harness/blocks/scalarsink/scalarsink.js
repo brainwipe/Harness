@@ -2,9 +2,9 @@ import Block from "/scripts/harness/model/entities/block.js"
 import ScalarSinkView from "./scalarsinkview.js"
 import SocketType from "/scripts/harness/model/entities/sockettype.js"
 
-export default class extends Block {
+export default class ScalarSink extends Block {
    constructor(idSequenceNumber) {
-      super(idSequenceNumber);
+      super(idSequenceNumber, ScalarSink.Name);
 
       this.AddInput(
          this.SocketFactory.InputSingleFixedRequired(

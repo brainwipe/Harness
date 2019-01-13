@@ -5,8 +5,8 @@ export default class {
 	constructor(mypsom, myd3force) {
 		this.PSOM = mypsom;
 		this.D3Force = myd3force;
-		this.D3ForceNodes = myd3force.nodes();
-		this.D3ForceLinks = myd3force.links();
+		//this.D3ForceNodes = myd3force.nodes();
+		//this.D3ForceLinks = myd3force.links();
 		this.LongestLinkLength = 200;
 		this.AttachEventsToPSOM();
 	}

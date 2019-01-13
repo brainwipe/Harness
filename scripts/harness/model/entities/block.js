@@ -2,7 +2,7 @@ import ValidationException from "/scripts/harness/validationexception.js"
 import SocketFactory from "/scripts/harness/model/socketfactory.js"
 
 export default class {
-    constructor(sequenceIdNumber) {
+    constructor(sequenceIdNumber, name) {
         this.SocketFactory = new SocketFactory();
 
         this.Id = name.replace(/ /g, '') + sequenceIdNumber;

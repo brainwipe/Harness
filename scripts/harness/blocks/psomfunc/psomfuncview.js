@@ -22,10 +22,11 @@ export default class extends BlockViewBase {
    }
 
    CreateContentMarkup() {
-      return '<div id="{0}-contentcontainer" class="block-content"></div>'.format(this.Block.Id);
+      return `<div id=${this.Block.Id}-contentcontainer" class="block-content"></div>`
    }
 
    Draw() {
+      /*
       this.Link = this.Link.data(this.Links);
 
       this.Link.enter().insert("line", ".node")
@@ -45,10 +46,11 @@ export default class extends BlockViewBase {
       this.Node.exit().remove();
 
       this.Force.start();
+      */
    }
 
    Initialise(view) {
-      this.PSOMD3EventHandler.Build();
+      // this.PSOMD3EventHandler.Build();
    }
 
    SetupD3Force() {
@@ -56,29 +58,24 @@ export default class extends BlockViewBase {
       var height = this.DefaultHeight;
 
       this.Force = d3.forceSimulation()
-         .size([width, height])
-         .nodes([])
-         .charge(-120)
-         .linkDistance(function(d) {
-             return d.value;
-         })
-         .on("tick", this.Tick.bind(this));
+         .force("link", d3.forceLink().id(function(d) { return d.id; }))
+         .force("charge", d3.forceManyBody())
+         .force("center", d3.forceCenter(width / 2, height / 2));
 
       this.Nodes = this.Force.nodes();
-      this.Links = this.Force.links();
-
+      //this.Links = this.Force.links();
    }
 
    CreateMarkup(element)
    {
       this.CreateGenericMarkup(element);
 
-      var container = $("#{0}-contentcontainer".format(this.Block.Id));
+      var container = $(`#${this.Block.Id}-contentcontainer`);
 
       var width = container.width();
       var height = container.width();
 
-      var svg = d3.select("#{0}-contentcontainer".format(this.Block.Id))
+      var svg = d3.select(`#${this.Block.Id}-contentcontainer`)
          .append("svg")
          .attr("class", "d3psom")
          .attr("width", "100%")

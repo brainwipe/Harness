@@ -2,10 +2,10 @@ import Block from "/scripts/harness/model/entities/block.js"
 import ArraySourceView from "./arraysourceview.js"
 import SocketType from "/scripts/harness/model/entities/sockettype.js"
 
-export default class extends Block {
+export default class ArraySource extends Block {
 
    constructor(idSequenceNumber) {
-      super(idSequenceNumber);
+      super(idSequenceNumber, ArraySource.Name);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(

@@ -19,12 +19,7 @@ export default class extends PropertiesViewBase {
 
    CreateConfigurationContent(id) {
       var propid = `${id}-configuration`;
-      var data = {
-         propertiesid : propid,
-         properties : this.GetProperties(this.Block.Data.configuration, this.Block.Data.configurationtext)
-      }
-
-      return GenericTabContent(data);
+      return GenericTabContent(propid, this.GetProperties(this.Block.Data.configuration, this.Block.Data.configurationtext));
    }
 
    GetProperties(psomConfiguration, psomConfigurationText) {

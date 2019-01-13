@@ -2,10 +2,10 @@ import Block from "/scripts/harness/model/entities/block.js"
 import ScalarSourceView from "./scalarsourceview.js"
 import SocketType from "/scripts/harness/model/entities/sockettype.js"
 
-export default class extends Block {
+export default class ScalarSource extends Block {
 
    constructor(idSequenceNumber) {
-      super(idSequenceNumber);
+      super(idSequenceNumber, ScalarSource.Name);
 
       this.AddOutput(
          this.SocketFactory.OutputSingleFixed(

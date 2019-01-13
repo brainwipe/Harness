@@ -16,10 +16,10 @@ import PSOMDeserializer from "./helper/psomdeserializer.js"
 ],
 
 */
-export default class extends Block {
+export default class PSOMFunc extends Block {
 
    constructor(idSequenceNumber) {
-      super(idSequenceNumber);
+      super(idSequenceNumber, PSOMFunc.Name);
 
       this.Data = PSOM.BuildStandard();
       this.Data.CreateThreeNodeNeuronNetwork();
