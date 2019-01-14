@@ -1,25 +1,20 @@
-import {D3Node, D3Link} from './d3node.js'
-
 export default class {
 
-	constructor(mypsom, myd3force) {
+	constructor(mypsom, nodes, links) {
 		this.PSOM = mypsom;
-		this.D3Force = myd3force;
-		//this.D3ForceNodes = myd3force.nodes();
-		//this.D3ForceLinks = myd3force.links();
+		this.D3ForceNodes = nodes;
+		this.D3ForceLinks = links;
 		this.LongestLinkLength = 200;
 		this.AttachEventsToPSOM();
 	}
 
 	AttachEventsToPSOM() {
 		this.PSOM.on("AddNeuron", this, function(caller, eneuron) {
-			eneuron.D3Node = new D3Node(eneuron.id);
-			caller.D3ForceNodes.push(eneuron.D3Node);
+			caller.D3ForceNodes.push({"neuronId":eneuron.id, "x": 0, "y": 0});
 		});
 
 		this.PSOM.on("AddLink", this, function(caller, elink) {
-			elink.D3Link = new D3Link(elink.from.D3Node, elink.to.D3Node, elink.value);
-			caller.D3ForceLinks.push(elink.D3Link);
+			caller.D3ForceLinks.push({"source":elink.from.D3Node, "target":elink.to.D3Node, "value": elink.value * 100});
 		});
 
 		this.PSOM.on("RemoveLink", this, function(caller, elink) {
@@ -32,7 +27,7 @@ export default class {
 
 		this.PSOM.on("AlgorithmIterationComplete", this, function(caller, context) {
 			for (var i = 0; i < context.links.length; i++) {
-				context.links[i].D3Link.SetLength(context.links[i].value);
+				context.links[i].D3Link.value(context.links[i].value * 100);
 			}
 		});
 	}
@@ -40,14 +35,13 @@ export default class {
 	Build()	{
 		for (var neuronId in this.PSOM.neurons) {
 			var neuron = this.PSOM.neurons[neuronId];
-			neuron.D3Node = new D3Node(neuron.id);
+			neuron.D3Node = {"neuronId":neuron.id, "x": 0, "y": 0};
 			this.D3ForceNodes.push(neuron.D3Node);
 		}
 
 		for (var linkId in this.PSOM.links) {
 			var link = this.PSOM.links[linkId];
-			link.D3Link = new D3Link(link.from.D3Node, link.to.D3Node, link.value);
-			this.D3ForceLinks.push(link.D3Link);
+			this.D3ForceLinks.push({"source":link.from.D3Node, "target":link.to.D3Node, "value": link.value * 100});
 		}
 	}
 }

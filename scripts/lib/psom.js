@@ -139,7 +139,7 @@ export default class PSOM {
 
 		var sum = 0;
 
-		for (i=0; i<neuron.weights.length; i++)
+		for (var i=0; i<neuron.weights.length; i++)
 		{
 			// Square of the difference
 			sum = sum + ((neuron.weights[i] - input[i]) * (neuron.weights[i] - input[i]));
@@ -163,7 +163,7 @@ export default class PSOM {
 
 		for (var i=0; i<this.neurons.length; i++)
 		{
-			this.neurons[i].distanceFromInput = this.DistanceMetric(this.neurons[i], input);
+			this.neurons[i].distanceFromInput = this.EuclideanDistance(this.neurons[i], input);
 		}
 
 		// Order ascending
@@ -213,15 +213,15 @@ export default class PSOM {
 		if (typeof input.weights === 'undefined')
 		{
 			// It's an array
-			weights = DeepCopy(input);
+			weights = this.DeepCopy(input);
 		}
 		else
 		{
 			// It's a neuron
-			weights = DeepCopy(input.weights);
+			weights = this.DeepCopy(input.weights);
 		}
 
-		weights = this.AddNoiseToWeights(weights);
+		weights = this.AddFlatDistributionNoiseToWeights(weights);
 		return this.AddNeuron(weights);
 	}
 
@@ -238,7 +238,7 @@ export default class PSOM {
 
 		var deviation = this.configuration.AddFlatDistributionNoiseToWeights_Deviation;
 
-		for (i=0; i<inputWeights.length; i++)
+		for (var i=0; i<inputWeights.length; i++)
 		{
 			// random number between -(deviation) and +(deviation)
 			var delta = (Math.random() * 2 * deviation) - deviation;
@@ -294,7 +294,7 @@ export default class PSOM {
 		if (focus.distanceFromInput > this.configuration.StandardPSOMAlgorithm_NodeBuilding)
 		{
 			this.Console.debug("Creating new neuron group");
-			this.CreateNodeGroup(input);
+			this.CreateThreeNodeGroup(input);
 		}
 		else
 		{
@@ -304,11 +304,11 @@ export default class PSOM {
 		}
 
 		this.Console.debug("Network aging");
-		this.Age();
+		this.AgeNetwork();
 
 		this.Console.debug("Prune network");
-		this.RemoveDeadLinks();
-		this.RemoveDeadNeurons();
+		this.RemoveLinksAboveThreshold();
+		this.RemoveUnlinkedNeurons();
 
 		this.processEvent("AlgorithmIterationComplete", {
 			"focus" : focus,
@@ -357,7 +357,7 @@ export default class PSOM {
 			if (target != null)
 			{
 				// Update link length
-				this.links[i].value = this.DistanceMetric(focus, target.weights);
+				this.links[i].value = this.EuclideanDistance(focus, target.weights);
 
 
 				// Update neuron weights
@@ -375,11 +375,11 @@ export default class PSOM {
 					this.Console.debug("Pulling neuron '" + target.id + "' toward '" + focus.id + "'");
 				}
 
-				this.Console.debug("distance before: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
+				this.Console.debug("distance before: " + this.EuclideanDistance(this.links[i].to,  this.links[i].from.weights));
 
 				this.UpdateNeuron(this.links[i].to, this.links[i].from, (pushOrPull * learningRate * this.links[i].value));
 
-				this.Console.debug("distance after: " + this.DistanceMetric(this.links[i].to,  this.links[i].from.weights));
+				this.Console.debug("distance after: " + this.EuclideanDistance(this.links[i].to,  this.links[i].from.weights));
 			}
 		}
 	}
@@ -442,9 +442,9 @@ export default class PSOM {
 		var n2 = this.CreateNeuronFromInput(input);
 		var n3 = this.CreateNeuronFromInput(input);
 
-		this.AddLink(n1, n2, this.DistanceMetric(n1, n2.weights));
-		this.AddLink(n2, n3, this.DistanceMetric(n2, n3.weights));
-		this.AddLink(n3, n1, this.DistanceMetric(n3, n1.weights));
+		this.AddLink(n1, n2, this.EuclideanDistance(n1, n2.weights));
+		this.AddLink(n2, n3, this.EuclideanDistance(n2, n3.weights));
+		this.AddLink(n3, n1, this.EuclideanDistance(n3, n1.weights));
 
 		// Rely on the fact that the neurons are sorted in order
 		this.AddLink(n1, this.neurons[0], this.neurons[0].distanceFromInput);

@@ -10,82 +10,72 @@ export default class extends BlockViewBase {
       this.DefaultWidth = 400;
       this.DefaultHeight = 400;
       this.Force = null;
-      this.Links = null;
-      this.Nodes = null;
+      this.Links = [];
+      this.Nodes = [];
       this.Node = null;
       this.Link = null;
       
       this.Properties = new PSOMFuncPropertiesView(block);
-      this.SetupD3Force();
-      this.PSOMD3EventHandler = new PSOMD3EventHandler(this.Block.Data, this.Force);
+      
+      this.Force = d3.forceSimulation()
+         .force("x", d3.forceX())
+         .force("y", d3.forceY())
+         .force("link", d3.forceLink())
+         .force("charge", d3.forceManyBody().strength(-10))
+         .force("center_force", d3.forceCenter(this.DefaultWidth / 2, this.DefaultHeight / 2))
+         .alphaTarget(1)
+         .on("tick", this.Tick.bind(this));
+
+      this.PSOMD3EventHandler = new PSOMD3EventHandler(this.Block.Data, this.Nodes, this.Links);
       
    }
 
    CreateContentMarkup() {
-      return `<div id=${this.Block.Id}-contentcontainer" class="block-content"></div>`
+      return `<div id="${this.Block.Id}-contentcontainer" class="block-content"></div>`
    }
 
    Draw() {
-      /*
-      this.Link = this.Link.data(this.Links);
-
-      this.Link.enter().insert("line", ".node")
+      this.Link = this.Link
+         .data(this.Links)
          .attr("class", "link");
-
       this.Link.exit().remove();
+      this.Link = this.Link
+         .enter()
+         .append("line")
+         .attr("stroke", "#000")
+         .attr("stroke-width", 1.5)
+         .merge(this.Link);
 
-      this.Node = this.Node.data(this.Nodes);
-
-      this.Node.enter().insert("circle")
-         .attr("class", "node")
-         .attr("r", 5)
-         .call(this.Force.drag);
-
-      this.Node.attr("data-neuronId", function(d) { return d.neuronId; });
-
+      this.Node = this.Node
+         .data(this.Nodes, function(d) { return d.neuronId;})
+         .attr("data-neuronId", function(d) { return d.neuronId; });
       this.Node.exit().remove();
+      this.Node = this.Node.enter().append("circle").attr("r", 5).attr("class", "node").merge(this.Node);
 
-      this.Force.start();
-      */
+      this.Force.nodes(this.Nodes);
+      this.Force.force("link").links(this.Links);
+      this.Force.alpha(1).restart();
    }
 
    Initialise(view) {
-      // this.PSOMD3EventHandler.Build();
-   }
-
-   SetupD3Force() {
-      var width = this.DefaultWidth; // Markup not created yet, so we can use the defaults
-      var height = this.DefaultHeight;
-
-      this.Force = d3.forceSimulation()
-         .force("link", d3.forceLink().id(function(d) { return d.id; }))
-         .force("charge", d3.forceManyBody())
-         .force("center", d3.forceCenter(width / 2, height / 2));
-
-      this.Nodes = this.Force.nodes();
-      //this.Links = this.Force.links();
+      this.PSOMD3EventHandler.Build();
    }
 
    CreateMarkup(element)
    {
       this.CreateGenericMarkup(element);
 
-      var container = $(`#${this.Block.Id}-contentcontainer`);
-
-      var width = container.width();
-      var height = container.width();
-
-      var svg = d3.select(`#${this.Block.Id}-contentcontainer`)
+      let svg = d3.select(`#${this.Block.Id}-contentcontainer`)
          .append("svg")
          .attr("class", "d3psom")
          .attr("width", "100%")
          .attr("height", "100%")
-         .attr("viewBox", "0 0 " + width + " " + height )
+         .attr("viewBox", "0 0 " + this.DefaultWidth + " " + this.DefaultHeight )
          .attr("preserveAspectRatio", "xMidYMid meet");
 
       svg.append("rect")
-         .attr("width", width)
-         .attr("height", height);
+         .attr("width", this.DefaultWidth)
+         .attr("height", this.DefaultHeight);
 
       this.Link = svg.selectAll(".link");
       this.Node = svg.selectAll(".node");

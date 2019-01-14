@@ -4,18 +4,8 @@ import SocketType from "/scripts/harness/model/entities/sockettype.js"
 import PSOM from "/scripts/lib/psom.js"
 import PSOMSerializer from "./helper/psomserializer.js"
 import PSOMDeserializer from "./helper/psomdeserializer.js"
+//   "lib/math" // TODO ROLA - Needed?
 
-/*define(
-[
-   "harness/model/entities/block",
-   "harness/blocks/psomfunc/psomfuncview",
-   "harness/blocks/psomfunc/helper/psomserializer",
-   "harness/blocks/psomfunc/helper/psomdeserializer",
-   "lib/psom",
-   "lib/math"
-],
-
-*/
 export default class PSOMFunc extends Block {
 
    constructor(idSequenceNumber) {
@@ -58,7 +48,7 @@ export default class PSOMFunc extends Block {
    }
 
    Execute() {
-      this.Outputs.LastError.Data = this.Data.Learn(this.Inputs.InputPattern.Data);
+      this.Outputs.LastError.Data = this.Data.StandardPSOMAlgorithm(this.Inputs.InputPattern.Data);
       this.Completed = true;
    }
 
